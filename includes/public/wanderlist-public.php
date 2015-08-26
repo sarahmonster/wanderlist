@@ -72,6 +72,7 @@ $countries = get_terms( 'country', array(
  * This just makes it stupid easy to drop into a page.
  *
  * Usage: [wanderlist-location], by default will show current location.
+ *
  * Pass the "show" parameter to show different information.
  * For now, [wanderlist-location show=current] will show current (or most recent) location,
  * [wanderlist-location show=countries] will show total number of countries.
@@ -95,3 +96,50 @@ function wanderlist_register_location_shortcode() {
 }
 
 add_action( 'init', 'wanderlist_register_location_shortcode' );
+
+function wanderlist_show_map( $overlay = null ) {
+?>
+  <div id="map">
+    <div class="flare-location-widget">
+      <?php if ( 'upcoming' === $overlay ): ?>
+        <h3><?php esc_html_e( 'Adventure Ahoy!', 'flare' ); ?></h3>
+        <dl>
+          <dt>Today</dt>
+          <dd><?php echo wanderlist_get_current_location(); ?></dd>
+          <?php echo wanderlist_upcoming_locations(); ?>
+        </dl>
+      <?php endif; ?>
+    </div><!-- .flare-location-widget -->
+  </div><!-- .map -->
+<?php }
+
+
+/**
+ * Register a shortcode to display maps.
+ *
+ * Usage: [wanderlist-map], by default will show a map of upcoming locations.
+ * If there are no upcoming locations, it will default to most-recently-visited locations.
+ *
+ * Pass the "show" parameter to show different information.
+ * For now, [wanderlist-map show=current] will show upcoming (or most recent) locations,
+ * [wanderlist-map show=countries] will show all countries visited.
+ */
+function wanderlist_map_shortcode( $atts, $content = null  ){
+  $a = shortcode_atts( array(
+      'show' => 'current',
+  ), $atts );
+
+  if ( 'current' === $a['show'] ):
+    return wanderlist_show_map( 'upcoming' );
+  endif;
+
+  if ( 'countries' === $a['show'] ):
+    return '<span class="wanderlist-country-count">' . count( wanderlist_all_countries() ) . '</span>';
+  endif;
+}
+
+function wanderlist_register_map_shortcode() {
+  add_shortcode( 'wanderlist-map', 'wanderlist_map_shortcode' );
+}
+
+add_action( 'init', 'wanderlist_register_map_shortcode' );
