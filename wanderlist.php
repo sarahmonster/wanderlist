@@ -149,10 +149,10 @@ $countries = get_terms( 'country', array(
  * Register a shortcode for location tasks.
  * This just makes it stupid easy to drop into a page.
  *
- * Usage: [place], by default will show current location.
+ * Usage: [wanderlist-location], by default will show current location.
  * Pass the "show" parameter to show different information.
- * For now, [place show=current] will show current (or most recent) location,
- * [place show=countries] will show total number of countries.
+ * For now, [wanderlist-location show=current] will show current (or most recent) location,
+ * [wanderlist-location show=countries] will show total number of countries.
  */
 function wanderlist_location_shortcode( $atts, $content = null  ){
   $a = shortcode_atts( array(
@@ -167,7 +167,10 @@ function wanderlist_location_shortcode( $atts, $content = null  ){
     return '<span class="wanderlist-country-count">' . count( wanderlist_all_countries() ) . '</span>';
   endif;
 }
-add_shortcode( 'place', 'wanderlist_location_shortcode' );
 
+function wanderlist_register_location_shortcode() {
+  add_shortcode( 'wanderlist-location', 'wanderlist_location_shortcode' );
+}
 
+add_action( 'init', 'wanderlist_register_location_shortcode' );
 ?>
