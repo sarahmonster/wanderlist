@@ -102,7 +102,7 @@ function wanderlist_show_map( $overlay = null ) {
   <div id="map">
     <div class="flare-location-widget">
       <?php if ( 'upcoming' === $overlay ): ?>
-        <h3><?php esc_html_e( 'Adventure Ahoy!', 'flare' ); ?></h3>
+        <h3><?php esc_html_e( 'Adventure Ahoy!', 'wanderlist' ); ?></h3>
         <dl>
           <dt>Today</dt>
           <dd><?php echo wanderlist_get_current_location(); ?></dd>
