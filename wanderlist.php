@@ -28,6 +28,7 @@ register_activation_hook( __FILE__, 'wanderlist_activate' );
  * Public-facing code.
  */
 require plugin_dir_path( __FILE__ ) . 'includes/public/wanderlist-public.php';
+require plugin_dir_path( __FILE__ ) . 'includes/public/wanderlist-shortcodes.php';
 
 /**
  * Admin-side code.
