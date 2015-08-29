@@ -110,10 +110,36 @@ function wanderlist_setup_custom_data() {
 }
 add_action( 'init', 'wanderlist_setup_custom_data' );
 
-function wanderlist_install() {
-    // Trigger our function that registers the location custom post type and our custom taxonomies
+// Function used to automatically create Music Reviews page.
+function wanderlist_create_landing_page() {
+    // Post status and options
+    $post = array(
+      'comment_status' => 'closed',
+      'ping_status'    =>  'closed' ,
+      'post_date'      => date('Y-m-d H:i:s'),
+      'post_name'      => 'travels',
+      'post_status'    => 'publish' ,
+      'post_title'     => 'Travels',
+      'post_type'      => 'page',
+      'post_content'   => '[wanderlist-overview]'
+    );
+    // Insert page and save the id
+    $newvalue = wp_insert_post( $post, false );
+    // Save the id in the database
+    update_option( 'mrpage', $newvalue );
+}
+
+/*
+ * When our plugin is activated, we're going to set everything up.
+ *
+ */
+function wanderlist_activate() {
+    // Register the location custom post type and our custom taxonomies
     wanderlist_setup_custom_data();
+
+    // Create a new page to display our travels
+    wanderlist_create_landing_page();
+
     // Clear the permalinks after the post type has been registered
     flush_rewrite_rules();
 }
-register_activation_hook( __FILE__, 'wanderlist_install' );

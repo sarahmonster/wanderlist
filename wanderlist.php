@@ -17,6 +17,7 @@
  */
 require plugin_dir_path( __FILE__ ) . 'includes/wanderlist-activator.php';
 
+register_activation_hook( __FILE__, 'wanderlist_activate' );
 
 /**
  * Core code available across both admin and public views.
