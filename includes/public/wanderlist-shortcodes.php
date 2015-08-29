@@ -85,22 +85,25 @@ function wanderlist_overview_shortcode( $atts, $content = null  ){
   ), $atts );
 
   $widgets[] = array(
-                'content' => wanderlist_list_locations(),
+                'class'   => 'wanderlist-location-widget',
                 'title'   => esc_html__( 'Upcoming trips', 'wanderlist' ),
+                'content' => wanderlist_list_locations(),
               );
 
   $widgets[] = array(
-              'content' => wanderlist_list_locations( 20, 'past' ),
+              'class'   => 'wanderlist-location-widget',
               'title'   => esc_html__( 'Most recent trips', 'wanderlist' ),
+              'content' => wanderlist_list_locations( 20, 'past' ),
             );
 
   $widgets[] = array(
-                'content' => '<span class="wanderlist-country-count">' . count( wanderlist_all_countries() ) . '</span>',
+                'class'   => 'wanderlist-number-widget',
                 'title'   => esc_html__( 'Total countries visited', 'wanderlist' ),
+                'content' => '<span class="wanderlist-country-count">' . count( wanderlist_all_countries() ) . '</span>',
               );
 
   foreach ( $widgets as $widget ) :
-    $return .= '<div class="wanderlist-widget">';
+    $return .= '<div class="wanderlist-widget ' . $widget['class'] . '">';
     $return .= '<h3 class="widget-title">' . $widget['title'] . '</h3>';
     $return .= $widget['content'];
     $return .= "</div>";

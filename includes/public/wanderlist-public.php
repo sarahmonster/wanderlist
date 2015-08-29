@@ -27,7 +27,7 @@ function wanderlist_get_current_location() {
  * This will default to showing all upcoming locations.
  * Passing the limit and show params will change its output.
  */
-function wanderlist_list_locations( $limit = null, $show = future ) {
+function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 
   if ( 'all' === $show ) :
     $post_status = array( 'future', 'publish' );
@@ -35,9 +35,13 @@ function wanderlist_list_locations( $limit = null, $show = future ) {
   elseif ( 'past' === $show ) :
     $post_status = 'publish';
     $order = DESC;
-  else :
+  elseif ( 'upcoming' === $show ):
     $post_status = 'future';
     $order = ASC;
+  elseif ( 'default' === $show ) :
+    $post_status = 'future';
+    $order = ASC;
+    $limit = $limit - 1;
   endif;
 
   $args = array(
@@ -58,12 +62,21 @@ function wanderlist_list_locations( $limit = null, $show = future ) {
 
   $location_query = new WP_Query( $args );
 
-  while ( $location_query->have_posts() ):
+  $locations = "<dl>";
+
+  if ( 'default' === $show ) :
+    $locations .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
+    $locations .= '<dd>' . wanderlist_get_current_location() . '</dd>';
+  endif;
+
+  while ( $location_query->have_posts() ) :
     $location_query->the_post();
     $locations .= '<dt>' . esc_html( get_the_date( 'F jS' ) ) . '</dt>';
     $locations .= '<dd>' . esc_html( get_the_title() ) . '</dd>';
   wp_reset_postdata();
   endwhile;
+
+  $locations .= "</dl>";
 
   return $locations;
 }
@@ -92,14 +105,10 @@ function wanderlist_all_countries() {
 function wanderlist_show_map( $overlay = null ) {
 ?>
   <div id="map">
-    <div class="flare-location-widget">
+    <div class="wanderlist-widget wanderlist-location-widget">
       <?php if ( 'upcoming' === $overlay ): ?>
         <h3><?php esc_html_e( 'Adventure Ahoy!', 'wanderlist' ); ?></h3>
-        <dl>
-          <dt>Today</dt>
-          <dd><?php echo wanderlist_get_current_location(); ?></dd>
-          <?php echo wanderlist_list_locations(); ?>
-        </dl>
+          <?php echo wanderlist_list_locations( '4' ); ?>
       <?php endif; ?>
     </div><!-- .flare-location-widget -->
   </div><!-- .map -->
