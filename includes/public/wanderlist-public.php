@@ -34,7 +34,7 @@ function wanderlist_upcoming_locations() {
     'order'          => 'ASC',
     'tax_query'      => array(
       array(
-        'taxonomy' => 'country',
+        'taxonomy' => 'wanderlist_country',
         'field'    => 'slug',
         'terms'    => 'home',
         'operator' => 'NOT IN',
@@ -59,11 +59,15 @@ function wanderlist_upcoming_locations() {
  * Count total countries visited.
  */
 function wanderlist_all_countries() {
-$countries = get_terms( 'country', array(
-    'hide_empty'        => false, // At least for now.
-    'childless'         => true, // Only count countries that don't have sub-countries
-    'exclude'           => 102, // Exclude "home"
-) );
+
+  // Get our "home" country, so we can be sure it's excluded
+  $home = get_term_by( 'name', 'home', 'wanderlist_country' );
+
+  $countries = get_terms( 'wanderlist_country', array(
+      'hide_empty'        => false, // At least for now.
+      'childless'         => true, // Only count countries that don't have sub-countries
+      'exclude'           =>  $home->term_id, // Exclude "home" country
+  ) );
   return $countries;
 }
 
