@@ -9,6 +9,17 @@
  */
 
 /**
+ * Enqueuing the scripts and styles we need to implement Mapbox.
+ */
+function wanderlist_scripts() {
+  wp_enqueue_script( 'wanderlist-mapbox', 'https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.js', array(), '20150719', true );
+  wp_enqueue_style( 'wanderlist-mapbox-css', 'https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.css', array(), '20150719', all );
+  wp_enqueue_script( 'wanderlist-map', plugin_dir_url( __FILE__ ) . 'js/map.js', array( 'jquery', 'wanderlist-mapbox' ), '20150719', true );
+}
+add_action( 'wp_enqueue_scripts', 'wanderlist_scripts' );
+
+
+/**
  * Get current location.
  * This assumes that your current location is the most
  * recently-entered location, for obvious reasons.
