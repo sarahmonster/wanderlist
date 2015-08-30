@@ -82,8 +82,19 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 
   while ( $location_query->have_posts() ) :
     $location_query->the_post();
+
+    // We need to figure out our place's country. Here we go.
+    $countries = wp_get_object_terms( get_the_ID(), 'wanderlist_country', array( 'fields' => 'names' ) );
+    if ( $countries ) :
+      foreach ( $countries as $country => $name ) :
+        $the_country = ', ' . $name;
+      endforeach;
+    else :
+      $the_country = '';
+    endif;
+
     $locations .= '<dt>' . esc_html( get_the_date( 'F jS' ) ) . '</dt>';
-    $locations .= '<dd>' . esc_html( get_the_title() ) . '</dd>';
+    $locations .= '<dd>' . esc_html( get_the_title() ) .'<span class="wanderlist-country">' . esc_html( $the_country ) . '</span></dd>';
   wp_reset_postdata();
   endwhile;
 
