@@ -79,7 +79,7 @@ add_action( 'init', 'wanderlist_register_map_shortcode' );
  * We'll set up a settings page later to fine-tune its output, or
  * potentially allow users to pass parameters. For now, no options.
  */
-function wanderlist_overview_shortcode( $atts, $content = null  ){
+function wanderlist_overview_shortcode( $atts, $content = null  ) {
   $a = shortcode_atts( array(
       'show' => 'current',
   ), $atts );
@@ -102,12 +102,16 @@ function wanderlist_overview_shortcode( $atts, $content = null  ){
                 'content' => '<span class="wanderlist-country-count">' . count( wanderlist_all_countries() ) . '</span>',
               );
 
+  $return = '<div class="wanderlist-overview">';
+
   foreach ( $widgets as $widget ) :
     $return .= '<div class="wanderlist-widget ' . $widget['class'] . '">';
     $return .= '<h3 class="widget-title">' . $widget['title'] . '</h3>';
     $return .= $widget['content'];
     $return .= "</div>";
   endforeach;
+
+  $return .= '</div>';
 
   return $return;
 }
