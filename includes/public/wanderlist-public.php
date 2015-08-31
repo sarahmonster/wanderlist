@@ -94,7 +94,11 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
     endif;
 
     $locations .= '<dt>' . esc_html( get_the_date( 'F jS' ) ) . '</dt>';
-    $locations .= '<dd>' . esc_html( get_the_title() ) .'<span class="wanderlist-country">' . esc_html( $the_country ) . '</span></dd>';
+    $locations .= '<dd>' . esc_html( get_the_title() ) .'<span class="wanderlist-country">' . esc_html( $the_country ) . '</span>';
+    if ( wanderlist_is_loved( ) ) :
+      $locations .= '<span class="wanderlist-loved">&hearts;</span>';
+    endif;
+    $locations .= '</dd>';
   wp_reset_postdata();
   endwhile;
 
@@ -103,6 +107,26 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
   return $locations;
 }
 
+/**
+ * Determine if a location is loved or not.
+ *
+ * This uses a special tag that the user sets via a settings panel,
+ * then assigns to location as desired. It's basically just a way
+ * of indicating a place that's close to your heart.
+ *
+ * @todo Set tag to use via settings panel (like Featured Content).
+ */
+function wanderlist_is_loved( $location = null ) {
+
+  // First, grab our "loved" tag
+  $loved_tag = 93;
+
+  if ( has_term( $loved_tag, 'post_tag', $location ) ) :
+    return true;
+  else :
+    return false;
+  endif;
+}
 
 /**
  * Count total countries visited.
