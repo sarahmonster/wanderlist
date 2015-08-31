@@ -98,6 +98,9 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
     if ( wanderlist_is_loved( ) ) :
       $locations .= '<span class="wanderlist-loved">&hearts;</span>';
     endif;
+    if ( wanderlist_is_home( ) ) :
+      $locations .= '<span class="wanderlist-home">&star;</span>';
+    endif;
     $locations .= '</dd>';
   wp_reset_postdata();
   endwhile;
@@ -122,6 +125,28 @@ function wanderlist_is_loved( $location = null ) {
   $loved_tag = 93;
 
   if ( has_term( $loved_tag, 'post_tag', $location ) ) :
+    return true;
+  else :
+    return false;
+  endif;
+}
+
+/**
+ * Determine if a location is home or not.
+ *
+ * This uses a special tag that the user sets via a settings panel,
+ * then assigns to location as required. This allows us to remove
+ * the user's home from various calculations, like cities visited.
+ *
+ * @todo Set tag to use via settings panel (like Featured Content).
+ * @todo Add functionality to also set a particular geographic location as home.
+ */
+function wanderlist_is_home( $location = null ) {
+
+  // First, grab our "home" tag
+  $home_tag = 122;
+
+  if ( has_term( $home_tag, 'post_tag', $location ) ) :
     return true;
   else :
     return false;
