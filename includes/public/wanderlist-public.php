@@ -154,6 +154,27 @@ function wanderlist_is_home( $location = null ) {
 }
 
 /**
+ * Show a list of trips.
+ *
+ * This will show a list of all trips completed.
+ * Uses the "trip" taxonomy.
+ */
+function wanderlist_list_trips( $limit = null, $show = 'default' ) {
+
+  $trips = get_terms( 'wanderlist_trip', array(
+    'hide_empty'        => true,
+    'childless'         => false,
+  ) );
+
+  echo "<ul>";
+  foreach ( $trips as $trip ) :
+    $output .= '<li><a href="'. esc_url( get_term_link( $trip, 'wanderlist_trip' ) ) . '" title="' . $trip->description . '">' . $trip->name . "</a></li>";
+  endforeach;
+  echo "</ul>";
+  return $output;
+}
+
+/**
  * Count total countries visited.
  */
 function wanderlist_all_countries() {

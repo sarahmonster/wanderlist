@@ -85,22 +85,28 @@ function wanderlist_overview_shortcode( $atts, $content = null  ) {
   ), $atts );
 
   $widgets[] = array(
-                'class'   => 'wanderlist-location-widget',
-                'title'   => esc_html__( 'Upcoming trips', 'wanderlist' ),
-                'content' => wanderlist_list_locations(),
-              );
+    'class'   => 'wanderlist-location-widget',
+    'title'   => esc_html__( 'Upcoming trips', 'wanderlist' ),
+    'content' => wanderlist_list_locations(),
+  );
 
   $widgets[] = array(
-              'class'   => 'wanderlist-location-widget',
-              'title'   => esc_html__( 'Most recent trips', 'wanderlist' ),
-              'content' => wanderlist_list_locations( 20, 'past' ),
-            );
+    'class'   => 'wanderlist-location-widget',
+    'title'   => esc_html__( 'Most recent trips', 'wanderlist' ),
+    'content' => wanderlist_list_locations( 20, 'past' ),
+  );
 
   $widgets[] = array(
-                'class'   => 'wanderlist-number-widget',
-                'title'   => esc_html__( 'Total countries visited', 'wanderlist' ),
-                'content' => '<span class="wanderlist-country-count">' . count( wanderlist_all_countries() ) . '</span>',
-              );
+    'class'   => 'wanderlist-number-widget',
+    'title'   => esc_html__( 'Total countries visited', 'wanderlist' ),
+    'content' => '<span class="wanderlist-country-count">' . count( wanderlist_all_countries() ) . '</span>',
+  );
+
+  $widgets[] = array(
+    'class'   => 'wanderlist-trip-widget',
+    'title'   => esc_html__( 'Trips', 'wanderlist' ),
+    'content' => wanderlist_list_trips(),
+  );
 
   $return = '<div class="wanderlist-overview">';
 
