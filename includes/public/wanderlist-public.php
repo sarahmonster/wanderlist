@@ -166,11 +166,11 @@ function wanderlist_list_trips( $limit = null, $show = 'default' ) {
     'childless'         => false,
   ) );
 
-  echo "<ul>";
+  $output = "<ul>";
   foreach ( $trips as $trip ) :
     $output .= '<li><a href="'. esc_url( get_term_link( $trip, 'wanderlist_trip' ) ) . '" title="' . $trip->description . '">' . $trip->name . "</a></li>";
   endforeach;
-  echo "</ul>";
+  $output .= "</ul>";
   return $output;
 }
 
@@ -195,14 +195,14 @@ function wanderlist_all_countries() {
  * This will need to be automated to draw countries and show points.
  */
 function wanderlist_show_map( $overlay = null ) {
-?>
-  <div id="map">
-    <div class="wanderlist-widget wanderlist-location-widget">
-      <?php if ( 'upcoming' === $overlay ): ?>
-        <h3><?php esc_html_e( 'Adventure Ahoy!', 'wanderlist' ); ?></h3>
-          <?php echo wanderlist_list_locations( '4' ); ?>
-      <?php endif; ?>
-    </div><!-- .flare-location-widget -->
-  </div><!-- .map -->
-<?php }
+  $output = '<div id="map">';
+  if ( 'upcoming' === $overlay ):
+    $output .= '<div class="wanderlist-widget wanderlist-location-widget">';
+    $output .= '<h3>' . esc_html__( 'Adventure Ahoy!', 'wanderlist' ) . '</h3>';
+    $output .= wanderlist_list_locations( '4' );
+    $output .= '</div><!-- .flare-location-widget -->';
+  endif;
+    $output .= '</div><!-- .map -->';
+  return $output;
+}
 
