@@ -18,7 +18,6 @@ function wanderlist_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'wanderlist_scripts' );
 
-
 /**
  * Get current location.
  * This assumes that your current location is the most
