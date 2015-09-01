@@ -85,6 +85,11 @@ function wanderlist_overview_shortcode( $atts, $content = null  ) {
   ), $atts );
 
   $widgets[] = array(
+    'class'   => 'wanderlist-map-widget',
+    'content' => wanderlist_show_map(),
+  );
+
+  $widgets[] = array(
     'class'   => 'wanderlist-location-widget',
     'title'   => esc_html__( 'Upcoming trips', 'wanderlist' ),
     'content' => wanderlist_list_locations(),
@@ -112,7 +117,9 @@ function wanderlist_overview_shortcode( $atts, $content = null  ) {
 
   foreach ( $widgets as $widget ) :
     $return .= '<div class="wanderlist-widget ' . $widget['class'] . '">';
-    $return .= '<h3 class="widget-title">' . $widget['title'] . '</h3>';
+    if ( $title ) :
+      $return .= '<h3 class="widget-title">' . $widget['title'] . '</h3>';
+    endif;
     $return .= $widget['content'];
     $return .= "</div>";
   endforeach;
