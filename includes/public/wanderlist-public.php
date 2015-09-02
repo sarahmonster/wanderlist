@@ -26,7 +26,7 @@ add_action( 'wp_enqueue_scripts', 'wanderlist_scripts' );
 function wanderlist_get_current_location() {
   $locations = get_posts( array(
     'posts_per_page'   => 1,
-    'post_type'        => 'wanderlist_location',
+    'post_type'        => 'wanderlist-location',
   ) );
   return $locations[0]->post_title;
 }
@@ -55,14 +55,14 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
   endif;
 
   $args = array(
-    'post_type'      => 'wanderlist_location',
+    'post_type'      => 'wanderlist-location',
     'post_status'    => $post_status,
     'posts_per_page' => $limit,
     'orderby'        => 'date',
     'order'          => $order,
     'tax_query'      => array(
       array(
-        'taxonomy' => 'wanderlist_country',
+        'taxonomy' => 'wanderlist-country',
         'field'    => 'slug',
         'terms'    => 'home',
         'operator' => 'NOT IN',
@@ -83,7 +83,7 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
     $location_query->the_post();
 
     // We need to figure out our place's country. Here we go.
-    $countries = wp_get_object_terms( get_the_ID(), 'wanderlist_country', array( 'fields' => 'names' ) );
+    $countries = wp_get_object_terms( get_the_ID(), 'wanderlist-country', array( 'fields' => 'names' ) );
     if ( $countries ) :
       foreach ( $countries as $country => $name ) :
         $the_country = ', ' . $name;
@@ -160,14 +160,14 @@ function wanderlist_is_home( $location = null ) {
  */
 function wanderlist_list_trips( $limit = null, $show = 'default' ) {
 
-  $trips = get_terms( 'wanderlist_trip', array(
+  $trips = get_terms( 'wanderlist-trip', array(
     'hide_empty'        => true,
     'childless'         => false,
   ) );
 
   $output = "<ul>";
   foreach ( $trips as $trip ) :
-    $output .= '<li><a href="'. esc_url( get_term_link( $trip, 'wanderlist_trip' ) ) . '" title="' . $trip->description . '">' . $trip->name . "</a></li>";
+    $output .= '<li><a href="'. esc_url( get_term_link( $trip, 'wanderlist-trip' ) ) . '" title="' . $trip->description . '">' . $trip->name . "</a></li>";
   endforeach;
   $output .= "</ul>";
   return $output;
@@ -179,9 +179,9 @@ function wanderlist_list_trips( $limit = null, $show = 'default' ) {
 function wanderlist_all_countries() {
 
   // Get our "home" country, so we can be sure it's excluded
-  $home = get_term_by( 'name', 'home', 'wanderlist_country' );
+  $home = get_term_by( 'name', 'home', 'wanderlist-country' );
 
-  $countries = get_terms( 'wanderlist_country', array(
+  $countries = get_terms( 'wanderlist-country', array(
       'hide_empty'        => false, // At least for now.
       'childless'         => true, // Only count countries that don't have sub-countries
       'exclude'           => $home->term_id, // Exclude "home" country

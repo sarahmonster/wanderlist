@@ -35,6 +35,11 @@ require plugin_dir_path( __FILE__ ) . 'includes/public/wanderlist-public.php';
 require plugin_dir_path( __FILE__ ) . 'includes/public/wanderlist-templates.php';
 
 /**
+ * Shortcodes!
+ */
+require plugin_dir_path( __FILE__ ) . 'includes/public/wanderlist-shortcodes.php';
+
+/**
  * Admin-side code.
  */
 //require plugin_dir_path( __FILE__ ) . 'includes/admin/wanderlist-admin.php';

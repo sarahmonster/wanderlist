@@ -24,7 +24,7 @@ function wanderlist_setup_custom_data() {
         'menu_icon'           => 'dashicons-location',
         'labels'              => $location_labels,
         'supports'            => array( ),
-        'taxonomies'          => array( 'post_tag', 'country' ),
+        'taxonomies'          => array( 'post_tag', 'wanderlist-country' ),
         'hierarchical'        => false,
         'public'              => true,
         'show_ui'             => true,
@@ -39,7 +39,7 @@ function wanderlist_setup_custom_data() {
         'capability_type'     => 'post',
         'rewrite'             => array('slug' => 'places'),
     );
-    register_post_type( 'wanderlist_location', $location_args );
+    register_post_type( 'wanderlist-location', $location_args );
 
     /**
     * Register countries as a taxonomy, so we can count 'em.
@@ -72,7 +72,7 @@ function wanderlist_setup_custom_data() {
         'show_in_nav_menus'          => true,
         'show_tagcloud'              => true,
     );
-    register_taxonomy( 'wanderlist_country', array( 'post', 'wanderlist_location' ), $country_args );
+    register_taxonomy( 'wanderlist-country', array( 'post', 'wanderlist-location' ), $country_args );
 
     /**
     * Register a taxonomy for trips, so we can map out a particular trip.
@@ -105,7 +105,7 @@ function wanderlist_setup_custom_data() {
         'show_in_nav_menus'          => true,
         'show_tagcloud'              => true,
     );
-    register_taxonomy( 'wanderlist_trip', array( 'post', 'wanderlist_location' ), $trip_args );
+    register_taxonomy( 'wanderlist-trip', array( 'post', 'wanderlist-location' ), $trip_args );
 
 }
 add_action( 'init', 'wanderlist_setup_custom_data' );
