@@ -32,7 +32,7 @@ get_header(); ?>
         <?php while ( have_posts() ) : the_post(); ?>
 
           <dt><?php the_date( 'F jS' ); ?></dt>
-          <dd><?php the_title(); ?><span class="wanderlist-country"><?php echo esc_html( $the_country ); ?></span></dd>
+          <dd><?php the_title(); ?> <span class="wanderlist-country"><?php echo get_post_meta($post->ID, "wanderlist-geolocation", true); ?></span></dd>
 
         <?php endwhile; ?>
         </dl>

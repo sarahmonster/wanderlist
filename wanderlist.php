@@ -42,5 +42,5 @@ require plugin_dir_path( __FILE__ ) . 'includes/public/wanderlist-shortcodes.php
 /**
  * Admin-side code.
  */
-//require plugin_dir_path( __FILE__ ) . 'includes/admin/wanderlist-admin.php';
+require plugin_dir_path( __FILE__ ) . 'includes/admin/wanderlist-admin.php';
 
