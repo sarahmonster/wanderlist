@@ -12,11 +12,14 @@
 
 /**
  * Determine the absolute path for our plugin.
- * Somehow this isn't a built-in WordPress function.
+ * Somehow this isn't a built-in WordPress function,
+ * or at least doesn't work as expected if it's
+ * called from within a sub-directory.
  * I assume because someone wants me to be sad.
  */
 function wanderlist_plugin_dir() {
-  $dir = ABSPATH . 'wp-content/plugins/wanderlist';
+  $dir = plugin_dir_path( dirname( __FILE__ ) );
+  $dir = rtrim( $dir, '/includes' );
   return $dir;
 }
 
