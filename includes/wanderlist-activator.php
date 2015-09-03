@@ -14,8 +14,16 @@ function wanderlist_setup_custom_data() {
     * This forms the basis of our plugin.
     */
     $location_labels = array(
-        'name'                => _x( 'Places', 'Post Type General Name', 'wanderlist' ),
-        'singular_name'       => _x( 'Place', 'Post Type Singular Name', 'wanderlist' ),
+        'name'          => _x( 'Places', 'Post Type General Name', 'wanderlist' ),
+        'singular_name' => _x( 'Place', 'Post Type Singular Name', 'wanderlist' ),
+        'menu_name'     => __( 'Places', 'wanderlist' ),
+        'all_items'     => __( 'All Places', 'wanderlist' ),
+        'new_item_name' => __( 'New Place', 'wanderlist' ),
+        'add_new_item'  => __( 'Add New Place', 'wanderlist' ),
+        'edit_item'     => __( 'Edit Place', 'wanderlist' ),
+        'update_item'   => __( 'Update Place', 'wanderlist' ),
+        'view_item'     => __( 'View Place', 'wanderlist' ),
+        'not_found'     => __( 'Not Found', 'wanderlist' ),
     );
 
     $location_args = array(
@@ -90,11 +98,11 @@ function wanderlist_setup_custom_data() {
         'edit_item'                  => __( 'Edit Trip', 'wanderlist' ),
         'update_item'                => __( 'Update Trip', 'wanderlist' ),
         'view_item'                  => __( 'View Trip', 'wanderlist' ),
-        'separate_items_with_commas' => __( 'Separate countries with commas', 'wanderlist' ),
-        'add_or_remove_items'        => __( 'Add or remove countries', 'wanderlist' ),
-        'choose_from_most_used'      => __( 'Choose from the most used', 'wanderlist' ),
-        'popular_items'              => __( 'Popular Countries', 'wanderlist' ),
-        'search_items'               => __( 'Search Countries', 'wanderlist' ),
+        'separate_items_with_commas' => __( 'Separate trips with commas', 'wanderlist' ),
+        'add_or_remove_items'        => __( 'Add or remove trips', 'wanderlist' ),
+        'choose_from_most_used'      => __( 'Choose from the most used trips', 'wanderlist' ),
+        'popular_items'              => __( 'Popular trips', 'wanderlist' ),
+        'search_items'               => __( 'Search trips', 'wanderlist' ),
         'not_found'                  => __( 'Not Found', 'wanderlist' ),
     );
     $trip_args = array(
