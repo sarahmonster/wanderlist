@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying archive pages.
+ * The template for displaying trip overview pages.
  *
  * Learn more: http://codex.wordpress.org/Template_Hierarchy
  *
@@ -9,7 +9,6 @@
 
 get_header(); ?>
 
-Plugin template
   <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
 
@@ -22,18 +21,22 @@ Plugin template
 
     <?php if ( have_posts() ) : ?>
 
+      <div class="wanderlist-map-widget">
+        <?php echo do_shortcode( "[wanderlist-map]" ); ?>
+      </div>
+
       <?php /* Start the Loop */ ?>
-      <?php while ( have_posts() ) : the_post(); ?>
+      <div class="wanderlist-widget wanderlist-trip-overview-widget">
+        <h3 class="widget-title"><?php esc_html_e( 'Where I went', 'wanderlist' ); ?></h3>
+        <dl>
+        <?php while ( have_posts() ) : the_post(); ?>
 
-        <?php
-          /* Include the Post-Format-specific template for the content.
-           * If you want to override this in a child theme, then include a file
-           * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-           */
-          get_template_part( 'content', get_post_type() );
-        ?>
+          <dt><?php the_date( 'F jS' ); ?></dt>
+          <dd><?php the_title(); ?><span class="wanderlist-country"><?php echo esc_html( $the_country ); ?></span></dd>
 
-      <?php endwhile; ?>
+        <?php endwhile; ?>
+        </dl>
+      </div>
 
       <?php the_posts_navigation(); ?>
 
