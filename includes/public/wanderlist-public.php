@@ -205,3 +205,31 @@ function wanderlist_show_map( $overlay = null ) {
   return $output;
 }
 
+/**
+ * For trip overview pages, we want to show all posts.
+ * We also want to make sure they're ordered in the order
+ * we visited them. These functions modify our query for
+ * this taxonomy only. For any other taxonomy, we return
+ * the default settings.
+ */
+
+// Change order of posts for wanderlist-trip taxonomy
+function wanderlist_order( $orderby ) {
+  if( is_tax( 'wanderlist-trip' )) :
+     return "post_date ASC";
+  else :
+    return $orderby;
+  endif;
+}
+
+// Remove default limit for wanderlist-trip taxonomy
+function wanderlist_limit( $limits ) {
+  if( is_tax( 'wanderlist-trip' ) ) :
+    return "";
+  else :
+    return $limits;
+  endif;
+}
+
+add_filter('posts_orderby', 'wanderlist_order' );
+add_filter('post_limits', 'wanderlist_limit' );
