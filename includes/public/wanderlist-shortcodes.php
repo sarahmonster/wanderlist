@@ -92,13 +92,13 @@ function wanderlist_overview_shortcode( $atts, $content = null  ) {
   $widgets[] = array(
     'class'   => 'wanderlist-location-widget',
     'title'   => esc_html__( 'Coming up!', 'wanderlist' ),
-    'content' => wanderlist_list_locations(),
+    'content' => wanderlist_list_locations( 3, 'upcoming' ),
   );
 
   $widgets[] = array(
     'class'   => 'wanderlist-location-widget',
     'title'   => esc_html__( 'Where I&rsquo;ve been lately', 'wanderlist' ),
-    'content' => wanderlist_list_locations( 2, 'past' ),
+    'content' => wanderlist_list_locations( 5, 'past' ),
   );
 
   $widgets[] = array(

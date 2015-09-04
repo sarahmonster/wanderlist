@@ -31,6 +31,16 @@ function wanderlist_get_current_location() {
   return $locations[0]->post_title;
 }
 
+/*
+ * Get today's date.
+ * This also sets our default timezone to whatever is set in our WordPress settings.
+ */
+function wanderlist_today() {
+  date_default_timezone_set( get_option( 'timezone_string' ) );
+  $today = date( 'Y-m-d' );
+  return $today;
+}
+
 /**
  * Show a list of locations.
  *
@@ -40,26 +50,27 @@ function wanderlist_get_current_location() {
 function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 
   if ( 'all' === $show ) :
-    $post_status = array( 'future', 'publish' );
     $order = DESC;
   elseif ( 'past' === $show ) :
-    $post_status = 'publish';
     $order = DESC;
+    $compare = '<';
   elseif ( 'upcoming' === $show ):
-    $post_status = 'future';
     $order = ASC;
+    $compare = '>';
   elseif ( 'default' === $show ) :
-    $post_status = 'future';
     $order = ASC;
+    $compare = '>';
     $limit = $limit - 1;
   endif;
 
   $args = array(
     'post_type'      => 'wanderlist-location',
-    'post_status'    => $post_status,
+    'post_status'    => array( 'future', 'publish' ),
     'posts_per_page' => $limit,
-    'orderby'        => 'meta_value',
+    'orderby'        => 'meta_value post_date',
     'meta_key'       => 'wanderlist-arrival-date',
+    'meta_value'     => wanderlist_today(),
+    'meta_compare'   => $compare,
     'order'          => $order,
     'tax_query'      => array(
       array(
