@@ -234,23 +234,39 @@ function wanderlist_show_map( $overlay = null ) {
  * the default settings.
  */
 
-// Change order of posts for wanderlist-trip taxonomy
-function wanderlist_order( $orderby ) {
+// Since our arrival date is a custom meta key, we need to do some
+// database-fu in order to order by its value. Here, we're performing
+// a database join so we can access the arrival date.
+function wanderlist_trip_join( $wp_join ) {
   if( is_tax( 'wanderlist-trip' )) :
-     return "post_date ASC";
+    global $wpdb;
+    $wp_join .= " LEFT JOIN (
+        SELECT post_id, meta_value as arrival_date
+        FROM $wpdb->postmeta
+        WHERE meta_key =  'wanderlist-arrival-date' ) AS PLACE
+        ON $wpdb->posts.ID = PLACE.post_id ";
+  endif;
+  return $wp_join;
+}
+add_filter('posts_join', 'wanderlist_trip_join' );
+
+// Order first by our arrival date, and then by our post date
+// Ascending order means the place we visited first shows up first.
+function wanderlist_trip_order( $orderby ) {
+  if( is_tax( 'wanderlist-trip' )) :
+    return "PLACE.arrival_date ASC, post_date ASC";
   else :
     return $orderby;
   endif;
 }
+add_filter('posts_orderby', 'wanderlist_trip_order' );
 
-// Remove default limit for wanderlist-trip taxonomy
-function wanderlist_limit( $limits ) {
+// Remove default limit for wanderlist-trip taxonomy, show all places!
+function wanderlist_trip_limit( $limits ) {
   if( is_tax( 'wanderlist-trip' ) ) :
     return "";
   else :
     return $limits;
   endif;
 }
-
-add_filter('posts_orderby', 'wanderlist_order' );
-add_filter('post_limits', 'wanderlist_limit' );
+add_filter('post_limits', 'wanderlist_trip_limit' );
