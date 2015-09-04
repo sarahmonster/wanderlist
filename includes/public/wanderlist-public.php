@@ -20,13 +20,28 @@ add_action( 'wp_enqueue_scripts', 'wanderlist_scripts' );
 
 /**
  * Get current location.
- * This assumes that your current location is the most
- * recently-entered location, for obvious reasons.
+ * This looks for a location with an arrival date
+ * earlier than today, and a departure date
+ * later than today.
+ * @todo: Default to a "home" location if none are found.
+ * @todo: Determine intelligent handling if no departure date exists.
  */
 function wanderlist_get_current_location() {
   $locations = get_posts( array(
-    'posts_per_page'   => 1,
-    'post_type'        => 'wanderlist-location',
+    'posts_per_page' => 1,
+    'post_type'      => 'wanderlist-location',
+    'meta_query'     => array(
+      array(
+        'key'     => 'wanderlist-arrival-date',
+        'value'   => wanderlist_today(),
+        'compare' => '<=',
+      ),
+      array(
+        'key'     => 'wanderlist-departure-date',
+        'value'   => wanderlist_today(),
+        'compare' => '>=',
+      ),
+    ),
   ) );
   return $locations[0]->post_title;
 }
