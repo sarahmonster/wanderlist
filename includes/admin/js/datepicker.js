@@ -1,3 +1,5 @@
-jQuery(document).ready(function() {
-  jQuery('.wanderlist-datepicker').datepicker();
-});
+( function( $ ) {
+  $(document).ready(function() {
+    $('.wanderlist-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
+  });
+} )( jQuery );

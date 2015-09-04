@@ -58,7 +58,8 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
     'post_type'      => 'wanderlist-location',
     'post_status'    => $post_status,
     'posts_per_page' => $limit,
-    'orderby'        => 'date',
+    'orderby'        => 'meta_value',
+    'meta_key'       => 'wanderlist-arrival-date',
     'order'          => $order,
     'tax_query'      => array(
       array(
@@ -92,7 +93,7 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
       $the_country = '';
     endif;
 
-    $locations .= '<dt>' . esc_html( get_the_date( 'F jS' ) ) . '</dt>';
+    $locations .= '<dt>' . wanderlist_arrival_date( get_the_ID() ) . '</dt>' ;
     $locations .= '<dd>' . esc_html( get_the_title() ) .'<span class="wanderlist-country">' . esc_html( $the_country ) . '</span>';
     if ( wanderlist_is_loved( ) ) :
       $locations .= '<span class="wanderlist-loved">&hearts;</span>';
@@ -150,6 +151,26 @@ function wanderlist_is_home( $location = null ) {
   else :
     return false;
   endif;
+}
+
+/*
+ * Determine the arrival date for a particular location.
+ *
+ * Dates are stored as YYYY-MM-DD for easy ordering, but
+ * we'd prefer to display this in a different format.
+ * @todo: Allow for a user-configured date format.
+ */
+function wanderlist_arrival_date( $post ) {
+  // If our arrival date isn't entered, use the date the post was published instead
+  $date = get_post_meta( $post, 'wanderlist-arrival-date', true );
+  if ( !$date) :
+    $date = get_the_date( $date_format );
+  endif;
+
+  // Format our date according to our preferred format
+  $date_format = 'F jS';
+  $arrival_date = date( $date_format, strtotime( $date ) );
+  return $arrival_date;
 }
 
 /**

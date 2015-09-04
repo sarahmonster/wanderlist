@@ -31,7 +31,7 @@ get_header(); ?>
         <dl>
         <?php while ( have_posts() ) : the_post(); ?>
 
-          <dt><?php the_date( 'F jS' ); ?></dt>
+          <dt><?php echo wanderlist_arrival_date( get_the_ID() ); ?></dt>
           <dd><?php the_title(); ?> <span class="wanderlist-country"><?php echo get_post_meta($post->ID, "wanderlist-geolocation", true); ?></span></dd>
 
         <?php endwhile; ?>
