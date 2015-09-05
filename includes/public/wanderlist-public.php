@@ -101,6 +101,7 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 
   $locations = "<dl>";
 
+  // If we're not passing an upcoming/past parameter, show today's location
   if ( 'default' === $show ) :
     $locations .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
     $locations .= '<dd>' . wanderlist_get_current_location() . '</dd>';
@@ -119,15 +120,27 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
       $the_country = '';
     endif;
 
-    $locations .= '<dt>' . wanderlist_arrival_date( get_the_ID() ) . '</dt>' ;
+    // If we're still visiting somewhere, show that location with a "today" tag in the "upcoming" list
+    if ( 'past' === $show && wanderlist_today() <= get_post_meta( get_the_ID(), 'wanderlist-departure-date', true )) :
+      $locations .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
+
+    // Otherwise, display the date of arrival
+    else :
+      $locations .= '<dt>' . wanderlist_arrival_date( get_the_ID() ) . '</dt>' ;
+    endif;
+
     $locations .= '<dd>' . esc_html( get_the_title() ) .'<span class="wanderlist-country">' . esc_html( $the_country ) . '</span>';
+
+    // Display some icons if the location is home or loved
     if ( wanderlist_is_loved( ) ) :
       $locations .= '<span class="wanderlist-loved">&hearts;</span>';
     endif;
     if ( wanderlist_is_home( ) ) :
       $locations .= '<span class="wanderlist-home">&star;</span>';
     endif;
+
     $locations .= '</dd>';
+
   wp_reset_postdata();
   endwhile;
 
