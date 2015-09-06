@@ -120,7 +120,7 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
       $the_country = '';
     endif;
 
-    // If we're still visiting somewhere, show that location with a "today" tag in the "upcoming" list
+    // If we're still visiting somewhere, show that location with "today" as the date in the "recent trips" list
     if ( 'past' === $show && wanderlist_today() <= get_post_meta( get_the_ID(), 'wanderlist-departure-date', true )) :
       $locations .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
 

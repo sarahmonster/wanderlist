@@ -13,7 +13,8 @@
  * in core so we'll use it at least until I get sick of it.
  */
 function wanderlist_admin_scripts() {
-  wp_enqueue_script( 'wanderlist-datepicker-js', plugin_dir_url( __FILE__ ) . 'js/datepicker.js', array('jquery', 'jquery-ui-core', 'jquery-ui-datepicker'), time(), true );
+  wp_enqueue_script( 'wanderlist-geolocator-js', plugin_dir_url( __FILE__ ) . 'js/geolocator.js', array( 'jquery' ), time(), true );
+  wp_enqueue_script( 'wanderlist-datepicker-js', plugin_dir_url( __FILE__ ) . 'js/datepicker.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker'), time(), true );
   wp_enqueue_style( 'jquery-ui' );
   wp_enqueue_style( 'jquery-ui-datepicker', plugin_dir_url( __FILE__ ) . 'css/datepicker.css' );
 }
@@ -38,7 +39,13 @@ function wanderlist_geolocation_box() {
   wp_nonce_field( basename( __FILE__ ), 'meta-box-nonce' );
 
   // Input field
-  echo '<input type="text" name="wanderlist-geolocation" value="' . get_post_meta( $post->ID, 'wanderlist-geolocation', true ) . '" class="widefat" />';
+  echo '<input id="wanderlist-geolocation-input" type="text" name="wanderlist-geolocation" value="' . get_post_meta( $post->ID, 'wanderlist-geolocation', true ) . '" class="widefat" />';
+
+  // Hidden fields for data returned by geocoder
+  echo '<input id="wanderlist-city" name="wanderlist-city" type="hidden" />';
+  echo '<input id="wanderlist-country" name="wanderlist-country" type="hidden" />';
+  echo '<input id="wanderlist-lng" name="wanderlist-lng" type="hidden" />';
+  echo '<input id="wanderlist-lat" name="wanderlist-lat" type="hidden" />';
 }
 
 /*
@@ -86,8 +93,20 @@ function wanderlist_save_metabox_data( $post_id, $post, $update ) {
   // If we've passed all those checks, we should be good to save! Let's go.
   if( isset( $_POST['wanderlist-geolocation'] ) ) :
     $geolocation_value = $_POST['wanderlist-geolocation'];
+    // Store city name, lat and long as post meta
+    $lng_value = $_POST['wanderlist-lng'];
+    $lat_value = $_POST['wanderlist-lat'];
+    $city_value = $_POST['wanderlist-city'];
+    // Store country as a "country" taxonomy
+    // First, check to see if the taxonomy already exists
+    // If it doesn't, create a new taxonomy entry for the country in question
+    // Then, assign this post to the correct country taxonomy
+    $country_value = '';
   else :
     $geolocation_value = "";
+    $lng_value = "";
+    $lat_value = "";
+    $city_value = "";
   endif;
 
   if( isset( $_POST['wanderlist-arrival-date'] ) ) :
@@ -102,7 +121,11 @@ function wanderlist_save_metabox_data( $post_id, $post, $update ) {
     $depature_date_value = "";
   endif;
 
-  update_post_meta( $post_id, 'wanderlist-geolocation', $geolocation_value );
+  //update_post_meta( $post_id, 'wanderlist-country', $country_value );
+  update_post_meta( $post_id, 'wanderlist-city', $city_value );
+  update_post_meta( $post_id, 'wanderlist-lat', $lat_value );
+  update_post_meta( $post_id, 'wanderlist-lng', $lng_value );
+
   update_post_meta( $post_id, 'wanderlist-arrival-date', $arrival_date_value );
   update_post_meta( $post_id, 'wanderlist-departure-date', $departure_date_value  );
 }
