@@ -76,12 +76,13 @@ function wanderlist_setup_custom_data() {
         'labels'                     => $country_labels,
         'hierarchical'               => true,
         'public'                     => true,
-        'show_ui'                    => true,
-        'show_admin_column'          => true,
+        'show_ui'                    => false,
+        'show_admin_column'          => false,
         'show_in_nav_menus'          => true,
         'show_tagcloud'              => true,
     );
     register_taxonomy( 'wanderlist-country', array( 'post', 'wanderlist-location' ), $country_args );
+    register_taxonomy_for_object_type( 'wanderlist-country', 'wanderlist-location' );
 
     /**
     * Register a taxonomy for trips, so we can map out a particular trip.
@@ -115,6 +116,7 @@ function wanderlist_setup_custom_data() {
         'show_tagcloud'              => true,
     );
     register_taxonomy( 'wanderlist-trip', array( 'post', 'wanderlist-location' ), $trip_args );
+    register_taxonomy_for_object_type( 'wanderlist-trip', 'wanderlist-location' );
 
 }
 add_action( 'init', 'wanderlist_setup_custom_data' );

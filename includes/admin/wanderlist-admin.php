@@ -41,11 +41,12 @@ function wanderlist_geolocation_box() {
   // Input field
   echo '<input id="wanderlist-geolocation-input" type="text" name="wanderlist-geolocation" value="' . get_post_meta( $post->ID, 'wanderlist-geolocation', true ) . '" class="widefat" />';
 
-  // Hidden fields for data returned by geocoder
-  echo '<input id="wanderlist-city" name="wanderlist-city" type="hidden" />';
-  echo '<input id="wanderlist-country" name="wanderlist-country" type="hidden" />';
-  echo '<input id="wanderlist-lng" name="wanderlist-lng" type="hidden" />';
-  echo '<input id="wanderlist-lat" name="wanderlist-lat" type="hidden" />';
+  // Hidden fields into which we can input data returned from our geocoder
+  echo '<input id="wanderlist-city" name="wanderlist-city" type="hidden" value="' . get_post_meta( $post->ID, 'wanderlist-city', true ) . '" />';
+  echo '<input id="wanderlist-lng" name="wanderlist-lng" type="hidden" value="' . get_post_meta( $post->ID, 'wanderlist-lng', true ) . '" />';
+  echo '<input id="wanderlist-lat" name="wanderlist-lat" type="hidden" value="' . get_post_meta( $post->ID, 'wanderlist-lat', true ) . '" />';
+
+  echo '<input id="wanderlist-country" name="wanderlist-country" type="hidden" value="' . ltrim( wanderlist_get_country(), ', ' ) . '"/>';
 }
 
 /*
@@ -97,11 +98,23 @@ function wanderlist_save_metabox_data( $post_id, $post, $update ) {
     $lng_value = $_POST['wanderlist-lng'];
     $lat_value = $_POST['wanderlist-lat'];
     $city_value = $_POST['wanderlist-city'];
-    // Store country as a "country" taxonomy
-    // First, check to see if the taxonomy already exists
-    // If it doesn't, create a new taxonomy entry for the country in question
-    // Then, assign this post to the correct country taxonomy
-    $country_value = '';
+
+    // Store our country as a term in our custom "country" taxonomy
+    $country_value = $_POST['wanderlist-country'];
+    // This creates a term if one doesn't already exist, or selects the existing term.
+    $country_term = wp_create_term( $country_value, 'wanderlist-country' );
+    // Make sure our term id is a string (because nobody wants to go to "148" country)
+    if( is_string ( $country_term['term_id'] ) ) {
+      $country_term['term_id'] = (int) $country_term['term_id'];
+    }
+    // Remove all country associations and set our new country.
+    wp_set_object_terms( $post_id, $country_term['term_id'], 'wanderlist-country' );
+
+    // Update post meta
+    update_post_meta( $post_id, 'wanderlist-city', $city_value );
+    update_post_meta( $post_id, 'wanderlist-lat', $lat_value );
+    update_post_meta( $post_id, 'wanderlist-lng', $lng_value );
+
   else :
     $geolocation_value = "";
     $lng_value = "";
@@ -120,11 +133,6 @@ function wanderlist_save_metabox_data( $post_id, $post, $update ) {
   else :
     $depature_date_value = "";
   endif;
-
-  //update_post_meta( $post_id, 'wanderlist-country', $country_value );
-  update_post_meta( $post_id, 'wanderlist-city', $city_value );
-  update_post_meta( $post_id, 'wanderlist-lat', $lat_value );
-  update_post_meta( $post_id, 'wanderlist-lng', $lng_value );
 
   update_post_meta( $post_id, 'wanderlist-arrival-date', $arrival_date_value );
   update_post_meta( $post_id, 'wanderlist-departure-date', $departure_date_value  );
