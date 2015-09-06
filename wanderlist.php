@@ -22,7 +22,7 @@ register_activation_hook( __FILE__, 'wanderlist_activate' );
 /**
  * Core code available across both admin and public views.
  */
-//require plugin_dir_path( __FILE__ ) . 'includes/wanderlist.php';
+require plugin_dir_path( __FILE__ ) . 'includes/wanderlist.php';
 
 /**
  * Public-facing code.

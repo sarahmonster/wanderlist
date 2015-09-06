@@ -1,0 +1,17 @@
+#wanderlist-geocoder-message {
+  opacity: 0;
+  transition: all 0.25s;
+  visibility: none;
+}
+
+#wanderlist-geocoder-message.success {
+  color: #64b450;
+  opacity: 1;
+  visibility: visible;
+}
+
+#wanderlist-geocoder-message.error {
+  color: #dc3232;
+  opacity: 1;
+  visibility: visible;
+}

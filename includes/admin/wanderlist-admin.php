@@ -14,6 +14,7 @@
  */
 function wanderlist_admin_scripts() {
   wp_enqueue_script( 'wanderlist-geolocator-js', plugin_dir_url( __FILE__ ) . 'js/geolocator.js', array( 'jquery' ), time(), true );
+  wp_enqueue_style( 'wanderlist-geolocator', plugin_dir_url( __FILE__ ) . 'css/geolocator.css' );
   wp_enqueue_script( 'wanderlist-datepicker-js', plugin_dir_url( __FILE__ ) . 'js/datepicker.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker'), time(), true );
   wp_enqueue_style( 'jquery-ui' );
   wp_enqueue_style( 'jquery-ui-datepicker', plugin_dir_url( __FILE__ ) . 'css/datepicker.css' );
@@ -40,6 +41,9 @@ function wanderlist_geolocation_box() {
 
   // Input field
   echo '<input id="wanderlist-geolocation-input" type="text" name="wanderlist-geolocation" value="' . get_post_meta( $post->ID, 'wanderlist-geolocation', true ) . '" class="widefat" />';
+
+  // Message field to show what's going on behind-the-scenes
+  echo '<div id="wanderlist-geocoder-message">Your location has been set to <strong class="place"></strong>.</div>';
 
   // Hidden fields into which we can input data returned from our geocoder
   echo '<input id="wanderlist-city" name="wanderlist-city" type="hidden" value="' . get_post_meta( $post->ID, 'wanderlist-city', true ) . '" />';
