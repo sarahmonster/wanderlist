@@ -19,21 +19,21 @@
  * [wanderlist-location show=countries] will show total number of countries.
  */
 function wanderlist_location_shortcode( $atts, $content = null  ){
-  $a = shortcode_atts( array(
-      'show' => 'current',
-  ), $atts );
+	$a = shortcode_atts( array(
+		'show' => 'current',
+	), $atts );
 
-  if ( 'current' === $a['show'] ):
-    return '<span class="wanderlist-current-location">' . wanderlist_get_current_location() . '</span>';
-  endif;
+	if ( 'current' === $a['show'] ) :
+		return '<span class="wanderlist-current-location">' . wanderlist_get_current_location() . '</span>';
+	endif;
 
-  if ( 'countries' === $a['show'] ):
-    return '<span class="wanderlist-country-count">' . count( wanderlist_all_countries() ) . '</span>';
-  endif;
+	if ( 'countries' === $a['show'] ) :
+		return '<span class="wanderlist-country-count">' . count( wanderlist_all_countries() ) . '</span>';
+	endif;
 }
 
 function wanderlist_register_location_shortcode() {
-  add_shortcode( 'wanderlist-location', 'wanderlist_location_shortcode' );
+	add_shortcode( 'wanderlist-location', 'wanderlist_location_shortcode' );
 }
 
 add_action( 'init', 'wanderlist_register_location_shortcode' );
@@ -48,26 +48,25 @@ add_action( 'init', 'wanderlist_register_location_shortcode' );
  * For now, [wanderlist-map show=current] will show upcoming (or most recent) locations,
  * [wanderlist-map show=countries] will show all countries visited.
  */
-function wanderlist_map_shortcode( $atts, $content = null  ){
-  $a = shortcode_atts( array(
-      'show' => 'current',
-  ), $atts );
+function wanderlist_map_shortcode( $atts, $content = null ) {
+	$a = shortcode_atts( array(
+		'show' => 'current',
+	), $atts );
 
-  if ( 'current' === $a['show'] ):
-    return wanderlist_show_map( 'upcoming' );
-  endif;
+	if ( 'current' === $a['show'] ) :
+		return wanderlist_show_map( 'upcoming' );
+	endif;
 
-  if ( 'countries' === $a['show'] ):
-    return '<span class="wanderlist-country-count">' . count( wanderlist_all_countries() ) . '</span>';
-  endif;
+	if ( 'countries' === $a['show'] ) :
+		return '<span class="wanderlist-country-count">' . count( wanderlist_all_countries() ) . '</span>';
+	endif;
 }
 
 function wanderlist_register_map_shortcode() {
-  add_shortcode( 'wanderlist-map', 'wanderlist_map_shortcode' );
+	add_shortcode( 'wanderlist-map', 'wanderlist_map_shortcode' );
 }
 
 add_action( 'init', 'wanderlist_register_map_shortcode' );
-
 
 /**
  * Register a shortcode to display an overview of our travels.
@@ -80,57 +79,57 @@ add_action( 'init', 'wanderlist_register_map_shortcode' );
  * potentially allow users to pass parameters. For now, no options.
  */
 function wanderlist_overview_shortcode( $atts, $content = null  ) {
-  $a = shortcode_atts( array(
-      'show' => 'current',
-  ), $atts );
+	$a = shortcode_atts( array(
+		'show' => 'current',
+	), $atts );
 
-  $widgets[] = array(
-    'class'   => 'wanderlist-map-widget',
-    'content' => wanderlist_show_map(),
-  );
+	$widgets[] = array(
+		'class'   => 'wanderlist-map-widget',
+		'content' => wanderlist_show_map(),
+	);
 
-  $widgets[] = array(
-    'class'   => 'wanderlist-location-widget',
-    'title'   => esc_html__( 'Coming up!', 'wanderlist' ),
-    'content' => wanderlist_list_locations( 3, 'upcoming' ),
-  );
+	$widgets[] = array(
+		'class'   => 'wanderlist-location-widget',
+		'title'   => esc_html__( 'Coming up!', 'wanderlist' ),
+		'content' => wanderlist_list_locations( 3, 'upcoming' ),
+	);
 
-  $widgets[] = array(
-    'class'   => 'wanderlist-location-widget',
-    'title'   => esc_html__( 'Where I&rsquo;ve been lately', 'wanderlist' ),
-    'content' => wanderlist_list_locations( 5, 'past' ),
-  );
+	$widgets[] = array(
+		'class'   => 'wanderlist-location-widget',
+		'title'   => esc_html__( 'Where I&rsquo;ve been lately', 'wanderlist' ),
+		'content' => wanderlist_list_locations( 5, 'past' ),
+	);
 
-  $widgets[] = array(
-    'class'   => 'wanderlist-trip-widget',
-    'title'   => esc_html__( 'Long trips', 'wanderlist' ),
-    'content' => wanderlist_list_trips(),
-  );
+	$widgets[] = array(
+		'class'   => 'wanderlist-trip-widget',
+		'title'   => esc_html__( 'Long trips', 'wanderlist' ),
+		'content' => wanderlist_list_trips(),
+	);
 
-  $widgets[] = array(
-    'class'   => 'wanderlist-number-widget',
-    'title'   => esc_html__( 'Total countries visited', 'wanderlist' ),
-    'content' => '<span class="wanderlist-country-count">' . count( wanderlist_all_countries() ) . '</span>',
-  );
+	$widgets[] = array(
+		'class'   => 'wanderlist-number-widget',
+		'title'   => esc_html__( 'Total countries visited', 'wanderlist' ),
+		'content' => '<span class="wanderlist-country-count">' . count( wanderlist_all_countries() ) . '</span>',
+	);
 
-  $return = '<div class="wanderlist-overview">';
+	$return = '<div class="wanderlist-overview">';
 
-  foreach ( $widgets as $widget ) :
-    $return .= '<div class="wanderlist-widget ' . $widget['class'] . '">';
-    if ( $widget['title'] ) :
-      $return .= '<h3 class="widget-title">' . $widget['title'] . '</h3>';
-    endif;
-    $return .= $widget['content'];
-    $return .= "</div>";
-  endforeach;
+	foreach ( $widgets as $widget ) :
+		$return .= '<div class="wanderlist-widget ' . $widget['class'] . '">';
+		if ( $widget['title'] ) :
+			$return .= '<h3 class="widget-title">' . $widget['title'] . '</h3>';
+		endif;
+		$return .= $widget['content'];
+		$return .= '</div>';
+	endforeach;
 
-  $return .= '</div>';
+	$return .= '</div>';
 
-  return $return;
+	return $return;
 }
 
 function wanderlist_register_overview_shortcode() {
-  add_shortcode( 'wanderlist-overview', 'wanderlist_overview_shortcode' );
+	add_shortcode( 'wanderlist-overview', 'wanderlist_overview_shortcode' );
 }
 
 add_action( 'init', 'wanderlist_register_overview_shortcode' );

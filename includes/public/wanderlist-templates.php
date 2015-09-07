@@ -18,9 +18,9 @@
  * I assume because someone wants me to be sad.
  */
 function wanderlist_plugin_dir() {
-  $dir = plugin_dir_path( dirname( __FILE__ ) );
-  $dir = rtrim( $dir, '/includes' );
-  return $dir;
+	$dir = plugin_dir_path( dirname( __FILE__ ) );
+	$dir = rtrim( $dir, '/includes' );
+	return $dir;
 }
 
 /**
@@ -29,11 +29,11 @@ function wanderlist_plugin_dir() {
  * If not, use our template file instead.
  */
 function wanderlist_taxonomy_template( $template ) {
-  // Check to see we're on the trip taxonomy page and that the theme hasn't specified its own template
-  if ( is_tax( 'wanderlist-trip' ) && !wanderlist_is_template( $template ) ) {
-    $template = wanderlist_plugin_dir() . '/templates/taxonomy-wanderlist-trip.php';
-  }
-  return $template;
+	// Check to see we're on the trip taxonomy page and that the theme hasn't specified its own template
+	if ( is_tax( 'wanderlist-trip' ) && ! wanderlist_is_template( $template ) ) {
+		$template = wanderlist_plugin_dir() . '/templates/taxonomy-wanderlist-trip.php';
+	}
+	return $template;
 }
 add_filter( 'taxonomy_template', 'wanderlist_taxonomy_template' );
 
@@ -41,11 +41,11 @@ add_filter( 'taxonomy_template', 'wanderlist_taxonomy_template' );
  * Check to see if our current theme uses a custom taxonomy template.
  */
 function wanderlist_is_template( $template_path ){
-    // Check for template taxonomy-wanderlist-trip.php or taxonomy-wanderlist-trip-{term-slug}.php
-    $template = basename( $template_path );
-    if ( 1 == preg_match( '/^taxonomy-wanderlist-trip((-(\S*))?).php/', $template ) ) :
-      return true;
-    else:
-      return false;
-    endif;
+	// Check for template taxonomy-wanderlist-trip.php or taxonomy-wanderlist-trip-{term-slug}.php
+	$template = basename( $template_path );
+	if ( 1 === preg_match( '/^taxonomy-wanderlist-trip((-(\S*))?).php/', $template ) ) :
+		return true;
+	else :
+		return false;
+	endif;
 }
