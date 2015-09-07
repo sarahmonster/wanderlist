@@ -115,6 +115,7 @@ function wanderlist_save_metabox_data( $post_id, $post, $update ) {
     wp_set_object_terms( $post_id, $country_term['term_id'], 'wanderlist-country' );
 
     // Update post meta
+    update_post_meta( $post_id, 'wanderlist-geolocation', $city_value );
     update_post_meta( $post_id, 'wanderlist-city', $city_value );
     update_post_meta( $post_id, 'wanderlist-lat', $lat_value );
     update_post_meta( $post_id, 'wanderlist-lng', $lng_value );
