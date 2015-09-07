@@ -47,6 +47,7 @@ function wanderlist_geolocation_box() {
 
   // Hidden fields into which we can input data returned from our geocoder
   echo '<input id="wanderlist-city" name="wanderlist-city" type="hidden" value="' . get_post_meta( $post->ID, 'wanderlist-city', true ) . '" />';
+  echo '<input id="wanderlist-region" name="wanderlist-region" type="hidden" value="' . get_post_meta( $post->ID, 'wanderlist-region', true ) . '" />';
   echo '<input id="wanderlist-lng" name="wanderlist-lng" type="hidden" value="' . get_post_meta( $post->ID, 'wanderlist-lng', true ) . '" />';
   echo '<input id="wanderlist-lat" name="wanderlist-lat" type="hidden" value="' . get_post_meta( $post->ID, 'wanderlist-lat', true ) . '" />';
 
@@ -102,6 +103,7 @@ function wanderlist_save_metabox_data( $post_id, $post, $update ) {
     $lng_value = $_POST['wanderlist-lng'];
     $lat_value = $_POST['wanderlist-lat'];
     $city_value = $_POST['wanderlist-city'];
+    $region_value = $_POST['wanderlist-region'];
 
     // Store our country as a term in our custom "country" taxonomy
     $country_value = $_POST['wanderlist-country'];
@@ -115,8 +117,9 @@ function wanderlist_save_metabox_data( $post_id, $post, $update ) {
     wp_set_object_terms( $post_id, $country_term['term_id'], 'wanderlist-country' );
 
     // Update post meta
-    update_post_meta( $post_id, 'wanderlist-geolocation', $city_value );
+    update_post_meta( $post_id, 'wanderlist-location-string', $geolocation_value );
     update_post_meta( $post_id, 'wanderlist-city', $city_value );
+    update_post_meta( $post_id, 'wanderlist-region', $region_value );
     update_post_meta( $post_id, 'wanderlist-lat', $lat_value );
     update_post_meta( $post_id, 'wanderlist-lng', $lng_value );
 
