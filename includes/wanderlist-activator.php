@@ -8,7 +8,7 @@
  * @package Wanderlist
  */
 
-function wanderlist_setup_custom_data() {
+function wanderlist_custom_data() {
 	/**
 	* First, we're going to register a 'location' Custom Post Type.
 	* This forms the basis of our plugin.
@@ -16,8 +16,8 @@ function wanderlist_setup_custom_data() {
 	$location_labels = array(
 		'name'          => _x( 'Places', 'Post Type General Name', 'wanderlist' ),
 		'singular_name' => _x( 'Place', 'Post Type Singular Name', 'wanderlist' ),
-		'menu_name'     => __( 'Places', 'wanderlist' ),
-		'all_items'     => __( 'All Places', 'wanderlist' ),
+		'menu_name'     => __( 'Wanderlist', 'wanderlist' ),
+		'all_items'     => __( 'Places', 'wanderlist' ),
 		'new_item_name' => __( 'New Place', 'wanderlist' ),
 		'add_new_item'  => __( 'Add New Place', 'wanderlist' ),
 		'edit_item'     => __( 'Edit Place', 'wanderlist' ),
@@ -119,10 +119,13 @@ function wanderlist_setup_custom_data() {
 	register_taxonomy_for_object_type( 'wanderlist-trip', 'wanderlist-location' );
 
 }
-add_action( 'init', 'wanderlist_setup_custom_data' );
+add_action( 'init', 'wanderlist_custom_data' );
 
-// Function used to automatically create Music Reviews page.
-function wanderlist_create_landing_page() {
+/*
+ * On activation, create a new page called "travels" to show an overview of user's travels.
+ * @todo: Make sure the page doesn't already exist, and delete on uninstall. Add to menu, maybe?
+ */
+function wanderlist_landing_page() {
 	// Post status and options
 	$post = array(
 	  'comment_status' => 'closed',
@@ -142,14 +145,13 @@ function wanderlist_create_landing_page() {
 
 /*
  * When our plugin is activated, we're going to set everything up.
- *
  */
 function wanderlist_activate() {
 	// Register the location custom post type and our custom taxonomies
-	wanderlist_setup_custom_data();
+	wanderlist_custom_data();
 
 	// Create a new page to display our travels
-	wanderlist_create_landing_page();
+	wanderlist_landing_page();
 
 	// Clear the permalinks after the post type has been registered
 	flush_rewrite_rules();

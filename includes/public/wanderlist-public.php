@@ -113,9 +113,7 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 		// If we're still visiting somewhere, show that location with "today" as the date in the "recent trips" list
 		if ( 'past' === $show && wanderlist_today() <= get_post_meta( get_the_ID(), 'wanderlist-departure-date', true ) ) :
 			$locations .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
-
-		// Otherwise, display the date of arrival
-		else :
+		else : // Otherwise, display the date of arrival
 			$locations .= '<dt>' . wanderlist_arrival_date( get_the_ID() ) . '</dt>' ;
 		endif;
 

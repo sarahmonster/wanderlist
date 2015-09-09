@@ -147,3 +147,24 @@ function wanderlist_save_metabox_data( $post_id, $post, $update ) {
 }
 
 add_action( 'save_post', 'wanderlist_save_metabox_data', 10, 3 );
+
+/*
+ * Add a settings page so users can manage plugin-specific settings in one place.
+ */
+function wanderlist_settings_menu() {
+	add_submenu_page(
+		'edit.php?post_type=wanderlist-location',
+		esc_attr__( 'Wanderlist Settings', 'wanderlist' ),
+		esc_html__( 'Settings', 'wanderlist' ),
+		'manage_options',
+		'my-custom-submenu-page',
+		'wanderlist_settings_page'
+	);
+}
+
+function wanderlist_settings_page() {
+	echo '<div class="wrap">';
+	echo '<h2>' . esc_attr__( 'Wanderlist Settings', 'wanderlist' ) . '</h2>';
+	echo '</div>';
+}
+add_action( 'admin_menu', 'wanderlist_settings_menu' );
