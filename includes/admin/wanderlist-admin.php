@@ -157,14 +157,64 @@ function wanderlist_settings_menu() {
 		esc_attr__( 'Wanderlist Settings', 'wanderlist' ),
 		esc_html__( 'Settings', 'wanderlist' ),
 		'manage_options',
-		'my-custom-submenu-page',
+		'wanderlist-settings-page',
 		'wanderlist_settings_page'
 	);
 }
 
 function wanderlist_settings_page() {
+	if ( ! isset( $_REQUEST['settings-updated'] ) ) :
+		$_REQUEST['settings-updated'] = false;
+	endif;
 	echo '<div class="wrap">';
-	echo '<h2>' . esc_attr__( 'Wanderlist Settings', 'wanderlist' ) . '</h2>';
-	echo '</div>';
+	if ( false !== $_REQUEST['settings-updated'] ) : ?>
+		<div class="updated fade"><p><strong><?php _e( 'WPORG Options saved!', 'wporg' ); ?></strong></p></div>
+	<?php endif; ?>
+	<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
+	<form method="post" action="options.php">
+	<?php do_settings_sections( 'wanderlist-settings-page' ); ?>
+	</form>
+	</div>
+	<?php
 }
+
 add_action( 'admin_menu', 'wanderlist_settings_menu' );
+
+/*
+ * Set up our sections and inputs for our custom settings page.
+ */
+
+function wanderlist_settings_init() {
+	// Add the section to reading settings so we can add our fields to it
+	add_settings_section(
+		'wanderlist_Mapbox_section',
+		esc_html__( 'Mapbox Settings', 'wanderlist' ),
+		'wanderlist_Mapbox_section',
+		'wanderlist-settings-page'
+	);
+
+	// Add the field with the names and function to use for our new settings, put it in our new section
+	add_settings_field(
+		'wanderlist_MapboxAPIKey_setting',
+		'API Key',
+		'wanderlist_MapboxAPIKey_setting',
+		'wanderlist-settings-page',
+		'wanderlist_Mapbox_section'
+	);
+
+	// Register the setting!
+	register_setting( 'wanderlist-settings-page', 'wanderlist_Mapbox_section' );
+}
+add_action( 'admin_init', 'wanderlist_settings_init' );
+
+/*
+ * Mapbox section. For now, we're just collecting the user's API key.
+ */
+function wanderlist_Mapbox_section() {
+	echo '<p>'. esc_html__( 'Here, you can set up a few details about how you&rsquo;d like Mapbox to interact with your site.', 'wanderlist' ).'</p>';
+}
+
+function wanderlist_MapboxAPIKey_setting() {
+	$setting = esc_attr( get_option( 'wporg_setting_name' ) );
+	echo "<input type='text' name='wporg_setting_name' value='$setting' />";
+}
