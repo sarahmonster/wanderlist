@@ -114,7 +114,7 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 		if ( 'past' === $show && wanderlist_today() <= get_post_meta( get_the_ID(), 'wanderlist-departure-date', true ) ) :
 			$locations .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
 		else : // Otherwise, display the date of arrival
-			$locations .= '<dt>' . wanderlist_arrival_date( get_the_ID() ) . '</dt>' ;
+			$locations .= '<dt>' . wanderlist_date( get_the_ID(), 'arrival' ) . '</dt>' ;
 		endif;
 
 		$locations .= '<dd>' . esc_html( get_the_title() ) .'<span class="wanderlist-country">' . wanderlist_get_country() . '</span>';
@@ -181,17 +181,25 @@ function wanderlist_is_home( $location = null ) {
 }
 
 /*
-* Determine the arrival date for a particular location.
+* Determine the arrival/departure date for a particular location.
 *
 * Dates are stored as YYYY-MM-DD for easy ordering, but
 * we'd prefer to display this in a different format.
 * @todo: Allow for a user-configured date format.
 */
-function wanderlist_arrival_date( $post ) {
-	// If our arrival date isn't entered, use the date the post was published instead
-	$date = get_post_meta( $post, 'wanderlist-arrival-date', true );
-	if ( ! $date ) :
-		$date = get_the_date( $date_format );
+function wanderlist_date( $post, $type ) {
+	if ( 'departure' === $type ) :
+		$date = get_post_meta( $post, 'wanderlist-departure-date', true );
+		// If our departure date isn't entered, return early
+		if ( ! $date ) :
+			return false;
+		endif;
+	else :
+		$date = get_post_meta( $post, 'wanderlist-arrival-date', true );
+		// If our arrival date isn't entered, use the date the post was published instead
+		if ( ! $date ) :
+			$date = get_the_date( $date_format );
+		endif;
 	endif;
 
 	// Format our date according to our preferred format

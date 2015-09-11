@@ -17,7 +17,17 @@ get_header(); ?>
 
 				<header class="entry-header">
 					<div class="entry-meta">
-						<?php echo esc_html( wanderlist_arrival_date( get_the_ID() ) ); ?>
+						<span class="posted-on">
+							<?php echo esc_html( wanderlist_date( get_the_ID(), 'arrival' ) ); ?>
+							<?php
+							if ( wanderlist_date( get_the_ID(), 'departure' ) ) :
+								echo '<span class="highlight">'; // Theme-specific. @todo: Remove!
+								echo esc_html_x( ' to ', 'Between two dates', 'wanderlist' );
+								echo '</span>';
+								echo esc_html( wanderlist_date( get_the_ID(), 'departure' ) );
+							endif;
+							?>
+						</span>
 					</div><!-- .entry-meta -->
 					<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 				</header><!-- .entry-header -->
@@ -26,7 +36,7 @@ get_header(); ?>
 					<?php the_content(); ?>
 					<?php
 						wp_link_pages( array(
-							'before' => '<div class="page-links">' . __( 'Pages:', 'flare' ),
+							'before' => '<div class="page-links">' . __( 'Pages:', 'wanderlist' ),
 							'after'  => '</div>',
 						) );
 					?>
