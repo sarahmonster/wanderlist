@@ -32,7 +32,7 @@ get_header(); ?>
         <?php while ( have_posts() ) : the_post(); ?>
 
           <dt><?php echo esc_html( wanderlist_arrival_date( get_the_ID() ) ); ?></dt>
-          <dd><?php the_title(); ?> <span class="wanderlist-country"><?php echo esc_html( wanderlist_get_country() ); ?></span></dd>
+          <dd><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a> <span class="wanderlist-country"><?php echo esc_html( wanderlist_get_country() ); ?></span></dd>
 
         <?php endwhile; ?>
         </dl>
