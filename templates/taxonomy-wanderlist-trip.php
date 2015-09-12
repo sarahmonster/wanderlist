@@ -9,14 +9,14 @@
 
 get_header(); ?>
 
-  <div id="primary" class="content-area">
+<div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
 
       <header class="page-header">
         <?php
-		  the_archive_title( '<h1 class="page-title">', '</h1>' );
-		  the_archive_description( '<div class="taxonomy-description">', '</div>' );
-		?>
+    	  the_archive_title( '<h1 class="page-title">', '</h1>' );
+    	  the_archive_description( '<div class="taxonomy-description">', '</div>' );
+    	?>
       </header><!-- .page-header -->
 
     <?php if ( have_posts() ) : ?>
@@ -25,29 +25,37 @@ get_header(); ?>
         <?php echo wanderlist_show_map(); ?>
       </div>
 
-		<?php /* Start the Loop */ ?>
+      <?php /* Start the Loop */ ?>
       <div class="wanderlist-widget wanderlist-trip-overview-widget">
         <h3 class="widget-title"><?php esc_html_e( 'Where I went', 'wanderlist' ); ?></h3>
         <dl>
         <?php while ( have_posts() ) : the_post(); ?>
-
-          <dt><?php echo esc_html( wanderlist_date( get_the_ID(), 'arrival' ) ); ?></dt>
-          <dd><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a> <span class="wanderlist-country"><?php echo esc_html( wanderlist_get_country() ); ?></span></dd>
+            <dt><?php echo esc_html( wanderlist_date( get_the_ID(), 'arrival' ) ); ?></dt>
+            <dd>
+            <?php $options = get_option( 'wanderlist_settings' ); ?>
+            <?php if ( '1' !== $options['wanderlist_hide_link_to_location'] ) : ?>
+                <a href="<?php the_permalink(); ?>">
+            <?php endif; ?>
+            <?php the_title(); ?><span class="wanderlist-country"><?php echo esc_html( wanderlist_get_country() ); ?></span>
+            <?php if ( '1' !== $options['wanderlist_hide_link_to_location'] ) : ?>
+                </a>
+            <?php endif; ?>
+            </dd>
 
         <?php endwhile; ?>
         </dl>
       </div>
 
-		<?php the_posts_navigation(); ?>
+    	<?php the_posts_navigation(); ?>
 
     <?php else : ?>
 
-		<?php get_template_part( 'content', 'none' ); ?>
+    	<?php get_template_part( 'content', 'none' ); ?>
 
     <?php endif; ?>
 
     </main><!-- #main -->
-  </div><!-- #primary -->
+</div><!-- #primary -->
 
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>

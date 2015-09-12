@@ -62,9 +62,9 @@ function wanderlist_settings_init() {
 	);
 
 	add_settings_field(
-		'wanderlist_link_to_location',
-		esc_html__( 'Show links to location posts', 'wanderlist' ),
-		'wanderlist_link_to_location_render',
+		'wanderlist_hide_link_to_location',
+		esc_html__( 'Hide links to place posts', 'wanderlist' ),
+		'wanderlist_hide_link_to_location_render',
 		'wanderlist_settings',
 		'wanderlist_general_settings_section'
 	);
@@ -130,10 +130,10 @@ function wanderlist_dateformat_render() {
 }
 
 
-function wanderlist_link_to_location_render(  ) {
+function wanderlist_hide_link_to_location_render(  ) {
 	$options = get_option( 'wanderlist_settings' );
 	?>
-	<input type='checkbox' name='wanderlist_settings[wanderlist_link_to_location]' <?php checked( $options['wanderlist_link_to_location'], 1 ); ?> value='1'>
+	<input type='checkbox' name='wanderlist_settings[wanderlist_hide_link_to_location]' <?php checked( $options['wanderlist_hide_link_to_location'], 1 ); ?> value='1'>
 	<?php
 }
 

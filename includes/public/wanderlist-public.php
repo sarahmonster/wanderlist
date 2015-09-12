@@ -64,6 +64,8 @@ function wanderlist_today() {
  */
 function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 
+	$options = get_option( 'wanderlist_settings' );
+
 	if ( 'all' === $show ) :
 		$order = DESC;
 	elseif ( 'past' === $show ) :
@@ -117,7 +119,15 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 			$locations .= '<dt>' . wanderlist_date( get_the_ID(), 'arrival' ) . '</dt>' ;
 		endif;
 
-		$locations .= '<dd>' . esc_html( get_the_title() ) .'<span class="wanderlist-country">' . wanderlist_get_country() . '</span>';
+		$locations .= '<dd>';
+		if ( '1' !== $options['wanderlist_hide_link_to_location'] ) :
+			$locations .= '<a href="' . esc_url( get_the_permalink() ) . '">';
+		endif;
+		$locations .= esc_html( get_the_title() ) . '<span class="wanderlist-country">' . wanderlist_get_country() . '</span>';
+
+		if ( '1' !== $options['wanderlist_hide_link_to_location'] ) :
+			$locations .= '</a>';
+		endif;
 
 		// Display some icons if the location is home or loved
 		if ( wanderlist_is_loved( ) ) :
@@ -185,7 +195,6 @@ function wanderlist_is_home( $location = null ) {
 *
 * Dates are stored as YYYY-MM-DD for easy ordering, but
 * we'd prefer to display this in a different format.
-* @todo: Allow for a user-configured date format.
 */
 function wanderlist_date( $post, $type ) {
 

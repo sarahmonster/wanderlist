@@ -28,6 +28,15 @@ Wanderlist will default to using the date format as set in Options → General.
 
 You can use an alternate date format instead, by entering a [PHP-formatted date string](https://codex.wordpress.org/Formatting_Date_and_Time) on the settings page.
 
+### Hide links to place posts
+
+By default, whenever Wanderlist display a list of places you've visited, it also shows a link to more information. Since the places act like posts, you can add photos, text, video—or anything you'd like—to give more information about your impressions of a place and the adventures you've had there.
+
+If you're jetsetting around, you may not want to do this for every place, or you may want to write regular blog posts instead.
+
+To hide the automatic link to the place's post, check the "Hide links to place posts" box in your settings page.
+
+
 
 
 
