@@ -32,9 +32,9 @@ function wanderlist_settings_init() {
 	register_setting( 'wanderlist_settings', 'wanderlist_settings' );
 
 	add_settings_section(
-		'wanderlist_Mapbox_settings_section',
+		'wanderlist_mapbox_settings_section',
 		esc_html__( 'Mapbox settings', 'wanderlist' ),
-		'wanderlist_Mapbox_section_description',
+		'wanderlist_mapbox_section_description',
 		'wanderlist_settings'
 	);
 
@@ -46,11 +46,11 @@ function wanderlist_settings_init() {
 	);
 
 	add_settings_field(
-		'wanderlist_Mapbox_key',
+		'wanderlist_mapbox_key',
 		esc_html__( 'API Key', 'wanderlist' ),
-		'wanderlist_Mapbox_key_render',
+		'wanderlist_mapbox_key_render',
 		'wanderlist_settings',
-		'wanderlist_Mapbox_settings_section'
+		'wanderlist_mapbox_settings_section'
 	);
 
 	add_settings_field(
@@ -82,7 +82,7 @@ add_action( 'admin_init', 'wanderlist_settings_init' );
 /*
  * These functions add descriptions for each of our settings sections.
  */
-function wanderlist_Mapbox_section_description() {
+function wanderlist_mapbox_section_description() {
 	esc_html_e( 'To use this plugin, you&rsquo;ll need an API key from Mapbox. Don&rsquo;t worry; it&rsquo;s free and super-simple to get!', 'wanderlist' );
 }
 
@@ -93,17 +93,17 @@ function wanderlist_general_section_description() {
 /*
  * These functions are used to render each particular option's input field.
  */
- function wanderlist_Mapbox_key_render() {
- 	$options = get_option( 'wanderlist_settings' );
- 	?>
- 	<input type='text' name='wanderlist_settings[wanderlist_Mapbox_key]' value='<?php echo $options['wanderlist_Mapbox_key']; ?>'>
- 	<?php
- }
+function wanderlist_mapbox_key_render() {
+	$options = get_option( 'wanderlist_settings' );
+	?>
+	<input type='text' name='wanderlist_settings[wanderlist_mapbox_key]' value='<?php echo esc_attr( $options['wanderlist_mapbox_key'] ); ?>'>
+	<?php
+}
 
 function wanderlist_dateformat_render() {
 	$options = get_option( 'wanderlist_settings' );
 	?>
-	<input type='text' name='wanderlist_settings[wanderlist_dateformat]' value='<?php echo $options['wanderlist_dateformat']; ?>'>
+	<input type='text' name='wanderlist_settings[wanderlist_dateformat]' value='<?php echo esc_attr( $options['wanderlist_dateformat'] ); ?>'>
 	<?php
 }
 
@@ -133,7 +133,7 @@ function wanderlist_options_page(  ) {
 	?>
 	<div class="wrap">
 		<?php if ( isset( $_REQUEST['settings-updated'] ) ) : ?>
-			<div class="updated fade"><p><strong><?php _e( 'Your settings have been saved!', 'wanderlist' ); ?></strong></p></div>
+			<div class="updated fade"><p><strong><?php esc_html_e( 'Your settings have been saved!', 'wanderlist' ); ?></strong></p></div>
 		<?php endif; ?>
 
 		<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
