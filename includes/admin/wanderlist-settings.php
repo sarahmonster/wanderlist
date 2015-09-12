@@ -47,7 +47,7 @@ function wanderlist_settings_init() {
 
 	add_settings_field(
 		'wanderlist_mapbox_key',
-		esc_html__( 'API Key', 'wanderlist' ),
+		esc_html__( 'Mapbox API Key', 'wanderlist' ),
 		'wanderlist_mapbox_key_render',
 		'wanderlist_settings',
 		'wanderlist_mapbox_settings_section'
@@ -83,7 +83,16 @@ add_action( 'admin_init', 'wanderlist_settings_init' );
  * These functions add descriptions for each of our settings sections.
  */
 function wanderlist_mapbox_section_description() {
-	esc_html_e( 'To use this plugin, you&rsquo;ll need an API key from Mapbox. Don&rsquo;t worry; it&rsquo;s free and super-simple to get!', 'wanderlist' );
+		printf(
+			wp_kses( __( '<p>To use this plugin, you&rsquo;ll need a Mapbox API key. Don&rsquo;t worry; it&rsquo;s free and super-simple to get!</p>
+			<p>First, <a href="%1$s">sign up for a free Mapbox account</a>. Then, generate a new <strong>public</strong> API key from <a href="%2$s">Account → Apps</a>.</p>
+			<p>Copy your new key and enter it below.</p>', 'wanderlist' ),
+				array(  'a' => array( 'href' => array() ),
+								'p' => array(),
+							) ),
+			esc_url( 'https://www.mapbox.com/signup/' ),
+			esc_url( 'https://www.mapbox.com/account/apps/' )
+		);
 }
 
 function wanderlist_general_section_description() {
