@@ -8,15 +8,32 @@
  * @package Wanderlist
  */
 
-function wanderlist_get_country() {
-	// We need to figure out our place's country. Here we go.
-	$countries = wp_get_object_terms( get_the_ID(), 'wanderlist-country', array( 'fields' => 'names' ) );
-	if ( $countries ) :
-		foreach ( $countries as $country => $name ) :
-			$the_country = ', ' . $name;
-	endforeach;
-	else :
-		$the_country = '';
-	endif;
-	return $the_country;
+/*
+ * This is a reusable function that allows us to grab place-specific data and return
+ * it in a consistent way across our plugin scripts, and in theme template files as well.
+ */
+function wanderlist_place_data( $data, $post_ID = null ) {
+	switch( $data ) {
+		case 'country' :
+		 	// We need to figure out our place's country. Here we go.
+		 	$countries = wp_get_object_terms( get_the_ID(), 'wanderlist-country', array( 'fields' => 'names' ) );
+		 	if ( $countries ) :
+		 		foreach ( $countries as $country => $name ) :
+		 			$output .= ', ' . $name;
+		 	endforeach;
+		 	else :
+		 		$output = '';
+		 	endif;
+			break;
+		case 'city' :
+			$output = get_post_meta( $post_ID, 'wanderlist-city', true );
+			break;
+		case 'lat' :
+			$output = get_post_meta( $post_ID, 'wanderlist-lat', true );
+			break;
+		case 'lng' :
+			$output .= get_post_meta( $post_ID, 'wanderlist-lng', true );
+			break;
+	}
+	return $output;
 }

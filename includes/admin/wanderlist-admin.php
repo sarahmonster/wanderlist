@@ -53,7 +53,7 @@ function wanderlist_geolocation_box() {
 	echo '<input id="wanderlist-lng" name="wanderlist-lng" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-lng', true ) ) . '" />';
 	echo '<input id="wanderlist-lat" name="wanderlist-lat" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-lat', true ) ) . '" />';
 
-	echo '<input id="wanderlist-country" name="wanderlist-country" type="hidden" value="' . esc_attr( ltrim( wanderlist_get_country(), ', ' ) ) . '"/>';
+	echo '<input id="wanderlist-country" name="wanderlist-country" type="hidden" value="' . esc_attr( ltrim( wanderlist_place_data( 'country' ), ', ' ) ) . '"/>';
 }
 
 /*
