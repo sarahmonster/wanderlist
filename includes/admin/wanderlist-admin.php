@@ -39,7 +39,8 @@ function wanderlist_geolocation_box() {
 	// Nonce
 	wp_nonce_field( basename( __FILE__ ), 'meta-box-nonce' );
 
-	// Input field
+	// Input field (also includes our user's Mapbox key so JS can grab it)
+	// @todo: Spit out an error message if the API key isn't properly set.
 	$options = get_option( 'wanderlist_settings' );
 	echo '<input id="wanderlist-geolocation-input" data-mapboxkey="' . esc_attr( $options['wanderlist_mapbox_key'] ) . '" type="text" name="wanderlist-geolocation" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-geolocation', true ) ) . '" class="widefat" />';
 

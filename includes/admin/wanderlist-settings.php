@@ -87,9 +87,11 @@ function wanderlist_mapbox_section_description() {
 			wp_kses( __( '<p>To use this plugin, you&rsquo;ll need a Mapbox API key. Don&rsquo;t worry; it&rsquo;s free and super-simple to get!</p>
 			<p>First, <a href="%1$s">sign up for a free Mapbox account</a>. Then, generate a new <strong>public</strong> API key from <a href="%2$s">Account → Apps</a>.</p>
 			<p>Copy your new key and enter it below. Make sure to include the "pk." prefix!</p>', 'wanderlist' ),
-				array(  'a' => array( 'href' => array() ),
-								'p' => array(),
-							) ),
+				array(
+					'a' => array( 'href' => array() ),
+					'p' => array(),
+				)
+			),
 			esc_url( 'https://www.mapbox.com/signup/' ),
 			esc_url( 'https://www.mapbox.com/account/apps/' )
 		);
@@ -110,11 +112,21 @@ function wanderlist_mapbox_key_render() {
 	<?php
 }
 
+// @todo: Show a full array of options, to mimic general settings.
 function wanderlist_dateformat_render() {
 	$options = get_option( 'wanderlist_settings' );
 	?>
 	<input type='text' name='wanderlist_settings[wanderlist_dateformat]' value='<?php echo esc_attr( $options['wanderlist_dateformat'] ); ?>'>
 	<?php
+	printf(
+		wp_kses( __( '<br /><a href="%s">Documentation on date and time formatting.</a>', 'wanderlist' ),
+			array(
+				'a' => array( 'href' => array() ),
+				'br' => array(),
+				)
+		),
+		esc_url( 'https://codex.wordpress.org/Formatting_Date_and_Time' )
+	);
 }
 
 
@@ -124,7 +136,6 @@ function wanderlist_link_to_location_render(  ) {
 	<input type='checkbox' name='wanderlist_settings[wanderlist_link_to_location]' <?php checked( $options['wanderlist_link_to_location'], 1 ); ?> value='1'>
 	<?php
 }
-
 
 function wanderlist_loved_tag_render(  ) {
 	$options = get_option( 'wanderlist_settings' );

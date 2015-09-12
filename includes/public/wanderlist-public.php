@@ -188,6 +188,15 @@ function wanderlist_is_home( $location = null ) {
 * @todo: Allow for a user-configured date format.
 */
 function wanderlist_date( $post, $type ) {
+
+	// Grab our preferred date format
+	$options = get_option( 'wanderlist_settings' );
+	$date_format = esc_attr( $options['wanderlist_dateformat'] );
+	// If the user hasn't specified a plugin-specific date format, we'll use the format from Settings > General
+	if ( ! $date_format ) :
+		$date_format = get_option( 'date_format' );
+	endif;
+
 	if ( 'departure' === $type ) :
 		$date = get_post_meta( $post, 'wanderlist-departure-date', true );
 		// If our departure date isn't entered, return early
@@ -198,12 +207,11 @@ function wanderlist_date( $post, $type ) {
 		$date = get_post_meta( $post, 'wanderlist-arrival-date', true );
 		// If our arrival date isn't entered, use the date the post was published instead
 		if ( ! $date ) :
-			$date = get_the_date( $date_format );
+			$date = get_the_date();
 		endif;
 	endif;
 
-	// Format our date according to our preferred format
-	$date_format = 'F jS';
+	// Format and output date
 	$arrival_date = date( $date_format, strtotime( $date ) );
 	return $arrival_date;
 }
