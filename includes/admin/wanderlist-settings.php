@@ -86,7 +86,7 @@ function wanderlist_mapbox_section_description() {
 		printf(
 			wp_kses( __( '<p>To use this plugin, you&rsquo;ll need a Mapbox API key. Don&rsquo;t worry; it&rsquo;s free and super-simple to get!</p>
 			<p>First, <a href="%1$s">sign up for a free Mapbox account</a>. Then, generate a new <strong>public</strong> API key from <a href="%2$s">Account → Apps</a>.</p>
-			<p>Copy your new key and enter it below.</p>', 'wanderlist' ),
+			<p>Copy your new key and enter it below. Make sure to include the "pk." prefix!</p>', 'wanderlist' ),
 				array(  'a' => array( 'href' => array() ),
 								'p' => array(),
 							) ),
@@ -101,6 +101,7 @@ function wanderlist_general_section_description() {
 
 /*
  * These functions are used to render each particular option's input field.
+ * @todo: Add data validation to ensure correct user input.
  */
 function wanderlist_mapbox_key_render() {
 	$options = get_option( 'wanderlist_settings' );

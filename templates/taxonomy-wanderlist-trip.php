@@ -22,7 +22,7 @@ get_header(); ?>
     <?php if ( have_posts() ) : ?>
 
       <div class="wanderlist-map-widget">
-        <?php echo wp_kses_post( wanderlist_show_map() ); ?>
+        <?php echo wanderlist_show_map(); ?>
       </div>
 
 		<?php /* Start the Loop */ ?>

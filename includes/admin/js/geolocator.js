@@ -1,5 +1,5 @@
 ( function( $ ) {
-	var accessToken = 'pk.eyJ1Ijoic2FyYWhzZW1hcmsiLCJhIjoiMDc1OWI2ODA3ZmY5YTU5N2JmNGVhMmFhODQ0MjJlNWUifQ.vLvh5YqCclf_pNMlGXKrZw';
+	var accessToken = $('#wanderlist-geolocation-input').data('mapboxkey');
 	$( '#wanderlist-geolocation-input' ).on('change', function() {
 		var locationString = $( this ).attr( 'value' );
 		var geocodeURI = 'https://api.mapbox.com/v4/geocode/mapbox.places/' + encodeURI( locationString ) + '.json?access_token=' + accessToken;

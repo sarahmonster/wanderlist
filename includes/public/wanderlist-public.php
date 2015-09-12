@@ -248,9 +248,11 @@ function wanderlist_all_countries() {
 /**
  * Display a map of some kind.
  * This will need to be automated to draw countries and show points.
+ * @todo: Output a helpful error message if the Mapbox API key isn't set properly.
  */
 function wanderlist_show_map( $overlay = null ) {
-	$output = '<div id="map">';
+	$options = get_option( 'wanderlist_settings' );
+	$output = '<div id="map" data-mapboxkey="' . esc_attr( $options['wanderlist_mapbox_key'] ) . '">';
 	if ( 'upcoming' === $overlay ) :
 		$output .= '<div class="wanderlist-widget wanderlist-location-widget">';
 		$output .= '<h3>' . esc_html__( 'Adventure Ahoy!', 'wanderlist' ) . '</h3>';

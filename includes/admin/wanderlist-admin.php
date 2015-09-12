@@ -40,7 +40,8 @@ function wanderlist_geolocation_box() {
 	wp_nonce_field( basename( __FILE__ ), 'meta-box-nonce' );
 
 	// Input field
-	echo '<input id="wanderlist-geolocation-input" type="text" name="wanderlist-geolocation" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-geolocation', true ) ) . '" class="widefat" />';
+	$options = get_option( 'wanderlist_settings' );
+	echo '<input id="wanderlist-geolocation-input" data-mapboxkey="' . esc_attr( $options['wanderlist_mapbox_key'] ) . '" type="text" name="wanderlist-geolocation" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-geolocation', true ) ) . '" class="widefat" />';
 
 	// Message field to show what's going on behind-the-scenes
 	echo '<div id="wanderlist-geocoder-message">Your location has been set to <strong class="place"></strong>.</div>';
