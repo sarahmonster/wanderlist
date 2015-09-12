@@ -159,8 +159,10 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 function wanderlist_is_loved( $location = null ) {
 
 	// First, grab our "loved" tag
-	$loved_tag = 93;
+	$options = get_option( 'wanderlist_settings' );
+	$loved_tag = $options['wanderlist_loved_tag'];
 
+	// Then, check to see if the post has it
 	if ( has_term( $loved_tag, 'post_tag', $location ) ) :
 		return true;
 	else :

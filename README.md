@@ -22,6 +22,8 @@ Copy this entire line, **including** the `pk.` prefix. Enter it in your settings
 
 Note: For the moment, stuff won't work as expected if you don't have a Mapbox API key entered correctly. I'll build in check to ensure the API keys have been properly entered later on, but for now, please ensure that you've entered the full public API key for your account, *including the pk. prefix*! If you use Mapbox's rather temperamental "copy to clipboard" button, it won't copy the `pk.` prefix, so for now, you'll want to manually add it.
 
+## More settings
+
 ### Using a custom date format
 
 Wanderlist will default to using the date format as set in Options → General.
@@ -35,6 +37,15 @@ By default, whenever Wanderlist display a list of places you've visited, it also
 If you're jetsetting around, you may not want to do this for every place, or you may want to write regular blog posts instead.
 
 To hide the automatic link to the place's post, check the "Hide links to place posts" box in your settings page.
+
+### Showing places you loved most
+
+You can mark places you loved, and they'll appear in the front-end of your site with a little heart next to them. How adorable!
+
+First, you need to choose a tag to use. From your settings panel, choose a tag you'd like to use under "Tag for "loved" places". Then, tag any place you loved with the tag you selected, and that post will appear as a loved post.
+
+
+
 
 
 

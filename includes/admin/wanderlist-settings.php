@@ -71,7 +71,7 @@ function wanderlist_settings_init() {
 
 	add_settings_field(
 		'wanderlist_loved_tag',
-		esc_html__( 'Select a tag to indicate that a location is "loved"', 'wanderlist' ),
+		esc_html__( 'Tag for "loved" places', 'wanderlist' ),
 		'wanderlist_loved_tag_render',
 		'wanderlist_settings',
 		'wanderlist_general_settings_section'
@@ -139,10 +139,13 @@ function wanderlist_hide_link_to_location_render(  ) {
 
 function wanderlist_loved_tag_render(  ) {
 	$options = get_option( 'wanderlist_settings' );
+	$tags = get_tags();
 	?>
 	<select name='wanderlist_settings[wanderlist_loved_tag]'>
-		<option value='1' <?php selected( $options['wanderlist_loved_tag'], 1 ); ?>>Option 1</option>
-		<option value='2' <?php selected( $options['wanderlist_loved_tag'], 2 ); ?>>Option 2</option>
+		<option value='0' <?php selected( $options['wanderlist_loved_tag'], 0 ); ?>>None selected</option>
+		<?php foreach ( $tags as $tag ) : ?>
+			<option value="<?php echo $tag->term_id; ?>" <?php selected( $options['wanderlist_loved_tag'], $tag->term_id ); ?>><?php echo $tag->name; ?></option>
+		<?php endforeach; ?>
 	</select>
 <?php
 }
