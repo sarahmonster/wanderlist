@@ -282,7 +282,7 @@ function wanderlist_all_countries() {
  */
 function wanderlist_show_map( $overlay = null ) {
 	$options = get_option( 'wanderlist_settings' );
-	$output = '<div id="map" data-mapboxkey="' . esc_attr( $options['wanderlist_mapbox_key'] ) . '">';
+	$output = '<div id="map" data-mapboxkey="' . esc_attr( $options['wanderlist_mapbox_key'] ) . '" data-mapid="' . esc_attr( $options['wanderlist_map_id'] ) . '" data-markercolour="' . esc_attr( $options['wanderlist_marker_colour'] ) . '" data-linecolour="' . esc_attr( $options['wanderlist_line_colour'] ) . '">';
 	if ( 'upcoming' === $overlay ) :
 		$output .= '<div class="wanderlist-widget wanderlist-location-widget">';
 		$output .= '<h3>' . esc_html__( 'Adventure Ahoy!', 'wanderlist' ) . '</h3>';

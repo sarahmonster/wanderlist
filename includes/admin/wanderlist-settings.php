@@ -6,7 +6,7 @@
  * It also allows them to set a preferred date format, select their "loved" tag,
  * set a home location(s), and choose whether they want links to location posts.
  *
- * @todo: Setting for map styles, setting for home location.
+ * @todo: Setting for home location, input validation & helpful errors.
  *
  * @package Wanderlist
  */
@@ -36,29 +36,53 @@ function wanderlist_settings_init() {
 
 	add_settings_section(
 		'wanderlist_mapbox_settings_section',
-		esc_html__( 'Mapbox settings', 'wanderlist' ),
+		esc_html__( 'Mapbox Settings', 'wanderlist' ),
 		'wanderlist_mapbox_section_description',
-		'wanderlist_settings'
-	);
-
-	add_settings_section(
-		'wanderlist_general_settings_section',
-		esc_html__( 'General settings', 'wanderlist' ),
-		'wanderlist_general_section_description',
 		'wanderlist_settings'
 	);
 
 	add_settings_field(
 		'wanderlist_mapbox_key',
-		esc_html__( 'Mapbox API Key', 'wanderlist' ),
+		esc_html__( 'Mapbox API Key*', 'wanderlist' ),
 		'wanderlist_mapbox_key_render',
 		'wanderlist_settings',
 		'wanderlist_mapbox_settings_section'
 	);
 
 	add_settings_field(
+		'wanderlist_map_ID',
+		esc_html__( 'Map ID (optional)', 'wanderlist' ),
+		'wanderlist_map_id_render',
+		'wanderlist_settings',
+		'wanderlist_mapbox_settings_section'
+	);
+
+	add_settings_field(
+		'wanderlist_marker_colour',
+		esc_html__( 'Marker Colour', 'wanderlist' ),
+		'wanderlist_marker_colour_render',
+		'wanderlist_settings',
+		'wanderlist_mapbox_settings_section'
+	);
+
+	add_settings_field(
+		'wanderlist_line_colour',
+		esc_html__( 'Line Colour', 'wanderlist' ),
+		'wanderlist_line_colour_render',
+		'wanderlist_settings',
+		'wanderlist_mapbox_settings_section'
+	);
+
+	add_settings_section(
+		'wanderlist_general_settings_section',
+		esc_html__( 'General Settings', 'wanderlist' ),
+		'wanderlist_general_section_description',
+		'wanderlist_settings'
+	);
+
+	add_settings_field(
 		'wanderlist_dateformat',
-		esc_html__( 'Date format', 'wanderlist' ),
+		esc_html__( 'Date Format', 'wanderlist' ),
 		'wanderlist_dateformat_render',
 		'wanderlist_settings',
 		'wanderlist_general_settings_section'
@@ -115,6 +139,28 @@ function wanderlist_mapbox_key_render() {
 	<?php
 }
 
+// @todo: Show preview & auto-selection of default Mapbox styles
+function wanderlist_map_id_render() {
+	$options = get_option( 'wanderlist_settings' );
+	?>
+	<input type='text' name='wanderlist_settings[wanderlist_map_id]' value='<?php echo esc_attr( $options['wanderlist_map_id'] ); ?>'>
+	<?php
+}
+
+function wanderlist_marker_colour_render() {
+	$options = get_option( 'wanderlist_settings' );
+	?>
+	<input type='text' name='wanderlist_settings[wanderlist_marker_colour]' value='<?php echo esc_attr( $options['wanderlist_marker_colour'] ); ?>'>
+	<?php
+}
+
+function wanderlist_line_colour_render() {
+	$options = get_option( 'wanderlist_settings' );
+	?>
+	<input type='text' name='wanderlist_settings[wanderlist_line_colour]' value='<?php echo esc_attr( $options['wanderlist_line_colour'] ); ?>'>
+	<?php
+}
+
 // @todo: Show a full array of options, to mimic general settings.
 function wanderlist_dateformat_render() {
 	$options = get_option( 'wanderlist_settings' );
@@ -147,7 +193,7 @@ function wanderlist_loved_tag_render(  ) {
 	<select name='wanderlist_settings[wanderlist_loved_tag]'>
 		<option value='0' <?php selected( $options['wanderlist_loved_tag'], 0 ); ?>>None selected</option>
 		<?php foreach ( $tags as $tag ) : ?>
-			<option value="<?php echo $tag->term_id; ?>" <?php selected( $options['wanderlist_loved_tag'], $tag->term_id ); ?>><?php echo $tag->name; ?></option>
+			<option value="<?php echo esc_attr( $tag->term_id ); ?>" <?php selected( $options['wanderlist_loved_tag'], $tag->term_id ); ?>><?php echo esc_html( $tag->name ); ?></option>
 		<?php endforeach; ?>
 	</select>
 <?php

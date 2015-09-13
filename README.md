@@ -34,7 +34,15 @@ This page will show you an overview of your travels: countries you've visited, s
 
 Still working on expanding this functionality. :)
 
-## Additional settings
+## Settings
+
+### Mapbox options
+
+You can select the default Mapbox map ID you'd like to use, allowing you to easily swap map styles. Mapbox has [fourteen styles](https://www.mapbox.com/developers/api/maps/) that you can choose from, or you can make your own custom style using [Mapbox Studio](https://www.mapbox.com/mapbox-studio/).
+
+To use a custom map ID, enter the ID: `mapbox.pirates`
+
+You can also set your preferred marker and line colour by entering their hex codes here. Make sure to include the `#`!
 
 ### Using a custom date format
 
