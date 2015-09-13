@@ -22,7 +22,19 @@ Copy this entire line, **including** the `pk.` prefix. Enter it in your settings
 
 Note: For the moment, stuff won't work as expected if you don't have a Mapbox API key entered correctly. I'll build in check to ensure the API keys have been properly entered later on, but for now, please ensure that you've entered the full public API key for your account, *including the pk. prefix*! If you use Mapbox's rather temperamental "copy to clipboard" button, it won't copy the `pk.` prefix, so for now, you'll want to manually add it.
 
-## More settings
+### Adding places
+
+### Overview page
+
+When you first activate Wanderlist, the plugin will automatically make a new page, and attempt to add it to your primary menu. If it hasn't been added to your primary menu, you can find this page at `/travels/`.
+
+This page uses the overview shortcode, `[wanderlist overview]`, to show a dashboard-style overview of your travels. Eventually, this will be configurable via shortcode settings, but for now, it's rather static.
+
+This page will show you an overview of your travels: countries you've visited, some statistics, a list of recent travels, a list of upcoming travels, and a full list of all your trips.
+
+Still working on expanding this functionality. :)
+
+## Additional settings
 
 ### Using a custom date format
 
