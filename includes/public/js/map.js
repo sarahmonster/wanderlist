@@ -40,7 +40,8 @@
 		var polyline_options = {
 		  color: '#3ca0d3',
 		  weight: '3',
-		  opacity: '0.5'
+		  opacity: '0.75',
+		  dashArray: "5, 10"
 		};
 
 		var polyline = L.polyline(line, polyline_options).addTo(map);
