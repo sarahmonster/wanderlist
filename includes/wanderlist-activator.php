@@ -126,22 +126,34 @@ add_action( 'init', 'wanderlist_custom_data' );
  * @todo: Make sure the page doesn't already exist, and delete on uninstall. Add to menu, maybe?
  */
 function wanderlist_landing_page() {
-	// Post status and options
-	$post = array(
-	  'comment_status' => 'closed',
-	  'ping_status'    => 'closed',
-	  'post_date'      => date( 'Y-m-d H:i:s' ),
-	  'post_name'      => 'travels',
-	  'post_status'    => 'publish',
-	  'post_title'     => 'Travels',
-	  'post_type'      => 'page',
-	  'post_content'   => '[wanderlist-overview]',
-	);
-	// Insert page and save the id
-	$newvalue = wp_insert_post( $post, false );
-	// Save the id in the database
-	update_option( 'mrpage', $newvalue );
+
+	// If a page called "travels" already exists, don't make a new one
+	if ( get_page_by_path( 'travels' ) ) :
+		return;
+	else :
+
+		// Post status and options
+		$post = array(
+		  'comment_status' => 'closed',
+		  'ping_status'    => 'closed',
+		  'post_date'      => date( 'Y-m-d H:i:s' ),
+		  'post_name'      => 'travels',
+		  'post_status'    => 'publish',
+		  'post_title'     => 'Travels',
+		  'post_type'      => 'page',
+		  'post_content'   => '[wanderlist-overview]',
+		);
+
+		// Insert page and save the id
+		$new_page_id = wp_insert_post( $post, false );
+
+		// Save the id in the database
+		update_option( 'mrpage', $new_page_id );
+
+	endif;
 }
+
+
 
 /*
  * When our plugin is activated, we're going to set everything up.
