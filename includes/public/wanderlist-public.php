@@ -109,42 +109,54 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 		$locations .= '<dd>' . wanderlist_get_current_location() . '</dd>';
 	endif;
 
+	// Generate a list of posts
 	while ( $location_query->have_posts() ) :
 		$location_query->the_post();
-
-		// If we're still visiting somewhere, show that location with "today" as the date in the "recent trips" list
-		if ( 'past' === $show && wanderlist_today() <= get_post_meta( get_the_ID(), 'wanderlist-departure-date', true ) ) :
-			$locations .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
-		else : // Otherwise, display the date of arrival
-			$locations .= '<dt>' . wanderlist_date( get_the_ID(), 'arrival' ) . '</dt>' ;
-		endif;
-
-		$locations .= '<dd>';
-		if ( '1' !== $options['wanderlist_hide_link_to_location'] ) :
-			$locations .= '<a href="' . esc_url( get_the_permalink() ) . '">';
-		endif;
-		$locations .= esc_html( get_the_title() ) . '<span class="wanderlist-country">' . esc_html( wanderlist_place_data( 'country', get_the_ID() ) ) . '</span>';
-
-		if ( '1' !== $options['wanderlist_hide_link_to_location'] ) :
-			$locations .= '</a>';
-		endif;
-
-		// Display some icons if the location is home or loved
-		if ( wanderlist_is_loved( ) ) :
-			$locations .= '<span class="wanderlist-loved">&hearts;</span>';
-		endif;
-		if ( wanderlist_is_home( ) ) :
-			$locations .= '<span class="wanderlist-home">&star;</span>';
-		endif;
-
-		$locations .= '</dd>';
-
+		$locations .= wanderlist_format_location( get_the_ID() );
 		wp_reset_postdata();
-		endwhile;
-
+	endwhile;
 	$locations .= '</dl>';
 
 	return $locations;
+}
+
+/*
+ * Since we output a list of locations from different spots, let's make a
+ * fancy-pants reusable function so we don't write the same code over & over.
+ */
+function wanderlist_format_location( $id ) {
+	//$output = '<dt>' . esc_html( wanderlist_date( $id, 'arrival' ) ) . '</dt>';
+
+	// If we're still visiting somewhere, show that location with "today"
+	if ( wanderlist_today() >= get_post_meta( $id, 'wanderlist-arrival-date', true )
+	 && wanderlist_today() <= get_post_meta( $id, 'wanderlist-departure-date', true ) ) :
+		$output .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
+	else : // Otherwise, display the date of arrival
+		$output .= '<dt>' . esc_html( wanderlist_date( $id, 'arrival' ) ) . '</dt>' ;
+	endif;
+
+
+	$output .= '<dd class="wanderlist-place" data-city="' . esc_html( wanderlist_place_data( 'city', $id ) ) .'" data-lat="'. esc_attr( wanderlist_place_data( 'lat', $id ) ) . '" data-lng="' . esc_attr( wanderlist_place_data( 'lng', $id ) ) . '">';
+	$options = get_option( 'wanderlist_settings' );
+	if ( '1' !== $options['wanderlist_hide_link_to_location'] ) :
+		$output .= '<a href="' . esc_url( get_the_permalink() ) . '">';
+	endif;
+	$output .= esc_html( get_the_title() );
+	//$output .= '<span class="wanderlist-country">'. esc_html( wanderlist_place_data( 'country' ) ) . '</span>';
+	if ( '1' !== $options['wanderlist_hide_link_to_location'] ) :
+		$output .= '</a>';
+	endif;
+
+	// Display some icons if the location is home or loved
+	if ( wanderlist_is_loved() ) :
+		$output .= '<span class="wanderlist-loved">&hearts;</span>';
+	endif;
+	if ( wanderlist_is_home() ) :
+		$output .= '<span class="wanderlist-home">&star;</span>';
+	endif;
+
+	$output .= '</dd>';
+	return $output;
 }
 
 /**
@@ -154,7 +166,6 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
  * then assigns to location as desired. It's basically just a way
  * of indicating a place that's close to your heart.
  *
- * @todo Set tag to use via settings panel (like Featured Content).
  */
 function wanderlist_is_loved( $location = null ) {
 

@@ -3,7 +3,7 @@
 		L.mapbox.accessToken = $('#map').data('mapboxkey');
 		var map = L.mapbox.map('map', 'mapbox.light');
 
-		// Creat a GeoJSON array of all markers to be displayed on the map
+		// Create a GeoJSON array of all markers to be displayed on the map
 		var markers = [];
 		var count = 1;
 		$('.wanderlist-place').each(function() {

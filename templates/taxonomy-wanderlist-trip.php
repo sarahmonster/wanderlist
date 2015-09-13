@@ -29,20 +29,11 @@ get_header(); ?>
       <div class="wanderlist-widget wanderlist-trip-overview-widget">
         <h3 class="widget-title"><?php esc_html_e( 'Where I went', 'wanderlist' ); ?></h3>
         <dl>
-        <?php while ( have_posts() ) : the_post(); ?>
-            <dt><?php echo esc_html( wanderlist_date( get_the_ID(), 'arrival' ) ); ?></dt>
-            <dd class="wanderlist-place" data-city="<?php echo esc_html( wanderlist_place_data( 'city', get_the_ID() ) ); ?>" data-lat="<?php echo esc_attr( wanderlist_place_data( 'lat', get_the_ID() ) ); ?>" data-lng="<?php echo esc_attr( wanderlist_place_data( 'lng', get_the_ID() ) ); ?>">
-            <?php $options = get_option( 'wanderlist_settings' ); ?>
-            <?php if ( '1' !== $options['wanderlist_hide_link_to_location'] ) : ?>
-                <a href="<?php the_permalink(); ?>">
-            <?php endif; ?>
-            <?php the_title(); ?><span class="wanderlist-country"><?php echo esc_html( wanderlist_place_data( 'country' ) ); ?></span>
-            <?php if ( '1' !== $options['wanderlist_hide_link_to_location'] ) : ?>
-                </a>
-            <?php endif; ?>
-            </dd>
-
-        <?php endwhile; ?>
+        <?php
+        while ( have_posts() ) : the_post();
+            echo wanderlist_format_location( get_the_ID() );
+        endwhile;
+        ?>
         </dl>
       </div>
 
