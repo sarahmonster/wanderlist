@@ -2,8 +2,11 @@
 /**
  * The code that controls our custom settings page for the plugin.
  *
- * This will collect our user's Mapbox API key, allow them to set a preferred date format,
- * select their "loved" tag, set a home location(s), and choose whether they want links to location posts.
+ * This will collect our user's Mapbox API key, and preferred map style.
+ * It also allows them to set a preferred date format, select their "loved" tag,
+ * set a home location(s), and choose whether they want links to location posts.
+ *
+ * @todo: Setting for map styles, setting for home location.
  *
  * @package Wanderlist
  */

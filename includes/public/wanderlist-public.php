@@ -123,7 +123,7 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 		if ( '1' !== $options['wanderlist_hide_link_to_location'] ) :
 			$locations .= '<a href="' . esc_url( get_the_permalink() ) . '">';
 		endif;
-		$locations .= esc_html( get_the_title() ) . '<span class="wanderlist-country">' . wanderlist_get_country() . '</span>';
+		$locations .= esc_html( get_the_title() ) . '<span class="wanderlist-country">' . esc_html( wanderlist_place_data( 'country', get_the_ID() ) ) . '</span>';
 
 		if ( '1' !== $options['wanderlist_hide_link_to_location'] ) :
 			$locations .= '</a>';

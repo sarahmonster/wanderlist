@@ -31,7 +31,7 @@ get_header(); ?>
         <dl>
         <?php while ( have_posts() ) : the_post(); ?>
             <dt><?php echo esc_html( wanderlist_date( get_the_ID(), 'arrival' ) ); ?></dt>
-            <dd class="wanderlist-place" data-place-name="<?php echo esc_html( wanderlist_place_data( 'city', get_the_ID() ) ); ?>" data-lat="<?php echo esc_attr( wanderlist_place_data( 'lat', get_the_ID() ) ); ?>" data-lng="<?php echo esc_attr( wanderlist_place_data( 'lng', get_the_ID() ) ); ?>">
+            <dd class="wanderlist-place" data-city="<?php echo esc_html( wanderlist_place_data( 'city', get_the_ID() ) ); ?>" data-lat="<?php echo esc_attr( wanderlist_place_data( 'lat', get_the_ID() ) ); ?>" data-lng="<?php echo esc_attr( wanderlist_place_data( 'lng', get_the_ID() ) ); ?>">
             <?php $options = get_option( 'wanderlist_settings' ); ?>
             <?php if ( '1' !== $options['wanderlist_hide_link_to_location'] ) : ?>
                 <a href="<?php the_permalink(); ?>">
