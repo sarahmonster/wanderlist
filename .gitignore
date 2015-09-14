@@ -1,4 +1,6 @@
 *.log
+*.sass-cache
+node_modules
 .htaccess
 sitemap.xml
 sitemap.xml.gz
