@@ -12,10 +12,6 @@
 @import "variables/colours";
 @import "mixins/mixins";
 
-
-
-
-
 /* Maps */
 #map {
   border: 1px solid $silver;
@@ -55,25 +51,32 @@
 
   dl,
   ul {
-    //font-family: $font__main;
-    @include font-size(1);
-    font-size: 1.6rem;
-    line-height: 1.4;
     margin: 10px 0;
     padding-left: 0;
     @include clearfix;
+    width: 100%;
 
     dt {
       clear: left;
+      float: left;
       font-style: italic;
       font-weight: normal;
+      width: 25%;
     }
 
     dd {
+      float: left;
+      margin: 0 5% 0.5em 0;
       white-space: nowrap;
+      width: 70%;
     }
   }
 } // .wanderlist-location-widget
+
+// Overrride for TwentyEleven
+.entry-content .wanderlist-widget dl {
+  margin: 10px 0;
+}
 
 /* Text snippets */
 .wanderlist-country-count {
