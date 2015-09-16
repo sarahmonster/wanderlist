@@ -22,10 +22,9 @@ var gulp = require('gulp'),
 gulp.task('styles', function() {
   return sass('scss/style.scss', { style: 'expanded' })
     .pipe(autoprefixer('last 2 version'))
-    .pipe(gulp.dest(''))
+    .pipe(gulp.dest('../includes/public/css'))
     //.pipe(rename({ suffix: '' }))
     //.pipe(minifycss())
-    .pipe(gulp.dest('../includes/public/css'))
     //.pipe(notify({ message: 'Styles task complete' }));
 });
 
@@ -64,12 +63,12 @@ gulp.task('default', ['clean'], function() {
 gulp.task('watch', function() {
 
   // Watch .scss files
-  gulp.watch('assets/stylesheets/**/*.scss', ['styles']);
+  gulp.watch('scss/**/*.scss', ['styles']);
 
   // Create LiveReload server
-  livereload.listen();
+  //livereload.listen();
 
   // Watch any files in dist/, reload on change
-  gulp.watch(['style.css']).on('change', livereload.changed);
+  //gulp.watch(['style.css']).on('change', livereload.changed);
 
 });
