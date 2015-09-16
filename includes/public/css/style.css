@@ -69,6 +69,10 @@
   margin: 10px 0;
 }
 
+#content .wanderlist-widget dd {
+  margin-bottom: 10px;
+}
+
 /* Text snippets */
 .wanderlist-country-count {
   color: #a32020;

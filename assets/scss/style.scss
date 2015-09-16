@@ -73,9 +73,14 @@
   }
 } // .wanderlist-location-widget
 
-// Overrride for TwentyEleven
+// Overrride for Twenty Eleven
 .entry-content .wanderlist-widget dl {
   margin: 10px 0;
+}
+
+// And Twenty Ten
+#content .wanderlist-widget dd {
+  margin-bottom: 10px;
 }
 
 /* Text snippets */

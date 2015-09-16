@@ -9,7 +9,7 @@
 
 get_header(); ?>
 
-<div id="primary" class="content-area">
+<div id="container" class="content-area">
     <div id="content"><!-- Extra wrapper for themes that need it -->
     <main id="main" class="site-main" role="main">
 
@@ -51,7 +51,7 @@ get_header(); ?>
 
     </main><!-- #main -->
 </div><!-- #content -->
-</div><!-- #primary -->
+</div><!-- #container -->
 
 <?php //get_sidebar(); ?>
 <?php get_footer(); ?>
