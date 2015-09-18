@@ -19,6 +19,9 @@
 		// Initialise our map!
 		var map = L.mapbox.map('map', mapID);
 
+		// Disable zoom when scrolling
+		map.scrollWheelZoom.disable();
+
 		// Create a GeoJSON array of all markers to be displayed on the map
 		var markers = [];
 		var count = 1;
