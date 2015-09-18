@@ -34,6 +34,7 @@ function wanderlist_settings_init() {
 
 	register_setting( 'wanderlist_settings', 'wanderlist_settings' );
 
+	// Mapbox settings
 	add_settings_section(
 		'wanderlist_mapbox_settings_section',
 		esc_html__( 'Mapbox Settings', 'wanderlist' ),
@@ -43,7 +44,7 @@ function wanderlist_settings_init() {
 
 	add_settings_field(
 		'wanderlist_mapbox_key',
-		esc_html__( 'Mapbox API Key*', 'wanderlist' ),
+		esc_html__( 'Mapbox API Key', 'wanderlist' ),
 		'wanderlist_mapbox_key_render',
 		'wanderlist_settings',
 		'wanderlist_mapbox_settings_section'
@@ -51,7 +52,7 @@ function wanderlist_settings_init() {
 
 	add_settings_field(
 		'wanderlist_map_ID',
-		esc_html__( 'Map ID (optional)', 'wanderlist' ),
+		esc_html__( 'Map ID', 'wanderlist' ),
 		'wanderlist_map_id_render',
 		'wanderlist_settings',
 		'wanderlist_mapbox_settings_section'
@@ -73,6 +74,7 @@ function wanderlist_settings_init() {
 		'wanderlist_mapbox_settings_section'
 	);
 
+	// General settings
 	add_settings_section(
 		'wanderlist_general_settings_section',
 		esc_html__( 'General Settings', 'wanderlist' ),
@@ -96,13 +98,7 @@ function wanderlist_settings_init() {
 		'wanderlist_general_settings_section'
 	);
 
-	add_settings_field(
-		'wanderlist_loved_tag',
-		esc_html__( 'Tag for "loved" places', 'wanderlist' ),
-		'wanderlist_loved_tag_render',
-		'wanderlist_settings',
-		'wanderlist_general_settings_section'
-	);
+
 }
 add_action( 'admin_init', 'wanderlist_settings_init' );
 
@@ -111,13 +107,8 @@ add_action( 'admin_init', 'wanderlist_settings_init' );
  */
 function wanderlist_mapbox_section_description() {
 		printf(
-			wp_kses( __( '<p>To use this plugin, you&rsquo;ll need a Mapbox API key. Don&rsquo;t worry; it&rsquo;s free and super-simple to get!</p>
-			<p>First, <a href="%1$s">sign up for a free Mapbox account</a>. Then, generate a new <strong>public</strong> API key from <a href="%2$s">Account → Apps</a>.</p>
-			<p>Copy your new key and enter it below. Make sure to include the "pk." prefix!</p>', 'wanderlist' ),
-				array(
-					'a' => array( 'href' => array() ),
-					'p' => array(),
-				)
+			wp_kses( __( '<a href="%1$s">Sign up for a free Mapbox account here</a>. Generate a new <strong>public</strong> API key from <a href="%2$s">Account → Apps</a> and enter it below.', 'wanderlist' ),
+				array( 'a' => array( 'href' => array() ) )
 			),
 			esc_url( 'https://www.mapbox.com/signup/' ),
 			esc_url( 'https://www.mapbox.com/account/apps/' )
