@@ -97,9 +97,9 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 		'order'          => $order,
 		'tax_query'      => array(
 							array(
-								'taxonomy' => 'wanderlist-country',
-								'field'    => 'slug',
-								'terms'    => 'home',
+								'taxonomy' => 'post_tag',
+								'field'    => 'term_id',
+								'terms'    => get_option( 'wanderlist_settings' )['wanderlist_loved_tag'],
 								'operator' => 'NOT IN',
 							),
 						),
@@ -194,13 +194,12 @@ function wanderlist_is_loved( $location = null ) {
  * then assigns to location as required. This allows us to remove
  * the user's home from various calculations, like cities visited.
  *
- * @todo Set tag to use via settings panel (like Featured Content).
- * @todo Add functionality to also set a particular geographic location as home.
  */
 function wanderlist_is_home( $location = null ) {
 
 	// First, grab our "home" tag
-	$home_tag = 122;
+	$options = get_option( 'wanderlist_settings' );
+	$home_tag = $options['wanderlist_home_tag'];
 
 	if ( has_term( $home_tag, 'post_tag', $location ) ) :
 		return true;
