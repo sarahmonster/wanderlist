@@ -5,13 +5,24 @@
 		var geocodeURI = 'https://api.mapbox.com/v4/geocode/mapbox.places/' + encodeURI( locationString ) + '.json?access_token=' + accessToken;
 		$.ajax(geocodeURI, {
 			success: function(response) {
-				var selected = response.features[0].context;
-				var city = response.features[0].text;
-				for (var i = 0; i < selected.length; i++) {
-					if ( selected[i].id.match( /^country/ ) ) {
-						var country = selected[i].text;
-					} else if ( selected[i].id.match( /^region/ ) ) {
-						var region = selected[i].text;
+				var result = response.features[0];
+				var selected = result.context;
+				// If the context object doesn't exist, we're dealing with a limited dataset. Let's get what we can.
+				if (!selected) {
+					if ( result.id.match( /^country/ ) ) {
+						var country = result.text;
+					} else if ( result.id.match( /^region/ ) ) {
+						var region = result.text;
+					}
+				// We have a full result set, so let's parse its data
+				} else {
+					var city = result.text;
+					for (var i = 0; i < selected.length; i++) {
+						if ( selected[i].id.match( /^country/ ) ) {
+							var country = selected[i].text;
+						} else if ( selected[i].id.match( /^region/ ) ) {
+							var region = selected[i].text;
+						}
 					}
 				}
 				var lng = response.features[0].center[0];
