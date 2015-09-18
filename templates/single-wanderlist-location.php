@@ -43,15 +43,13 @@ get_header(); ?>
 				</div><!-- .entry-content -->
 
 				<footer class="entry-footer">
-					<?php flare_entry_footer(); ?>
+					<?php the_post_navigation( array(
+						'prev_text'          => '<span>Previous</span> %title',
+						'next_text'          => '<span>Next</span> %title',
+					) );
+					?>
 				</footer><!-- .entry-footer -->
 			</article><!-- #post-## -->
-
-			<?php the_post_navigation( array(
-        'prev_text'          => '<span>Previous</span> %title',
-        'next_text'          => '<span>Next</span> %title',
-    	) );
-    	?>
 
 			<?php
 				/* Comments are the devil. Get your own website!
