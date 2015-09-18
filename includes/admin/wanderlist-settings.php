@@ -98,6 +98,37 @@ function wanderlist_settings_init() {
 		'wanderlist_general_settings_section'
 	);
 
+	// Places settings
+	add_settings_section(
+		'wanderlist_places_settings_section',
+		esc_html__( 'Places', 'wanderlist' ),
+		'wanderlist_places_section_description',
+		'wanderlist_settings'
+	);
+
+	add_settings_field(
+		'wanderlist_home',
+		esc_html__( 'Your home', 'wanderlist' ),
+		'wanderlist_home_render',
+		'wanderlist_settings',
+		'wanderlist_places_settings_section'
+	);
+
+	add_settings_field(
+		'wanderlist_home_tag',
+		esc_html__( 'Tag for additional "home" places', 'wanderlist' ),
+		'wanderlist_home_tag_render',
+		'wanderlist_settings',
+		'wanderlist_places_settings_section'
+	);
+
+	add_settings_field(
+		'wanderlist_loved_tag',
+		esc_html__( 'Tag for "loved" places', 'wanderlist' ),
+		'wanderlist_loved_tag_render',
+		'wanderlist_settings',
+		'wanderlist_places_settings_section'
+	);
 
 }
 add_action( 'admin_init', 'wanderlist_settings_init' );
@@ -117,6 +148,10 @@ function wanderlist_mapbox_section_description() {
 
 function wanderlist_general_section_description() {
 	esc_html_e( 'For more information on setting these up, check the readme.', 'wanderlist' );
+}
+
+function wanderlist_places_section_description() {
+	esc_html_e( 'You can tag certain places with "loved" or "home" tags in order to indicate that you loved that place, or that it was your home at the time.', 'wanderlist' );
 }
 
 /*
@@ -169,12 +204,32 @@ function wanderlist_dateformat_render() {
 	);
 }
 
-
 function wanderlist_hide_link_to_location_render(  ) {
 	$options = get_option( 'wanderlist_settings' );
 	?>
 	<input type='checkbox' name='wanderlist_settings[wanderlist_hide_link_to_location]' <?php checked( $options['wanderlist_hide_link_to_location'], 1 ); ?> value='1'>
 	<?php
+}
+
+function wanderlist_home_render() {
+	$options = get_option( 'wanderlist_settings' );
+	?>
+	<input id='wanderlist-geolocation-input' type='text' name='wanderlist_settings[wanderlist_home]' value='<?php echo esc_attr( $options['wanderlist_home'] ); ?>'>
+	<p class="description">Where you live right now.</p>
+	<?php
+}
+
+function wanderlist_home_tag_render(  ) {
+	$options = get_option( 'wanderlist_settings' );
+	$tags = get_tags();
+	?>
+	<select name='wanderlist_settings[wanderlist_home_tag]'>
+		<option value='0' <?php selected( $options['wanderlist_home_tag'], 0 ); ?>>None selected</option>
+		<?php foreach ( $tags as $tag ) : ?>
+			<option value="<?php echo esc_attr( $tag->term_id ); ?>" <?php selected( $options['wanderlist_home_tag'], $tag->term_id ); ?>><?php echo esc_html( $tag->name ); ?></option>
+		<?php endforeach; ?>
+	</select>
+<?php
 }
 
 function wanderlist_loved_tag_render(  ) {
