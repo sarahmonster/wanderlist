@@ -1,4 +1,4 @@
-# wanderlist
+# Wanderlist
 
 Wanderlist is a WordPress plugin for travellers and nomads, to help you track & display your travels.
 
@@ -65,11 +65,30 @@ You can mark places you loved, and they'll appear in the front-end of your site 
 First, you need to choose a tag to use. From your settings panel, choose a tag you'd like to use under "Tag for "loved" places". Then, tag any place you loved with the tag you selected, and that post will appear as a loved post.
 
 
+### Setting your home location(s)
 
+### Customizing the way your site looks
 
+Wanderlist has been tested with all the major Twenty themes, from Twenty Ten to Twenty Sixteen, but since it relies heavily on front-end templates, it may not integrate perfectly with all themes.
 
+However, it's been built so you can easily change the way it looks to suit your liking. If you can edit your theme templates, you can edit Wanderlist's templates!
 
+### Removing the default CSS styles
 
+To dequeue Wanderlist's custom CSS, copy the following line into your theme's `functions.php`
 
+```
+function flare_dequeue_plugin_styles()  {
+	wp_dequeue_style( 'wanderlist-style' );
+}
+add_action( 'wp_print_styles', 'flare_dequeue_plugin_styles', 100 );
+```
 
-The first thing you'll want to do is set your "home" location.
+### Using your own custom templates
+
+Wanderlist uses a series of templates for different pages. These templates can be found in the `templates` folder within the main plugin folder.
+
+- single-wanderlist-location.php *(singular place posts)*
+- taxonomy-wanderlist-trip.php *(trip overview pages)*
+
+To modify these, copy the template files you'd like to change from the plugin into the root of your theme directory, keeping the same filenames. If these files are present in your theme, Wanderlist will override the default templates with your custom templates. This way, when the plugin is updated, you won't lose your changes!
