@@ -29,7 +29,6 @@ add_action( 'wp_enqueue_scripts', 'wanderlist_scripts' );
  * This looks for a location with an arrival date
  * earlier than today, and a departure date
  * later than today.
- * @todo: Default to a "home" location if none are found.
  * @todo: Determine intelligent handling if no departure date exists.
  */
 function wanderlist_get_current_location() {
@@ -37,19 +36,65 @@ function wanderlist_get_current_location() {
 		'posts_per_page' => 1,
 		'post_type'      => 'wanderlist-location',
 		'meta_query'     => array(
-		array(
-		'key'     => 'wanderlist-arrival-date',
-		'value'   => wanderlist_today(),
-		'compare' => '<=',
-		),
-		array(
-		'key'     => 'wanderlist-departure-date',
-		'value'   => wanderlist_today(),
-		'compare' => '>=',
-		),
+								array(
+									'key'     => 'wanderlist-arrival-date',
+									'value'   => wanderlist_today(),
+									'compare' => '<=',
+								),
+								array(
+									'key'     => 'wanderlist-departure-date',
+									'value'   => wanderlist_today(),
+									'compare' => '>=',
+								),
 		),
 	) );
-	return $locations[0]->post_title;
+	if ( ! $locations ) {
+		return wanderlist_get_home( wanderlist_today() );
+	} else {
+		return $locations[0]->post_title;
+	}
+}
+
+/*
+ * Get our home location for a specific date.
+ * This will be determined either by the (plaintext) value entered in the
+ * Settings panel, or by a "home"-tagged location for the current date.
+ */
+function wanderlist_get_home( $date ) {
+
+	$options = get_option( 'wanderlist_settings' );
+
+	// Grab our most recent "home"-tagged location
+	$homes = get_posts( array(
+		'posts_per_page' => 1,
+		'post_type'      => 'wanderlist-location',
+		'tax_query'      => array(
+							array(
+								'taxonomy' => 'post_tag',
+								'field'    => 'term_id',
+								'terms'    => $options['wanderlist_home_tag'],
+								'operator' => 'IN',
+							),
+						),
+		'meta_query'     => array(
+								array(
+									'key'     => 'wanderlist-arrival-date',
+									'value'   => $date,
+									'compare' => '<=',
+								),
+		),
+		'orderby'        => 'meta_value post_date',
+		'meta_key'       => 'wanderlist-arrival-date',
+		'order'          => $order,
+	) );
+
+	if ( $homes ) :
+		return $homes[0]->post_title;
+	elseif ( $options['wanderlist_home'] ) :
+		return $options['wanderlist_home'];
+	else :
+		return esc_html__( 'Home', 'wanderlist' );
+	endif;
 }
 
 /*
@@ -99,7 +144,7 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 							array(
 								'taxonomy' => 'post_tag',
 								'field'    => 'term_id',
-								'terms'    => get_option( 'wanderlist_settings' )['wanderlist_loved_tag'],
+								'terms'    => $options['wanderlist_home_tag'],
 								'operator' => 'NOT IN',
 							),
 						),
