@@ -11,7 +11,7 @@
  */
 /*--------------------------------------------------------------*/
 /* Maps */
-#map {
+#wanderlist-map {
   border: 1px solid silver;
   display: block;
   height: 200px;
@@ -20,11 +20,11 @@
   width: 100%;
 }
 @media (min-width: 768px) {
-  #map {
+  #wanderlist-map {
     height: 400px;
   }
 }
-#map .wanderlist-location-widget {
+#wanderlist-map .wanderlist-location-widget {
   background: rgba(255, 255, 255, 0.75);
   bottom: 20px;
   left: 20px;
@@ -32,7 +32,7 @@
   position: absolute;
   z-index: 100;
 }
-#map .wanderlist-location-widget h3 {
+#wanderlist-map .wanderlist-location-widget h3 {
   text-align: center;
 }
 
