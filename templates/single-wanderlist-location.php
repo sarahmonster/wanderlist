@@ -21,9 +21,7 @@ get_header(); ?>
 							<?php echo esc_html( wanderlist_date( get_the_ID(), 'arrival' ) ); ?>
 							<?php
 							if ( wanderlist_date( get_the_ID(), 'departure' ) ) :
-								echo '<span class="highlight">'; // Theme-specific. @todo: Remove!
 								echo esc_html_x( ' to ', 'Between two dates', 'wanderlist' );
-								echo '</span>';
 								echo esc_html( wanderlist_date( get_the_ID(), 'departure' ) );
 							endif;
 							?>
@@ -52,11 +50,9 @@ get_header(); ?>
 			</article><!-- #post-## -->
 
 			<?php
-				/* Comments are the devil. Get your own website!
 				if ( comments_open() || get_comments_number() ) :
 					comments_template();
 				endif;
-				*/
 			?>
 
 		<?php endwhile; // end of the loop. ?>
