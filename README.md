@@ -73,7 +73,18 @@ Wanderlist has been tested with all the major Twenty themes, from Twenty Ten to 
 
 However, it's been built so you can easily change the way it looks to suit your liking. If you can edit your theme templates, you can edit Wanderlist's templates!
 
+### Using your own custom templates
+
+Wanderlist uses a series of templates for different pages. These templates can be found in the `templates` folder within the main plugin folder. The following templates are currently available:
+
+- single-wanderlist-location.php *(singular place posts)*
+- taxonomy-wanderlist-trip.php *(trip overview pages)*
+
+To modify these, copy the template files you'd like to change from the plugin into the root of your theme directory, keeping the same filenames. If these files are present in your theme, Wanderlist will override the default templates with your custom templates. You can modify the plugin files directly, but you'll lose your changes when the plugin is updated, so it's best to add the custom templates to your theme instead—this way, you won't lose any of your work.
+
 ### Removing the default CSS styles
+
+Wanderlist comes with its own CSS styles. If you find they're conflicting, or you'd like full control over your CSS, you can write your own instead.
 
 To dequeue Wanderlist's custom CSS, copy the following line into your theme's `functions.php`
 
@@ -84,11 +95,4 @@ function flare_dequeue_plugin_styles()  {
 add_action( 'wp_print_styles', 'flare_dequeue_plugin_styles', 100 );
 ```
 
-### Using your own custom templates
-
-Wanderlist uses a series of templates for different pages. These templates can be found in the `templates` folder within the main plugin folder.
-
-- single-wanderlist-location.php *(singular place posts)*
-- taxonomy-wanderlist-trip.php *(trip overview pages)*
-
-To modify these, copy the template files you'd like to change from the plugin into the root of your theme directory, keeping the same filenames. If these files are present in your theme, Wanderlist will override the default templates with your custom templates. This way, when the plugin is updated, you won't lose your changes!
+SCSS source files for Wanderlist's styles are included in the plugin for you to use as a starting point for your own styles. You can find them in the `assets/scss` folder.
