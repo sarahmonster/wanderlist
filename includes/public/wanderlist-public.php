@@ -326,6 +326,30 @@ function wanderlist_all_countries() {
 }
 
 /**
+ * Show tag cloud of countries.
+ * @todo: Use a manual function to arrange by time spent in each!
+ * @todo: Maybe use flags, or something more visual?
+ * @todo: Maybe use continents as well!
+ */
+function wanderlist_country_cloud() {
+
+	$args = array(
+		'smallest'                  => 10,
+		'largest'                   => 20,
+		'unit'                      => 'pt',
+		'number'                    => 45,
+		'format'                    => 'flat',
+		'separator'                 => "\n",
+		'orderby'                   => 'name',
+		'order'                     => 'ASC',
+		'taxonomy'                  => 'wanderlist-country',
+		'exclude'                   => $home_tag,
+		'echo'                      => false,
+	);
+	return wp_tag_cloud( $args );
+}
+
+/**
  * Display a map of some kind.
  * This will need to be automated to draw countries and show points.
  * @todo: Output a helpful error message if the Mapbox API key isn't set properly.

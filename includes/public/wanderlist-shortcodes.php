@@ -97,13 +97,19 @@ function wanderlist_overview_shortcode( $atts, $content = null  ) {
 	$widgets[] = array(
 		'class'   => 'wanderlist-location-widget',
 		'title'   => esc_html__( 'Where I&rsquo;ve been lately', 'wanderlist' ),
-		'content' => wanderlist_list_locations( 5, 'past' ),
+		'content' => wanderlist_list_locations( 10, 'past' ),
 	);
 
 	$widgets[] = array(
 		'class'   => 'wanderlist-trip-widget',
 		'title'   => esc_html__( 'Long trips', 'wanderlist' ),
 		'content' => wanderlist_list_trips(),
+	);
+
+	$widgets[] = array(
+		'class'   => 'wanderlist-cloud-widget',
+		'title'   => esc_html__( 'Country cloud', 'wanderlist' ),
+		'content' => '<span class="wanderlist-country-cloud">' . wanderlist_country_cloud() . '</span>',
 	);
 
 	$widgets[] = array(
