@@ -24,7 +24,8 @@ function wanderlist_plugin_dir() {
 }
 
 /**
- * Set up a template for our trip taxonomy.
+ * Set up a template for our taxonomies.
+ * We have custom templates for countries and for trips.
  * If the user has a template file in their theme, use that one.
  * If not, use our template file instead.
  */
@@ -32,6 +33,9 @@ function wanderlist_taxonomy_template( $template ) {
 	// Check to see we're on the trip taxonomy page and that the theme hasn't specified its own template
 	if ( is_tax( 'wanderlist-trip' ) && ! wanderlist_is_template( $template, '/^taxonomy-wanderlist-trip((-(\S*))?).php/' ) ) {
 		$template = wanderlist_plugin_dir() . '/templates/taxonomy-wanderlist-trip.php';
+	}
+	if ( is_tax( 'wanderlist-country' ) && ! wanderlist_is_template( $template, '/^taxonomy-wanderlist-country((-(\S*))?).php/' ) ) {
+		$template = wanderlist_plugin_dir() . '/templates/taxonomy-wanderlist-country.php';
 	}
 	return $template;
 }

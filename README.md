@@ -79,6 +79,7 @@ Wanderlist uses a series of templates for different pages. These templates can b
 
 - single-wanderlist-location.php *(singular place posts)*
 - taxonomy-wanderlist-trip.php *(trip overview pages)*
+- taxonomy-wanderlist-country.php *(country overview pages)*
 
 To modify these, copy the template files you'd like to change from the plugin into the root of your theme directory, keeping the same filenames. If these files are present in your theme, Wanderlist will override the default templates with your custom templates. You can modify the plugin files directly, but you'll lose your changes when the plugin is updated, so it's best to add the custom templates to your theme instead—this way, you won't lose any of your work.
 
