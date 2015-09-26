@@ -330,25 +330,52 @@ function wanderlist_all_countries() {
  * @todo: Maybe use flags, or something more visual?
  * @todo: Maybe use continents as well!
  */
-function wanderlist_country_cloud() {
+function wanderlist_list_countries( $format = 'cloud' ) {
 
-	$args = array(
-		'smallest'                  => 10,
-		'largest'                   => 20,
-		'unit'                      => 'pt',
-		'number'                    => 50,
-		'format'                    => 'flat',
-		'separator'                 => "\n",
-		'orderby'                   => 'name',
-		'order'                     => 'ASC',
-		'taxonomy'                  => 'wanderlist-country',
-		'exclude'                   => $home_tag,
-		'echo'                      => false,
-		'topic_count_text_callback' => 'wanderlist_count_places_callback',
-	);
-	return wp_tag_cloud( $args );
+	if ( 'cloud' === $format ) :
+		$args = array(
+			'smallest'                  => 10,
+			'largest'                   => 20,
+			'unit'                      => 'pt',
+			'number'                    => 50,
+			'format'                    => 'flat',
+			'separator'                 => "\n",
+			'orderby'                   => 'name',
+			'order'                     => 'ASC',
+			'taxonomy'                  => 'wanderlist-country',
+			'exclude'                   => $home_tag,
+			'echo'                      => false,
+			'topic_count_text_callback' => 'wanderlist_count_places_callback',
+		);
+		return wp_tag_cloud( $args );
+
+	elseif ( 'list' === $format ) :
+		$args = array(
+			'orderby'            => 'name',
+			'order'              => 'ASC',
+			'style'              => 'none',
+			'show_count'         => 1,
+			'use_desc_for_title' => 1,
+			'hierarchical'       => 0,
+			'title_li'           => '',
+			'show_option_none'   => esc_html__( 'No countries visited yet!', 'wanderlist' ),
+			'number'             => null,
+			'echo'               => 0,
+			'taxonomy'           => 'wanderlist-country',
+		);
+		$country_list = wp_list_categories( $args );
+		$countries = explode( '<br />', $country_list );
+		$new_country_list = '';
+		foreach ( $countries as $country ) :
+			if ( '' !== trim( $country ) ) :
+				$new_country_list .= '<li>' . preg_replace( '/\((\d+)\)$/m', '<span>${1}</span>', $country ) . '</li>';
+			endif;
+		endforeach;
+		return '<ul>' . $new_country_list . '</ul>';
+	endif;
 }
 
+/* Used to show better tooltips for country cloud. */
 function wanderlist_count_places_callback( $count ) {
 	return sprintf( _n( '%s place', '%s places', $count, 'wanderlist' ), number_format_i18n( $count ) );
 }
