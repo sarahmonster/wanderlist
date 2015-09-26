@@ -186,7 +186,6 @@ function wanderlist_format_location( $id ) {
 		$output .= '<dt>' . esc_html( wanderlist_date( $id, 'arrival' ) ) . '</dt>' ;
 	endif;
 
-
 	$output .= '<dd class="wanderlist-place" data-city="' . esc_html( wanderlist_place_data( 'city', $id ) ) .'" data-lat="'. esc_attr( wanderlist_place_data( 'lat', $id ) ) . '" data-lng="' . esc_attr( wanderlist_place_data( 'lng', $id ) ) . '">';
 	$options = get_option( 'wanderlist_settings' );
 	if ( '1' !== $options['wanderlist_hide_link_to_location'] ) :
@@ -337,7 +336,7 @@ function wanderlist_country_cloud() {
 		'smallest'                  => 10,
 		'largest'                   => 20,
 		'unit'                      => 'pt',
-		'number'                    => 45,
+		'number'                    => 50,
 		'format'                    => 'flat',
 		'separator'                 => "\n",
 		'orderby'                   => 'name',
@@ -345,8 +344,13 @@ function wanderlist_country_cloud() {
 		'taxonomy'                  => 'wanderlist-country',
 		'exclude'                   => $home_tag,
 		'echo'                      => false,
+		'topic_count_text_callback' => 'wanderlist_count_places_callback',
 	);
 	return wp_tag_cloud( $args );
+}
+
+function wanderlist_count_places_callback( $count ) {
+	return sprintf( _n( '%s place', '%s places', $count, 'wanderlist' ), number_format_i18n( $count ) );
 }
 
 /**
