@@ -260,7 +260,7 @@ $continent_names = array(
 	'EU' => esc_html( 'Europe', 'wanderlist' ),
 	'AS' => esc_html( 'Asia', 'wanderlist' ),
 	'OC' => esc_html( 'Oceania', 'wanderlist' ),
-)
+);
 
 $country_names = array(
 	'Andorra' => 'AD',
