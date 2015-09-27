@@ -29,6 +29,14 @@
     height: 400px;
   }
 
+  // Some themes (TwentyTwelve is a notable example) add box shadows to entry-content images.
+  // These styles trickle down into our map and look weird. This resets those elements.
+  .leaflet-marker-icon,
+  .leaflet-tile {
+    border: none;
+    box-shadow: none;
+  }
+
   .wanderlist-location-widget {
     background: rgba(255, 255, 255, 0.75);
     bottom: 20px;
