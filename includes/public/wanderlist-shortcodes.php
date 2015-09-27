@@ -114,8 +114,10 @@ function wanderlist_overview_shortcode( $atts, $content = null  ) {
 
 	$widgets[] = array(
 		'class'   => 'wanderlist-number-widget',
-		'title'   => esc_html__( 'Total countries visited', 'wanderlist' ),
-		'content' => '<span class="wanderlist-country-count">' . count( wanderlist_all_countries() ) . '</span>',
+		'title'   => esc_html__( 'Stats', 'wanderlist' ),
+		'content' => '<span class="wanderlist-place-count">' . wanderlist_count( 'places' ) . 'Places</span>
+		         <span class="wanderlist-country-count"><span class="number">' . wanderlist_count( 'countries' ) . '</span>Countries</span>
+		         <span class="wanderlist-continent-count">' . wanderlist_count( 'continents' ) . 'Continents</span>',
 	);
 
 	$return = '<div class="wanderlist-overview">';

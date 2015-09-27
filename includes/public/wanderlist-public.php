@@ -309,19 +309,51 @@ function wanderlist_list_trips( $limit = null, $show = 'default' ) {
 }
 
 /**
- * Count total countries visited.
+ * Count something. Right now, we're using it for countries, continents, and places,
+ * but we'll probably expand in the future.
  */
-function wanderlist_all_countries() {
+function wanderlist_count( $thing ) {
+	switch ( $thing ) {
 
-	// Get our "home" country, so we can be sure it's excluded
-	$home = get_term_by( 'name', 'home', 'wanderlist-country' );
+	// Count every unique place we've visited
+	// @todo: Exclude future places
+	case 'places':
+		$args = array(
+			'post_type'      => 'wanderlist-location',
+			'post_status'    => array( 'future', 'publish' ),
+			'posts_per_page' => -1,
+		);
+		$place_query = new WP_Query( $args );
 
-	$countries = get_terms( 'wanderlist-country', array(
-		'hide_empty'        => false, // At least for now.
-		'childless'         => true, // Only count countries that don't have sub-countries
-		'exclude'           => $home->term_id, // Exclude "home" country
-	) );
-	return $countries;
+		// Create an array of all places
+		$places = array();
+		while ( $place_query->have_posts() ) :
+			$place_query->the_post();
+			$city_name = get_post_meta( get_the_ID(), 'wanderlist-city', true );
+			// If we've already been to this place, don't add it to our array
+			if ( ! in_array( $city_name, $places ) ) :
+				$places[] = get_post_meta( get_the_ID(), 'wanderlist-city', true );
+			endif;
+			wp_reset_postdata();
+		endwhile;
+
+		return count( $places );
+		break;
+
+	// Count all countries visited
+	// @todo: Don't count places we haven't been yet
+	case 'countries':
+		$countries = get_terms( 'wanderlist-country', array(
+			'hide_empty'        => false, // At least for now.
+			'childless'         => true, // Only count countries that don't have sub-countries, since we may use these to store regional data at a later stage
+		) );
+		return count( $countries );
+		break;
+
+	case 'continents':
+		return $continenets;
+		break;
+	}
 }
 
 /**
