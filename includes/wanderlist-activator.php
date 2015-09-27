@@ -32,7 +32,7 @@ function wanderlist_custom_data() {
 		'menu_icon'            => 'dashicons-location',
 		'labels'               => $location_labels,
 		'supports'             => array(),
-		'taxonomies'           => array( 'post_tag', 'wanderlist-country' ),
+		'taxonomies'           => array( 'wanderlist-trip', 'wanderlist-country' ),
 		'hierarchical'         => false,
 		'public'               => true,
 		'show_ui'              => true,
@@ -47,6 +47,7 @@ function wanderlist_custom_data() {
 		'capability_type'      => 'post',
 		'rewrite'              => array( 'slug' => 'places' ),
 		'register_meta_box_cb' => 'wanderlist_extra_metaboxes',
+		'supports'             => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
 	);
 	register_post_type( 'wanderlist-location', $location_args );
 
