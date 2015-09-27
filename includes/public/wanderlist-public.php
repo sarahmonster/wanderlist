@@ -314,46 +314,85 @@ function wanderlist_list_trips( $limit = null, $show = 'default' ) {
  */
 function wanderlist_count( $thing ) {
 	switch ( $thing ) {
+		// Count every unique place we've visited
+		// @todo: Exclude future places
+		case 'places':
+			$args = array(
+				'post_type'      => 'wanderlist-location',
+				'post_status'    => array( 'future', 'publish' ),
+				'posts_per_page' => -1,
+			);
+			$place_query = new WP_Query( $args );
 
-	// Count every unique place we've visited
-	// @todo: Exclude future places
-	case 'places':
-		$args = array(
-			'post_type'      => 'wanderlist-location',
-			'post_status'    => array( 'future', 'publish' ),
-			'posts_per_page' => -1,
-		);
-		$place_query = new WP_Query( $args );
+			// Create an array of all places
+			$places = array();
+			while ( $place_query->have_posts() ) :
+				$place_query->the_post();
+				$city_name = get_post_meta( get_the_ID(), 'wanderlist-city', true );
+				// If we've already been to this place, don't add it to our array
+				if ( ! in_array( $city_name, $places ) ) :
+					$places[] = get_post_meta( get_the_ID(), 'wanderlist-city', true );
+				endif;
+				wp_reset_postdata();
+			endwhile;
 
-		// Create an array of all places
-		$places = array();
-		while ( $place_query->have_posts() ) :
-			$place_query->the_post();
-			$city_name = get_post_meta( get_the_ID(), 'wanderlist-city', true );
-			// If we've already been to this place, don't add it to our array
-			if ( ! in_array( $city_name, $places ) ) :
-				$places[] = get_post_meta( get_the_ID(), 'wanderlist-city', true );
-			endif;
-			wp_reset_postdata();
-		endwhile;
+			return count( $places );
+			break;
 
-		return count( $places );
-		break;
+		// Count all countries visited
+		// @todo: Don't count places we haven't been yet
+		case 'countries':
+			$countries = get_terms( 'wanderlist-country', array(
+				'hide_empty'        => false, // At least for now.
+				'childless'         => true, // Only count countries that don't have sub-countries, since we may use these to store regional data at a later stage
+			) );
+			return count( $countries );
+			break;
 
-	// Count all countries visited
-	// @todo: Don't count places we haven't been yet
-	case 'countries':
-		$countries = get_terms( 'wanderlist-country', array(
-			'hide_empty'        => false, // At least for now.
-			'childless'         => true, // Only count countries that don't have sub-countries, since we may use these to store regional data at a later stage
-		) );
-		return count( $countries );
-		break;
+		// Count all continents visited
+		// @todo: Account for edge cases, of which there are many!
+		case 'continents':
 
-	case 'continents':
-		return $continenets;
-		break;
+			// Get our countries to start
+			$countries = get_terms( 'wanderlist-country', array(
+				'hide_empty'        => false, // At least for now.
+				'childless'         => true, // Only count countries that don't have sub-countries, since we may use these to store regional data at a later stage
+			) );
+
+			// Create an array of all continents we've visited
+			$continents = array();
+			foreach ( $countries as $country ) :
+				$continent = wanderlist_iso_data( $country->name, 'continent' );
+				// If we've found a continent and it's not already in our array, add it
+				if ( $continent && ! in_array( $continent, $continents ) ) :
+					$continents[] = $continent;
+				endif;
+			endforeach;
+			return count( $continents );
+			break;
 	}
+}
+
+/**
+ * Get additional country/continent information from our ISO country data.
+ * This dataset was collated from ISO 3166 data sources on September 26, 2015.
+ * @todo: Add localisation, test fuzzy matches, test against GeoCoder results
+ * http://dev.maxmind.com/geoip/legacy/codes/country_continent/
+ * http://dev.maxmind.com/geoip/legacy/codes/iso3166/
+ */
+function wanderlist_iso_data( $name, $return ) {
+	require plugin_dir_path( __FILE__ ) . 'wanderlist-iso-data.php';
+	$continent = null;
+	if ( $country_names[ $name ] ) :
+		$country_code = $country_names[ $name ];
+		$continent = $country_continents[ $country_code ];
+	endif;
+
+	if ( 'continent' === $return ) :
+		return $continent;
+	elseif ( 'country_code' === $return ) :
+		return $country_code;
+	endif;
 }
 
 /**
