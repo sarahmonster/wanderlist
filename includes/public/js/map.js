@@ -25,10 +25,24 @@
 			// Disable zoom when scrolling
 			map.scrollWheelZoom.disable();
 
+			// Figure out what page we're on. This will determine how we display markers.
+			var page;
+			if ( $('body').hasClass('page') ) {
+				page = 'page';
+			} else if ( $('body').hasClass('tax-wanderlist-trip') ) {
+				page = 'trip';
+			}
+
 			// Create a GeoJSON array of all markers to be displayed on the map
 			var markers = [];
 			var count = 1;
 			$('.wanderlist-place').each(function() {
+				var markerSymbol;
+				if ( 'trip' === page ) {
+					markerSymbol = count + "";
+				} else {
+					markerSymbol = 'star';
+				}
 				markers.push ( {
 				  'type': 'Feature',
 				  'geometry': {
@@ -39,8 +53,8 @@
 				      'title': $(this).data('city'),
 				      'description': $(this).data('description'),
 				      'marker-color': markerColour,
-				      'marker-size': 'medium',
-				      'marker-symbol': count + ""
+				      'marker-size': 'small',
+				      'marker-symbol': markerSymbol,
 				    }
 			  })
 			  count++;
@@ -52,21 +66,23 @@
 			// Fit map to markers shown
 			map.fitBounds(featureLayer.getBounds());
 
-			// Add a line to map to show our basic path
-			var line = [];
+			// Add a line to map to show our basic path (only on trip pages!)
+			if ( 'trip' === page ) {
+				var line = [];
 
-			featureLayer.eachLayer(function(marker) {
-			  line.push(marker.getLatLng());
-			});
+				featureLayer.eachLayer(function(marker) {
+				  line.push(marker.getLatLng());
+				});
 
-			var polyline_options = {
-			  color: lineColour,
-			  weight: '3',
-			  opacity: '0.9',
-			  dashArray: "5, 10"
-			};
+				var polyline_options = {
+				  color: lineColour,
+				  weight: '3',
+				  opacity: '0.9',
+				  dashArray: "5, 10"
+				};
 
-			var polyline = L.polyline(line, polyline_options).addTo(map);
+				var polyline = L.polyline(line, polyline_options).addTo(map);
+			}
 		}
 
 	});
