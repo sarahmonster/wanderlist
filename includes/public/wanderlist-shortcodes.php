@@ -91,7 +91,7 @@ function wanderlist_overview_shortcode( $atts, $content = null  ) {
 	$widgets[] = array(
 		'class'   => 'wanderlist-location-widget',
 		'title'   => esc_html__( 'Coming up!', 'wanderlist' ),
-		'content' => wanderlist_list_locations( 3, 'upcoming' ),
+		'content' => wanderlist_list_locations( 10, 'upcoming' ),
 	);
 
 	$widgets[] = array(

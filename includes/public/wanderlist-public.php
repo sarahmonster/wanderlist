@@ -462,7 +462,7 @@ function wanderlist_show_map( $overlay = null ) {
 	if ( 'upcoming' === $overlay ) :
 		$output .= '<div class="wanderlist-widget wanderlist-location-widget">';
 		$output .= '<h3>' . esc_html__( 'Adventure Ahoy!', 'wanderlist' ) . '</h3>';
-		$output .= wanderlist_list_locations( '4' );
+		$output .= wanderlist_list_locations( '10' );
 		$output .= '</div><!-- .flare-location-widget -->';
 	endif;
 	$output .= '</div><!-- .map -->';
