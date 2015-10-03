@@ -13,11 +13,15 @@
  * in core so we'll use it at least until I get sick of it.
  */
 function wanderlist_admin_scripts() {
+	// Geolocation scripts
 	wp_enqueue_script( 'wanderlist-geolocator-js', plugin_dir_url( __FILE__ ) . 'js/geolocator.js', array( 'jquery' ), time(), true );
 	wp_enqueue_style( 'wanderlist-geolocator', plugin_dir_url( __FILE__ ) . 'css/geolocator.css' );
-	wp_enqueue_script( 'wanderlist-datepicker-js', plugin_dir_url( __FILE__ ) . 'js/datepicker.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker' ), time(), true );
+
+	// Date picker scripts
 	wp_enqueue_style( 'jquery-ui' );
 	wp_enqueue_style( 'jquery-ui-datepicker', plugin_dir_url( __FILE__ ) . 'css/datepicker.css' );
+	wp_enqueue_script( 'wanderlist-moment-js', plugin_dir_url( __FILE__ ) . 'js/moment.js', array(), time(), true );
+	wp_enqueue_script( 'wanderlist-datepicker-js', plugin_dir_url( __FILE__ ) . 'js/datepicker.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker', 'wanderlist-moment-js' ), time(), true );
 }
 add_action( 'admin_enqueue_scripts', 'wanderlist_admin_scripts' );
 
@@ -45,7 +49,7 @@ function wanderlist_geolocation_box() {
 	echo '<input id="wanderlist-geolocation-input" data-mapboxkey="' . esc_attr( $options['wanderlist_mapbox_key'] ) . '" type="text" name="wanderlist-geolocation" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-location-string', true ) ) . '" class="widefat" />';
 
 	// Message field to show what's going on behind-the-scenes
-	echo '<div id="wanderlist-geocoder-message">Your location has been set to <strong class="place"></strong>.</div>';
+	echo '<div id="wanderlist-geocoder-message" class="wanderlist-message">Your location has been set to <strong class="place"></strong>.</div>';
 
 	// Hidden fields into which we can input data returned from our geocoder
 	echo '<input id="wanderlist-city" name="wanderlist-city" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-city', true ) ) . '" />';
@@ -69,9 +73,15 @@ function wanderlist_date_box() {
 	echo '<label>' . esc_html__( 'Arrival date', 'wanderlist' ) . '</label>';
 	echo '<input type="text" name="wanderlist-arrival-date" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-arrival-date', true ) ) . '" class="widefat wanderlist-datepicker" />';
 
+	// Message field to show what's going on behind-the-scenes
+	echo '<div class="wanderlist-message"></div>';
+
 	// Departure
-	echo '<label>' . esc_html__( 'Departure date (optional)', 'wanderlist' ) . '</label>';
+	echo '<label for="wanderlist-departure-date">' . esc_html__( 'Departure date (optional)', 'wanderlist' ) . '</label>';
 	echo '<input type="text" name="wanderlist-departure-date" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-departure-date', true ) ) . '" class="widefat wanderlist-datepicker" />';
+
+	// Message field to show what's going on behind-the-scenes
+	echo '<div class="wanderlist-message"></div>';
 }
 
 /*
