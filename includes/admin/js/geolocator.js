@@ -32,8 +32,17 @@
 				$( '#wanderlist-country' ).val( country );
 				$( '#wanderlist-lng' ).val( lng );
 				$( '#wanderlist-lat' ).val( lat );
+				var placeName = response.features[0].place_name;
+
+				// Vatican doesn't return the correct results, so we're going to do it manually
+				if ( 'Città del Vaticano' === city ) {
+					$( '#wanderlist-region' ).val( '' );
+					$( '#wanderlist-country' ).val( 'Vatican City' );
+					placeName = 'Città del Vaticano';
+				}
+
 				$( '#wanderlist-geocoder-message' ).addClass( 'success' );
-				$( '#wanderlist-geocoder-message' ).find( '.place' ).text( response.features[0].place_name );
+				$( '#wanderlist-geocoder-message' ).find( '.place' ).text( placeName );
 			},
 			error: function(response) {
 				$( '#wanderlist-geocoder-message' ).addClass( 'error' );
