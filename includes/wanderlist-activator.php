@@ -32,7 +32,7 @@ function wanderlist_custom_data() {
 		'menu_icon'            => 'dashicons-location',
 		'labels'               => $location_labels,
 		'supports'             => array(),
-		'taxonomies'           => array( 'wanderlist-trip', 'wanderlist-country' ),
+		'taxonomies'           => array( 'post_tag', 'wanderlist-trip', 'wanderlist-country' ),
 		'hierarchical'         => false,
 		'public'               => true,
 		'show_ui'              => true,
