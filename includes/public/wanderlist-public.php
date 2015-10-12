@@ -31,7 +31,7 @@ add_action( 'wp_enqueue_scripts', 'wanderlist_scripts' );
  * later than today.
  * @todo: Determine intelligent handling if no departure date exists.
  */
-function wanderlist_get_current_location() {
+function wanderlist_get_current_location( $output = 'simple' ) {
 	$locations = get_posts( array(
 		'posts_per_page' => 1,
 		'post_type'      => 'wanderlist-location',
@@ -51,7 +51,16 @@ function wanderlist_get_current_location() {
 	if ( ! $locations ) {
 		return wanderlist_get_home( wanderlist_today() );
 	} else {
-		return $locations[0]->post_title;
+		if ( 'text' === $output ) :
+			return $locations[0]->post_title;
+		elseif ( 'coords' == $output ) :
+			//return '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
+			//$locations .= '<dd>' . wanderlist_get_current_location() . '</dd>';
+			//print_r($locations[0]);
+			//return $locations[0]->ID;
+			return wanderlist_format_location(2590);
+			return wanderlist_format_location( $locations[0]->ID );
+		endif;
 	}
 }
 
@@ -156,8 +165,7 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 
 	// If we're not passing an upcoming/past parameter, show today's location
 	if ( 'default' === $show ) :
-		$locations .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
-		$locations .= '<dd>' . wanderlist_get_current_location() . '</dd>';
+		$locations .= wanderlist_get_current_location( 'coords' );
 	endif;
 
 	// Generate a list of posts
@@ -189,9 +197,9 @@ function wanderlist_format_location( $id ) {
 	$output .= '<dd class="wanderlist-place" data-city="' . esc_html( wanderlist_place_data( 'city', $id ) ) .'" data-lat="'. esc_attr( wanderlist_place_data( 'lat', $id ) ) . '" data-lng="' . esc_attr( wanderlist_place_data( 'lng', $id ) ) . '">';
 	$options = get_option( 'wanderlist_settings' );
 	if ( '1' !== $options['wanderlist_hide_link_to_location'] ) :
-		$output .= '<a href="' . esc_url( get_the_permalink() ) . '">';
+		$output .= '<a href="' . esc_url( get_the_permalink( $id ) ) . '">';
 	endif;
-	$output .= esc_html( get_the_title() );
+	$output .= esc_html( get_the_title( $id ) );
 	//$output .= '<span class="wanderlist-country">'. esc_html( wanderlist_place_data( 'country' ) ) . '</span>';
 	if ( '1' !== $options['wanderlist_hide_link_to_location'] ) :
 		$output .= '</a>';
@@ -462,7 +470,7 @@ function wanderlist_show_map( $overlay = null ) {
 	if ( 'upcoming' === $overlay ) :
 		$output .= '<div class="wanderlist-widget wanderlist-location-widget">';
 		$output .= '<h3>' . esc_html__( 'Adventure Ahoy!', 'wanderlist' ) . '</h3>';
-		$output .= wanderlist_list_locations( '10' );
+		$output .= wanderlist_list_locations( '3' );
 		$output .= '</div><!-- .flare-location-widget -->';
 	endif;
 	$output .= '</div><!-- .map -->';

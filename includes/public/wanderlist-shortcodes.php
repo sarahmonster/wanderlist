@@ -24,7 +24,7 @@ function wanderlist_location_shortcode( $atts, $content = null  ){
 	), $atts );
 
 	if ( 'current' === $a['show'] ) :
-		return '<span class="wanderlist-current-location">' . wanderlist_get_current_location() . '</span>';
+		return '<span class="wanderlist-current-location">' . wanderlist_get_current_location( 'text' ) . '</span>';
 	endif;
 
 	if ( 'countries' === $a['show'] ) :
