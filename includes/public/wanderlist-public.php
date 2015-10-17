@@ -54,11 +54,6 @@ function wanderlist_get_current_location( $output = 'simple' ) {
 		if ( 'text' === $output ) :
 			return $locations[0]->post_title;
 		elseif ( 'coords' == $output ) :
-			//return '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
-			//$locations .= '<dd>' . wanderlist_get_current_location() . '</dd>';
-			//print_r($locations[0]);
-			//return $locations[0]->ID;
-			return wanderlist_format_location(2590);
 			return wanderlist_format_location( $locations[0]->ID );
 		endif;
 	}
