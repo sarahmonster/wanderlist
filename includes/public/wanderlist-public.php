@@ -48,8 +48,13 @@ function wanderlist_get_current_location( $output = 'simple' ) {
 								),
 		),
 	) );
+	// If we didn't find a current location, output our current home location
 	if ( ! $locations ) {
-		return wanderlist_get_home( wanderlist_today() );
+		if ( 'text' === $output ) :
+			return wanderlist_get_home( wanderlist_today() );
+		elseif ( 'coords' == $output ) :
+			return wanderlist_format_location( wanderlist_get_home( wanderlist_today(), 'id' ) );
+		endif;
 	} else {
 		if ( 'text' === $output ) :
 			return $locations[0]->post_title;
@@ -64,7 +69,7 @@ function wanderlist_get_current_location( $output = 'simple' ) {
  * This will be determined either by the (plaintext) value entered in the
  * Settings panel, or by a "home"-tagged location for the current date.
  */
-function wanderlist_get_home( $date ) {
+function wanderlist_get_home( $date, $output = 'title' ) {
 
 	$options = get_option( 'wanderlist_settings' );
 
@@ -93,7 +98,11 @@ function wanderlist_get_home( $date ) {
 	) );
 
 	if ( $homes ) :
-		return $homes[0]->post_title;
+		if ( 'title' === $output ) :
+			return $homes[0]->post_title;
+		elseif ( 'id' === $output ) :
+			return $homes[0]->ID;
+		endif;
 	elseif ( $options['wanderlist_home'] ) :
 		return $options['wanderlist_home'];
 	else :
@@ -179,11 +188,13 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
  * fancy-pants reusable function so we don't write the same code over & over.
  */
 function wanderlist_format_location( $id ) {
-	//$output = '<dt>' . esc_html( wanderlist_date( $id, 'arrival' ) ) . '</dt>';
 
 	// If we're still visiting somewhere, show that location with "today"
 	if ( wanderlist_today() >= get_post_meta( $id, 'wanderlist-arrival-date', true )
 	 && wanderlist_today() <= get_post_meta( $id, 'wanderlist-departure-date', true ) ) :
+		$output .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
+	// If this is our home and we haven't entered a departure date, show it as "today" as well
+	elseif ( wanderlist_is_home( $id ) && '' == get_post_meta( $id, 'wanderlist-departure-date', true ) ) :
 		$output .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
 	else : // Otherwise, display the date of arrival
 		$output .= '<dt>' . esc_html( wanderlist_date( $id, 'arrival' ) ) . '</dt>' ;
@@ -195,17 +206,18 @@ function wanderlist_format_location( $id ) {
 		$output .= '<a href="' . esc_url( get_the_permalink( $id ) ) . '">';
 	endif;
 	$output .= esc_html( get_the_title( $id ) );
-	//$output .= '<span class="wanderlist-country">'. esc_html( wanderlist_place_data( 'country' ) ) . '</span>';
+
 	if ( '1' !== $options['wanderlist_hide_link_to_location'] ) :
 		$output .= '</a>';
 	endif;
 
 	// Display some icons if the location is home or loved
-	if ( wanderlist_is_loved() ) :
-		$output .= '<span class="wanderlist-loved">&hearts;</span>';
+	if ( wanderlist_is_loved( $id ) ) :
+		//$output .= '<span class="wanderlist-loved">&hearts;</span>';
 	endif;
-	if ( wanderlist_is_home() ) :
-		$output .= '<span class="wanderlist-home">&star;</span>';
+
+	if ( wanderlist_is_home( $id ) ) :
+		//$output .= '<span class="wanderlist-home">&star;</span>';
 	endif;
 
 	$output .= '</dd>';
