@@ -57,7 +57,14 @@ function wanderlist_get_current_location( $output = 'simple' ) {
 		endif;
 	} else {
 		if ( 'text' === $output ) :
-			return $locations[0]->post_title;
+			//return $locations[0]->post_title;
+			$city = get_post_meta( $locations[0]->ID, 'wanderlist-city', true );
+			$country = wp_get_object_terms( $locations[0]->ID, 'wanderlist-country' );
+			if ( '' !== $city && '' !== $country[0]->name ) :
+				return $city . ', ' . $country[0]->name;
+			else :
+				return $city . $country[0]->name;
+			endif;
 		elseif ( 'coords' == $output ) :
 			return wanderlist_format_location( $locations[0]->ID );
 		endif;
