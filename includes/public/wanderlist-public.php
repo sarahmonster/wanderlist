@@ -97,14 +97,17 @@ function wanderlist_get_home( $date, $output = 'title' ) {
 		'order'          => $order,
 	) );
 
+	// Show our most recent location tagged "home"
 	if ( $homes ) :
 		if ( 'title' === $output ) :
 			return $homes[0]->post_title;
 		elseif ( 'id' === $output ) :
 			return $homes[0]->ID;
 		endif;
+	// Look for a "home" location entered via the plugin settings
 	elseif ( $options['wanderlist_home'] ) :
 		return $options['wanderlist_home'];
+	// If we can't find anything, just default to the word "home"
 	else :
 		return esc_html__( 'Home', 'wanderlist' );
 	endif;
