@@ -34,7 +34,7 @@ get_header(); ?>
             <dl>
             <?php
             while ( have_posts() ) : the_post();
-                echo wanderlist_format_location( get_the_ID() );
+                echo wanderlist_format_location( get_the_ID(), array( date_format => 'range' ) );
             endwhile;
             ?>
             </dl>

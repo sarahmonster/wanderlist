@@ -190,15 +190,21 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
  * Since we output a list of locations from different spots, let's make a
  * fancy-pants reusable function so we don't write the same code over & over.
  */
-function wanderlist_format_location( $id ) {
+function wanderlist_format_location( $id, $options = null ) {
 
 	// If we're still visiting somewhere, show that location with "today"
 	if ( wanderlist_today() >= get_post_meta( $id, 'wanderlist-arrival-date', true )
 	 && wanderlist_today() <= get_post_meta( $id, 'wanderlist-departure-date', true ) ) :
 		$output .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
+
 	// If this is our home and we haven't entered a departure date, show it as "today" as well
 	elseif ( wanderlist_is_home( $id ) && '' == get_post_meta( $id, 'wanderlist-departure-date', true ) ) :
 		$output .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
+
+	// If we've opted to show the date range, show the date range, silly!
+	elseif ( 'range' === $options['date_format'] ) :
+		$output .= '<dt>' . esc_html( wanderlist_date( $id, 'range' ) ) . '</dt>' ;
+
 	else : // Otherwise, display the date of arrival
 		$output .= '<dt>' . esc_html( wanderlist_date( $id, 'arrival' ) ) . '</dt>' ;
 	endif;
@@ -286,23 +292,62 @@ function wanderlist_date( $post, $type ) {
 		$date_format = get_option( 'date_format' );
 	endif;
 
+	// Return the departure date
 	if ( 'departure' === $type ) :
 		$date = get_post_meta( $post, 'wanderlist-departure-date', true );
 		// If our departure date isn't entered, return early
 		if ( ! $date ) :
 			return false;
 		endif;
+		$formatted_date = date( $date_format, strtotime( $date ) );
+
+	// Return a date range (currently this doesn't respect the date format because that's hard)
+	elseif ( 'range' === $type ):
+		$arrival_date = get_post_meta( $post, 'wanderlist-arrival-date', true );
+		$departure_date = get_post_meta( $post, 'wanderlist-departure-date', true );
+
+		// Get some dates
+		$arrival_year = date( 'Y', strtotime( $arrival_date ) );
+		$departure_year = date( 'Y', strtotime( $departure_date ) );
+		$arrival_month = date( 'M', strtotime( $arrival_date ) );
+		$departure_month = date( 'M', strtotime( $departure_date ) );
+
+		// If the arrival and departure dates are the same, just show one date
+		if ( $arrival_date === $departure_date ) :
+			$formatted_date = date( 'F j Y', strtotime( $arrival_date ) );
+
+		// Are our months and years the same?
+		elseif ( $arrival_month === $departure_month  && $arrival_year === $departure_year ) :
+			$formatted_date = date( 'F j', strtotime( $arrival_date ) )
+							. '&ndash;'
+							. date( 'j', strtotime( $departure_date ) )
+							. date( ' Y', strtotime( $departure_date ) );
+
+		// If only the years are the same....
+		elseif ( $arrival_year === $departure_year ) :
+			$formatted_date = date( 'F j', strtotime( $arrival_date ) )
+			 				. '&ndash;'
+							. date( 'F j', strtotime( $departure_date ) )
+							. date( ' Y', strtotime( $departure_date ) );
+
+		// Otherwise, just show the full date
+		else:
+			$formatted_date = date( 'F j Y', strtotime( $arrival_date ) )
+			 				. '&ndash;'
+							. date( 'F j Y', strtotime( $departure_date ) );
+		endif;
+
+	// If nothing is specified, return the arrival date
 	else :
 		$date = get_post_meta( $post, 'wanderlist-arrival-date', true );
 		// If our arrival date isn't entered, use the date the post was published instead
 		if ( ! $date ) :
 			$date = get_the_date();
 		endif;
+		$formatted_date = date( $date_format, strtotime( $date ) );
 	endif;
 
-	// Format and output date
-	$arrival_date = date( $date_format, strtotime( $date ) );
-	return $arrival_date;
+	return $formatted_date;
 }
 
 /**
