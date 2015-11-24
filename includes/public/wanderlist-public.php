@@ -202,6 +202,7 @@ function wanderlist_format_location( $id, $options = null ) {
 	// If we're still visiting somewhere, show that location with "today"
 	if ( wanderlist_today() >= get_post_meta( $id, 'wanderlist-arrival-date', true )
 	 && wanderlist_today() <= get_post_meta( $id, 'wanderlist-departure-date', true ) ) :
+		$today = true;
 		$output .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
 
 	// If this is our home and we haven't entered a departure date, show it as "today" as well
@@ -216,14 +217,19 @@ function wanderlist_format_location( $id, $options = null ) {
 		$output .= '<dt>' . esc_html( wanderlist_date( $id, 'arrival' ) ) . '</dt>' ;
 	endif;
 
+	// Spit out coordinates for Mapbox to use
 	$output .= '<dd class="wanderlist-place" data-city="' . esc_html( wanderlist_place_data( 'city', $id ) ) .'" data-lat="'. esc_attr( wanderlist_place_data( 'lat', $id ) ) . '" data-lng="' . esc_attr( wanderlist_place_data( 'lng', $id ) ) . '">';
+
+	// Show a link to full post if: a) user has opted to show links, and b) the place isn't one you're still busy exploring
 	$options = get_option( 'wanderlist_settings' );
-	if ( '1' !== $options['wanderlist_hide_link_to_location'] ) :
+	if ( '1' !== $options['wanderlist_hide_link_to_location'] && true !== $today ) :
 		$output .= '<a href="' . esc_url( get_the_permalink( $id ) ) . '">';
 	endif;
+
+	// Show the title
 	$output .= esc_html( get_the_title( $id ) );
 
-	if ( '1' !== $options['wanderlist_hide_link_to_location'] ) :
+	if ( '1' !== $options['wanderlist_hide_link_to_location'] && true !== $today ) :
 		$output .= '</a>';
 	endif;
 
