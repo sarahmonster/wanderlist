@@ -580,12 +580,16 @@ function wanderlist_trip_order( $orderby ) {
 }
 add_filter( 'posts_orderby', 'wanderlist_trip_order' );
 
-// Remove default limit for wanderlist-trip taxonomy, show all places!
-function wanderlist_trip_limit( $limits ) {
-	if ( is_tax( 'wanderlist-trip' ) ) :
-		return '';
-	else :
-		return $limits;
+// Show lots of posts on location and country archive pages, because pagination is for nerds.
+function wanderlist_adjust_postlimit( $query ) {
+	if ( is_admin() ) :
+		return;
+	endif;
+
+	if ( is_tax( 'wanderlist-trip' ) || is_tax( 'wanderlist-country' ) ) :
+		$query->set( 'posts_per_page', 100 );
+		remove_theme_support( 'infinite-scroll' ); // Because otherwise IS just does what it wants.
+		return;
 	endif;
 }
-add_filter( 'post_limits', 'wanderlist_trip_limit' );
+add_action( 'pre_get_posts', 'wanderlist_adjust_postlimit', 1 );
