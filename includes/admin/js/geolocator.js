@@ -2,7 +2,7 @@
 	var accessToken = $('#wanderlist-geolocation-input').data('mapboxkey');
 	$( '#wanderlist-geolocation-input' ).on('change', function() {
 		var locationString = $( this ).attr( 'value' );
-		var geocodeURI = 'https://api.mapbox.com/v4/geocode/mapbox.places/' + encodeURI( locationString ) + '.json?access_token=' + accessToken;
+		var geocodeURI = 'https://api.mapbox.com/v5/geocode/mapbox.places/' + encodeURI( locationString ) + '.json?access_token=' + accessToken;
 		$.ajax(geocodeURI, {
 			success: function(response) {
 				var result = response.features[0];
