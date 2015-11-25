@@ -63,8 +63,13 @@
 			// Add a new feature layer to show our markers
 			var featureLayer = L.mapbox.featureLayer().setGeoJSON(markers).addTo(map);
 
-			// Fit map to markers shown
-			map.fitBounds(featureLayer.getBounds());
+			// If we only show one place, manually set the zoom level so it isn't too close
+			if ( count <= 2 ) {
+				map.setView([$('.wanderlist-place').last().data('lat'), $('.wanderlist-place').last().data('lng')], 6);
+			// Otherwise, fit map to markers displayed
+			} else {
+				map.fitBounds(featureLayer.getBounds());
+			}
 
 			// Add a line to map to show our basic path (only on trip pages!)
 			if ( 'trip' === page ) {
