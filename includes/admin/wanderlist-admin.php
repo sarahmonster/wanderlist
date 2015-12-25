@@ -52,16 +52,17 @@ function wanderlist_geolocation_box() {
 	$options = get_option( 'wanderlist_settings' );
 	echo '<input id="wanderlist-geolocation-input" data-mapboxkey="' . esc_attr( $options['wanderlist_mapbox_key'] ) . '" type="hidden" name="wanderlist-geolocation">';
 	echo '<div id="wanderlist-geolocation-map"></div>';
+	echo '<a href="#" id="wanderlist-locate-user">Find me</a>';
 
 	// Message field to show what's going on behind-the-scenes
 	echo '<div id="wanderlist-geocoder-message" class="wanderlist-message">Your location has been set to <strong class="place"></strong>.</div>';
 
 	// Hidden fields into which we can input data returned from our geocoder
-	echo '<input id="wanderlist-city" name="wanderlist-city" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-city', true ) ) . '" />';
-	echo '<input id="wanderlist-region" name="wanderlist-region" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-region', true ) ) . '" />';
-	echo '<input id="wanderlist-lng" name="wanderlist-lng" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-lng', true ) ) . '" />';
-	echo '<input id="wanderlist-lat" name="wanderlist-lat" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-lat', true ) ) . '" />';
-	echo '<input id="wanderlist-country" name="wanderlist-country" type="hidden" value="' . esc_attr( ltrim( wanderlist_place_data( 'country' ), ', ' ) ) . '"/>';
+	echo '<input id="wanderlist-city" name="wanderlist-city" type="hiddenl" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-city', true ) ) . '" />';
+	echo '<input id="wanderlist-region" name="wanderlist-region" type="hiddenl" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-region', true ) ) . '" />';
+	echo '<input id="wanderlist-lng" name="wanderlist-lng" type="hiddenl" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-lng', true ) ) . '" />';
+	echo '<input id="wanderlist-lat" name="wanderlist-lat" type="hiddenl" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-lat', true ) ) . '" />';
+	echo '<input id="wanderlist-country" name="wanderlist-country" type="hiddenl" value="' . esc_attr( ltrim( wanderlist_place_data( 'country' ), ', ' ) ) . '"/>';
 }
 
 /*
