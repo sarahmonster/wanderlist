@@ -1,3 +1,8 @@
+#wanderlist-geolocation-map {
+	height: 300px;
+	width: 100%;
+}
+
 .wanderlist-message {
 	box-shadow: none !important;
 	opacity: 0;

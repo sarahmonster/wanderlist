@@ -13,6 +13,10 @@
  * in core so we'll use it at least until I get sick of it.
  */
 function wanderlist_admin_scripts() {
+	// Mapbox dependencies
+	wp_enqueue_script( 'wanderlist-mapbox', 'https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.js', array(), '20150719', true );
+	wp_enqueue_style( 'wanderlist-mapbox-css', 'https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.css', array(), '20150719', all );
+
 	// Geolocation scripts
 	wp_enqueue_script( 'wanderlist-geolocator-js', plugin_dir_url( __FILE__ ) . 'js/geolocator.js', array( 'jquery' ), time(), true );
 	wp_enqueue_style( 'wanderlist-geolocator', plugin_dir_url( __FILE__ ) . 'css/geolocator.css' );
@@ -46,6 +50,7 @@ function wanderlist_geolocation_box() {
 	// Input field (also includes our user's Mapbox key so JS can grab it)
 	// @todo: Spit out an error message if the API key isn't properly set.
 	$options = get_option( 'wanderlist_settings' );
+	echo '<div id="wanderlist-geolocation-map"></div>';
 	echo '<input id="wanderlist-geolocation-input" data-mapboxkey="' . esc_attr( $options['wanderlist_mapbox_key'] ) . '" type="text" name="wanderlist-geolocation" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-location-string', true ) ) . '" class="widefat" />';
 
 	// Message field to show what's going on behind-the-scenes
