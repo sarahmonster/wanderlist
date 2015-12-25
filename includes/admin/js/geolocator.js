@@ -59,24 +59,39 @@
 	 * It also gives the user a confirmation message.
 	 */
 	function parseLocationData( feature ) {
+		var city;
+		var country;
+		var region;
+
 		// If the context object doesn't exist, we're dealing with a limited dataset. Let's get what we can.
-		if ( !feature.context ) {
+		if ( ! feature.context ) {
 			if ( feature.id.match( /^country/ ) ) {
-				var country = feature.text;
+				country = feature.text;
 			} else if ( feature.id.match( /^region/ ) ) {
-				var region = feature.text;
+				region = feature.text;
 			}
+
 		// Otherwise, we have a full result set, so let's parse its data
 		} else {
-			var city = feature.text;
-			for (var i = 0; i < feature.context.length; i++) {
+			for ( var i = 0; i < feature.context.length; i++ ) {
+				if ( feature.context[i].id.match( /^place/ ) ) {
+					city = feature.context[i].text;
+				}
 				if ( feature.context[i].id.match( /^country/ ) ) {
-					var country = feature.context[i].text;
-				} else if ( feature.context[i].id.match( /^region/ ) ) {
-					var region = feature.context[i].text;
+					country = feature.context[i].text;
+				}
+				if ( feature.context[i].id.match( /^region/ ) ) {
+					region = feature.context[i].text;
 				}
 			}
+
+			// If the city hasn't already been set, we assume that we can get it via the feature name
+			if ( ! city ) {
+				city = feature.text;
+			}
 		}
+
+		// Set lat and long
 		var lng = feature.center[0];
 		var lat = feature.center[1];
 
