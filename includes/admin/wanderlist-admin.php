@@ -50,8 +50,8 @@ function wanderlist_geolocation_box() {
 	// Input field (also includes our user's Mapbox key so JS can grab it)
 	// @todo: Spit out an error message if the API key isn't properly set.
 	$options = get_option( 'wanderlist_settings' );
+	echo '<input id="wanderlist-geolocation-input" data-mapboxkey="' . esc_attr( $options['wanderlist_mapbox_key'] ) . '" type="hidden" name="wanderlist-geolocation">';
 	echo '<div id="wanderlist-geolocation-map"></div>';
-	echo '<input id="wanderlist-geolocation-input" data-mapboxkey="' . esc_attr( $options['wanderlist_mapbox_key'] ) . '" type="text" name="wanderlist-geolocation" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-location-string', true ) ) . '" class="widefat" />';
 
 	// Message field to show what's going on behind-the-scenes
 	echo '<div id="wanderlist-geocoder-message" class="wanderlist-message">Your location has been set to <strong class="place"></strong>.</div>';
@@ -61,7 +61,6 @@ function wanderlist_geolocation_box() {
 	echo '<input id="wanderlist-region" name="wanderlist-region" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-region', true ) ) . '" />';
 	echo '<input id="wanderlist-lng" name="wanderlist-lng" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-lng', true ) ) . '" />';
 	echo '<input id="wanderlist-lat" name="wanderlist-lat" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-lat', true ) ) . '" />';
-
 	echo '<input id="wanderlist-country" name="wanderlist-country" type="hidden" value="' . esc_attr( ltrim( wanderlist_place_data( 'country' ), ', ' ) ) . '"/>';
 }
 
