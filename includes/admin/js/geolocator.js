@@ -4,10 +4,9 @@
 		console.log( 'No key set.' );
 
 	} else {
+
 		// Initialise map variables and settings
 		L.mapbox.accessToken = $( '#wanderlist-geolocation-input' ).data( 'mapboxkey' );
-		//var geocoderURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/{lon},{lat}.json?access_token=' + L.mapbox.accessToken;
-
 		var map = L.mapbox.map( 'wanderlist-geolocation-map', 'mapbox.streets', {
 			zoomControl: false,
 			attributionControl: false
@@ -39,12 +38,9 @@
 			console.log( e.feature );
 		} );
 
-		// When we have some kind of error, show an error message
+		// Errors only seem to crop up when you don't enter any text, so we don't need to display them
 		geocoderControl.on( 'error', function( e ) {
-			$( '#wanderlist-geocoder-message' ).removeClass( 'success' );
-			$( '#wanderlist-geocoder-message' ).addClass( 'error' );
 			console.log( e.error );
-			$( '#wanderlist-geocoder-message' ).find( '.place' ).text( 'ERROR' );
 		} );
 
 		// Add the geocoder control to our map
@@ -124,7 +120,7 @@
 	 * http://caniuse.com/#feat=geolocation
 	 */
 	 function getCurrentLocation( button ) {
-		 // If our browser doesn't support geolocation, hide the button
+		 // If our browser doesn't support geolocation, hide the button for a more graceful degredation
 		 if ( ! navigator.geolocation ) {
 			 button.innerHTML = 'Geolocation is not available';
 			 $( button ).hide();
@@ -145,8 +141,10 @@
 			});
 
 			// If the user chooses not to allow their location to be shared, display an error message.
-			map.on('locationerror', function() {
-			    button.innerHTML = 'Position could not be found';
+			map.on( 'locationerror', function() {
+				$( '#wanderlist-geocoder-message' ).removeClass( 'success' );
+				$( '#wanderlist-geocoder-message' ).addClass( 'error' );
+				$( '#wanderlist-geocoder-message' ).find( '.error-message' ).text( 'Please share your location so we can find you!' );
 			});
 		}
 

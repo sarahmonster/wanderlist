@@ -55,7 +55,12 @@ function wanderlist_geolocation_box() {
 	echo '<a href="#" id="wanderlist-locate-user">Find me</a>';
 
 	// Message field to show what's going on behind-the-scenes
-	echo '<div id="wanderlist-geocoder-message" class="wanderlist-message">Your location has been set to <strong class="place"></strong>.</div>';
+	echo '<div id="wanderlist-geocoder-message" class="wanderlist-message">';
+	printf( '<span class="success-message">%s <strong class="place"></strong>.</span>' ,
+				esc_html__( 'Your location has been set to', 'wanderlist' )
+			);
+	echo '<span class="error-message"></span>';
+	echo '</div>';
 
 	// Hidden fields into which we can input data returned from our geocoder
 	echo '<input id="wanderlist-city" name="wanderlist-city" type="hiddenl" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-city', true ) ) . '" />';

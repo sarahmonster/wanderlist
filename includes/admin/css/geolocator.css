@@ -11,16 +11,29 @@
 	visibility: none;
 }
 
+.wanderlist-message .success-message,
+.wanderlist-message .error-message {
+	display: none;
+}
+
 .wanderlist-message.success {
 	color: #64b450;
 	opacity: 1;
 	visibility: visible;
 }
 
+.wanderlist-message.success .success-message {
+	display: inline;
+}
+
 .wanderlist-message.error {
 	color: #dc3232;
 	opacity: 1;
 	visibility: visible;
+}
+
+.wanderlist-message.error .error-message {
+	display: inline;
 }
 
 .wanderlist-message.notice {
