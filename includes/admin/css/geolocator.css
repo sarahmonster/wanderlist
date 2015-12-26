@@ -35,9 +35,9 @@
 	background-color: #f8f8f8;
 }
 
-#wanderlist-locate-user:active,
-#wanderlist-locate-user:focus {
+#wanderlist-locate-user.active {
 	box-shadow: 0 0 0 1px #5b9dd9,0 0 2px 1px rgba(30,140,190,.8);
+	cursor: wait;
 }
 
 /* Spinner for loading */

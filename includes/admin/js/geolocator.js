@@ -150,6 +150,7 @@
 			 button.onclick = function( e ) {
 				 e.preventDefault();
 			   e.stopPropagation();
+				 $( button ).addClass( 'active' );
 				 $( button ).siblings( '.wanderlist-loader' ).addClass( 'active' );
 			   map.locate();
 				};
@@ -160,6 +161,7 @@
 				geocodeCoords( e.latlng.lat, e.latlng.lng );
 				map.fitBounds( e.bounds );
 				showPointOnMap( e.latlng.lat, e.latlng.lng );
+				$( button ).removeClass( 'active' );
 				$( button ).siblings( '.wanderlist-loader' ).removeClass( 'active' );
 			});
 
