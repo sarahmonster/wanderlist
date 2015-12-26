@@ -1,52 +1,62 @@
+/**
+ * Geolocation functions.
+ *
+ * This provides all our geolocation functionality on the admin side.
+ * Primary, it displays a map on the new/edit post screen, and allows the
+ * user to input their location in a user-friendly kind of way.
+ *
+ * @package Wanderlist
+ */
+
 ( function( $ ) {
-	// Grab our access token (we need an error if it isn't set!)
+	// Grab our access token @todo: Add an error if it isn't set!
 	if ( ! $( '#wanderlist-geolocation-input' ).data( 'mapboxkey' ) ) {
 		console.log( 'No key set.' );
 
 	} else {
 
-		// Initialise map variables and settings
+		// Initialise map variables and settings.
 		L.mapbox.accessToken = $( '#wanderlist-geolocation-input' ).data( 'mapboxkey' );
 		var map = L.mapbox.map( 'wanderlist-geolocation-map', 'mapbox.streets', {
 			zoomControl: false,
 			attributionControl: true
 		} );
 
-		// Disable zoom
+		// Disable zoom.
 		map.scrollWheelZoom.disable();
 
-		// Re-add a zoom control at bottom right
+		// Re-add a zoom control at bottom right.
 		new L.Control.Zoom( {
 			position: 'bottomright'
 		} ).addTo( map );
 
-		// Add an empty feature layer, so we can dynamically add points as needed
+		// Add an empty feature layer, so we can dynamically add points as needed.
 		var mapFeatures = L.mapbox.featureLayer().addTo( map );
 
-		// Add a geocoder control for easier selection of places
+		// Add a geocoder control for easier selection of places.
 		var geocoderControl = L.mapbox.geocoderControl( 'mapbox.places', {
-	      autocomplete: true,
-				keepOpen: true
-	  } );
+			autocomplete: true,
+			keepOpen: true
+		} );
 
-		// When the user clicks "locate me", find their location
+		// When the user clicks "locate me", find their location.
 		getCurrentLocation( document.getElementById( 'wanderlist-locate-user' ) );
 
-		// When the user selects a place from our drop-down, parse that data into something we can use
+		// When the user selects a place from our drop-down, parse that data into something we can use.
 		geocoderControl.on( 'select', function( e ) {
 			parseLocationData( e.feature );
 			$( '.leaflet-control-mapbox-geocoder.active' ).find( '.leaflet-control-mapbox-geocoder-results' ).hide();
 		} );
 
-		// Errors only seem to crop up when you don't enter any text, so we don't need to display them
+		// Errors only seem to crop up when you don't enter any text, so we don't need to display them.
 		geocoderControl.on( 'error', function( e ) {
 			console.log( e.error );
 		} );
 
-		// Add the geocoder control to our map
+		// Add the geocoder control to our map.
 		map.addControl( geocoderControl );
 
-		// When the search box regains focus, show the results list again
+		// When the search box regains focus, show the results list again.
 		$( '.leaflet-control-mapbox-geocoder-form' ).find( 'input' ).focus( function() {
 			$( this ).parents( '.leaflet-control-mapbox-geocoder' ).find( '.leaflet-control-mapbox-geocoder-results' ).show();
 		} );
@@ -54,12 +64,14 @@
 		// If we already have saved data, let's show it on the map!
 		var lat = $( '#wanderlist-lat' ).val();
 		var lng = $( '#wanderlist-lng' ).val();
+		var title;
+
 		if ( $( '#wanderlist-city' ).val() ) {
-			var title = $( '#wanderlist-city' ).val();
+			title = $( '#wanderlist-city' ).val();
 		} else if ( $( '#wanderlist-region' ).val() ) {
-			var title = $( '#wanderlist-region' ).val();
-		}	else if ( $( '#wanderlist-country' ).val() ) {
-				var title = $( '#wanderlist-country' ).val();
+			title = $( '#wanderlist-region' ).val();
+		} else if ( $( '#wanderlist-country' ).val() ) {
+			title = $( '#wanderlist-country' ).val();
 		}
 		if ( lat && lng ) {
 			showPointOnMap( lat, lng, title );
@@ -88,8 +100,8 @@
 				region = feature.text;
 			}
 
-		// Otherwise, we have a full result set, so let's parse its data
 		} else {
+			// We have a full result set, so let's parse its data.
 			for ( var i = 0; i < feature.context.length; i++ ) {
 				if ( feature.context[i].id.match( /^place/ ) ) {
 					city = feature.context[i].text;
@@ -102,17 +114,17 @@
 				}
 			}
 
-			// If the city hasn't already been set, we assume that we can get it via the feature name
+			// If the city hasn't already been set, we assume that we can get it via the feature name.
 			if ( ! city ) {
 				city = feature.text;
 			}
 		}
 
-		// Set lat and long
+		// Set lat and long.
 		var lng = feature.center[0];
 		var lat = feature.center[1];
 
-		// Output our values to our hidden form fields
+		// Output our values to our hidden form fields.
 		$( '#wanderlist-city' ).val( city );
 		$( '#wanderlist-region' ).val( region );
 		$( '#wanderlist-country' ).val( country );
@@ -120,14 +132,14 @@
 		$( '#wanderlist-lat' ).val( lat );
 		var placeName = feature.place_name;
 
-		// Since Geocoder results for Vatican aren't accurate, we'll overwrite them
+		// Since Geocoder results for Vatican aren't accurate, we'll overwrite them.
 		if ( 'Città del Vaticano' === city ) {
 			$( '#wanderlist-region' ).val( '' );
 			$( '#wanderlist-country' ).val( 'Vatican City' );
 			placeName = 'Città del Vaticano';
 		}
 
-		// Show a friendly success message and show point on map
+		// Show a friendly success message and show point on map.
 		$( '#wanderlist-geocoder-message' ).removeClass( 'error' );
 		$( '#wanderlist-geocoder-message' ).addClass( 'success' );
 		$( '#wanderlist-geocoder-message' ).find( '.place' ).text( placeName );
@@ -137,79 +149,79 @@
 	/*
 	 * Get the user's current location.
 	 * This uses the HTML5 geolocation API, available on
- 	 * most mobile browsers and modern browsers
+	 * most mobile browsers and modern browsers.
 	 * http://caniuse.com/#feat=geolocation
 	 */
-	 function getCurrentLocation( button ) {
-		 // If our browser doesn't support geolocation, hide the button for a more graceful degredation
-		 if ( ! navigator.geolocation ) {
+	function getCurrentLocation( button ) {
+		// If our browser doesn't support geolocation, hide the button for a more graceful degredation.
+		if ( ! navigator.geolocation ) {
 			 $( button ).html( 'Geolocation is not available' );
 			 $( button ).hide();
-		 // Otherwise, locate user when the button is clicked
-		 } else {
-			 button.onclick = function( e ) {
-				 e.preventDefault();
-			   e.stopPropagation();
-				 $( button ).addClass( 'active' );
-				 $( button ).siblings( '.wanderlist-loader' ).addClass( 'active' );
-			   map.locate();
-				};
-			}
-
-			// Once we've got a position, zoom and center the map on it, and add a single marker.
-			map.on( 'locationfound', function( e ) {
-				geocodeCoords( e.latlng.lat, e.latlng.lng );
-				map.fitBounds( e.bounds );
-				showPointOnMap( e.latlng.lat, e.latlng.lng );
-				$( button ).removeClass( 'active' );
-				$( button ).siblings( '.wanderlist-loader' ).removeClass( 'active' );
-			});
-
-			// If the user chooses not to allow their location to be shared, display an error message.
-			map.on( 'locationerror', function() {
-				$( '#wanderlist-geocoder-message' ).removeClass( 'success' );
-				$( '#wanderlist-geocoder-message' ).addClass( 'error' );
-				$( '#wanderlist-geocoder-message' ).find( '.error-message' ).text( 'Please share your location so we can find you!' );
-			});
+		} else {
+			// Locate user when the button is clicked.
+			button.addEventListener( 'click', function( e ) {
+				e.preventDefault();
+				e.stopPropagation();
+				$( button ).addClass( 'active' );
+				$( button ).siblings( '.wanderlist-loader' ).addClass( 'active' );
+				map.locate();
+			} );
 		}
 
-		/*
-     * This reverse geocodes a set of lat/long coordinates.
-     * Used when we've only been given the coordinates, and we
-		 * need some more information.
-     */
-		 function geocodeCoords( lat, lng ) {
-			 var geocodeURI = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURI( lng ) + ',' +  + encodeURI( lat ) + '.json?access_token=' + L.mapbox.accessToken;
-			 $.ajax( geocodeURI, {
-				success: function( response ) {
-					if ( 0 < response.features.length ) {
-						parseLocationData( response.features[0] );
-					}
-				},
-				error: function( response ) {
-					console.log( response )
+		// Once we've got a position, zoom and center the map on it, and add a single marker.
+		map.on( 'locationfound', function( e ) {
+			geocodeCoords( e.latlng.lat, e.latlng.lng );
+			map.fitBounds( e.bounds );
+			showPointOnMap( e.latlng.lat, e.latlng.lng );
+			$( button ).removeClass( 'active' );
+			$( button ).siblings( '.wanderlist-loader' ).removeClass( 'active' );
+		} );
+
+		// If the user chooses not to allow their location to be shared, display an error message.
+		map.on( 'locationerror', function() {
+			$( '#wanderlist-geocoder-message' ).removeClass( 'success' );
+			$( '#wanderlist-geocoder-message' ).addClass( 'error' );
+			$( '#wanderlist-geocoder-message' ).find( '.error-message' ).text( 'Please share your location so we can find you!' );
+		} );
+	}
+
+	/*
+	 * This reverse geocodes a set of lat/long coordinates.
+	 * Used when we've only been given the coordinates, and we
+	 * need some more information.
+	 */
+	function geocodeCoords( lat, lng ) {
+		var geocodeURI = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURI( lng ) + ',' + encodeURI( lat ) + '.json?access_token=' + L.mapbox.accessToken;
+		$.ajax( geocodeURI, {
+			success: function( response ) {
+				if ( 0 < response.features.length ) {
+					parseLocationData( response.features[0] );
 				}
-			})
-		}
+			},
+			error: function( response ) {
+				console.log( response )
+			}
+		})
+	}
 
-		/*
- 		 * This shows the selected point on a map.
- 	 	 *
- 	 	 */
-		 function showPointOnMap( lat, lng, title ) {
-			 mapFeatures.setGeoJSON({
-					 type: 'Feature',
-					 geometry: {
-							 type: 'Point',
-							 coordinates: [ lng, lat ]
-					 },
-					 properties: {
-							 'marker-color': '#64b450',
-							 'marker-symbol': 'star',
-							 'marker-size': 'small',
-							 'title': title
-					 }
-			 });
-		 }
+	/*
+	 * This shows the selected point on a map.
+	 *
+	 */
+	function showPointOnMap( lat, lng, title ) {
+		mapFeatures.setGeoJSON( {
+			type: 'Feature',
+			geometry: {
+				type: 'Point',
+				coordinates: [ lng, lat ]
+			},
+			properties: {
+				'marker-color': '#64b450',
+				'marker-symbol': 'star',
+				'marker-size': 'small',
+				'title': title
+			}
+		} );
+	}
 
 } )( jQuery );

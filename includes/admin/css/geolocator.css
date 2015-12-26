@@ -17,8 +17,8 @@
 	border-radius: 3px;
 	box-shadow: none;
 	position: absolute;
-		top: 10px;
-		left: 220px;
+	top: 10px;
+	left: 220px;
 	z-index: 7;
 }
 
@@ -26,7 +26,7 @@
 	color: #404040;
 	content: '\f230'; /* Location icon: http://calebserna.com/dashicons-cheatsheet/ */
 	display: block;
-  font-family: dashicons;
+	font-family: dashicons;
 	font-size: 16px;
 	padding: 3px 5px;
 }
@@ -43,10 +43,10 @@
 /* Spinner for loading */
 .wanderlist-loader {
 	display: none;
-  width: 100px;
-  height: 100px;
-  position: relative;
-  margin: 100px auto;
+	width: 100px;
+	height: 100px;
+	position: relative;
+	margin: 100px auto;
 	z-index: 10;
 }
 
@@ -62,23 +62,23 @@
 	display: block;
 	height: 100%;
 	position: absolute;
-		top: 0;
-		left: 0;
-  width: 100%;
+	top: 0;
+	left: 0;
+	width: 100%;
 }
 
 .wanderlist-loader-circle:nth-of-type(odd) {
-  animation-delay: -800ms;
+	animation-delay: -800ms;
 }
 
 @keyframes wanderlist-bounce {
-  0% {
+	0% {
 		opacity: 1;
-    transform: scale(0.0);
-  }
+		transform: scale(0.0);
+	}
 	90% {
-    transform: scale(1.0);
-  }
+		transform: scale(1.0);
+	}
 	100% {
 		opacity: 0;
 	}
