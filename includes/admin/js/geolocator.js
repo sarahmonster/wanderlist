@@ -127,7 +127,7 @@
 	 function getCurrentLocation( button ) {
 		 // If our browser doesn't support geolocation, hide the button for a more graceful degredation
 		 if ( ! navigator.geolocation ) {
-			 button.innerHTML = 'Geolocation is not available';
+			 $( button ).html( 'Geolocation is not available' );
 			 $( button ).hide();
 		 // Otherwise, locate user when the button is clicked
 		 } else {
