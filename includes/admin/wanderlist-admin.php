@@ -61,24 +61,34 @@ function wanderlist_geolocation_box() {
 
 	// Input field (also includes our user's Mapbox key so JS can grab it)
 	// @todo: Spit out an error message if the API key isn't properly set.
-	$options = get_option( 'wanderlist_settings' );
-	echo '<input id="wanderlist-geolocation-input" data-mapboxkey="' . esc_attr( $options['wanderlist_mapbox_key'] ) . '" type="hidden" name="wanderlist-geolocation">';
-	echo '<div id="wanderlist-geolocation-map"><a href="#" id="wanderlist-locate-user"><span class="screen-reader-text">Find me</span></a></div>';
+	$options = get_option( 'wanderlist_settings' ); ?>
 
-	// Message field to show what's going on behind-the-scenes
-	echo '<div id="wanderlist-geocoder-message" class="wanderlist-message">';
-	printf( '<span class="success-message">%s <strong class="place"></strong>.</span>' ,
+	<input id="wanderlist-geolocation-input" data-mapboxkey="<?php esc_attr_e( $options['wanderlist_mapbox_key'] ); ?>" type="hidden" name="wanderlist-geolocation">
+	<div id="wanderlist-geolocation-map">
+		<a href="#" id="wanderlist-locate-user"><span class="screen-reader-text">Find me</span></a>
+		<div class="wanderlist-loader">
+  		<span class="wanderlist-loader-circle"></span>
+  		<span class="wanderlist-loader-circle"></span>
+		</div>
+	</div>
+
+	<?php // Message field to show what's going on behind-the-scenes ?>
+	<div id="wanderlist-geocoder-message" class="wanderlist-message">
+		<?php
+		printf( '<span class="success-message">%s <strong class="place"></strong>.</span>' ,
 				esc_html__( 'Your location has been set to', 'wanderlist' )
-			);
-	echo '<span class="error-message"></span>';
-	echo '</div>';
+		);
+		?>
+		<span class="error-message"></span>
+	</div>
 
-	// Hidden fields into which we can input data returned from our geocoder
-	echo '<input id="wanderlist-city" name="wanderlist-city" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-city', true ) ) . '" />';
-	echo '<input id="wanderlist-region" name="wanderlist-region" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-region', true ) ) . '" />';
-	echo '<input id="wanderlist-lng" name="wanderlist-lng" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-lng', true ) ) . '" />';
-	echo '<input id="wanderlist-lat" name="wanderlist-lat" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-lat', true ) ) . '" />';
-	echo '<input id="wanderlist-country" name="wanderlist-country" type="hidden" value="' . esc_attr( ltrim( wanderlist_place_data( 'country' ), ', ' ) ) . '"/>';
+	<?php // Hidden fields into which we can input data returned from our geocoder. ?>
+	<input id="wanderlist-city" name="wanderlist-city" type="hidden" value="<?php esc_attr_e( get_post_meta( $post->ID, 'wanderlist-city', true ) ); ?>" />
+	<input id="wanderlist-region" name="wanderlist-region" type="hidden" value="<?php esc_attr_e( get_post_meta( $post->ID, 'wanderlist-region', true ) ); ?>" />
+	<input id="wanderlist-lng" name="wanderlist-lng" type="hidden" value="<?php esc_attr_e( get_post_meta( $post->ID, 'wanderlist-lng', true  ) ); ?>" />
+	<input id="wanderlist-lat" name="wanderlist-lat" type="hidden" value="<?php esc_attr_e( get_post_meta( $post->ID, 'wanderlist-lat', true  ) ); ?>" />
+	<input id="wanderlist-country" name="wanderlist-country" type="hidden" value="<?php esc_attr_e( ltrim( wanderlist_place_data( 'country' ), ', '  ) ); ?>" />
+<?php
 }
 
 /*

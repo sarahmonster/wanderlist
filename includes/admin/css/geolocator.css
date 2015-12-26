@@ -40,7 +40,51 @@
 	box-shadow: 0 0 0 1px #5b9dd9,0 0 2px 1px rgba(30,140,190,.8);
 }
 
-/* Error messages */
+/* Spinner for loading */
+.wanderlist-loader {
+	display: none;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  margin: 100px auto;
+	z-index: 10;
+}
+
+.wanderlist-loader.active {
+	display: block;
+}
+
+.wanderlist-loader-circle {
+	animation: wanderlist-bounce 1600ms infinite ease-in-out;
+	background-color: rgba(255, 255, 255, 0.125);
+	border: 2px solid #fff;
+	border-radius: 50%;
+	display: block;
+	height: 100%;
+	position: absolute;
+		top: 0;
+		left: 0;
+  width: 100%;
+}
+
+.wanderlist-loader-circle:nth-of-type(odd) {
+  animation-delay: -800ms;
+}
+
+@keyframes wanderlist-bounce {
+  0% {
+		opacity: 1;
+    transform: scale(0.0);
+  }
+	90% {
+    transform: scale(1.0);
+  }
+	100% {
+		opacity: 0;
+	}
+}
+
+/* Error and success messages */
 .wanderlist-message {
 	box-shadow: none !important;
 	opacity: 0;
