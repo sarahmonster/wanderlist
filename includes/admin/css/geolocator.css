@@ -1,3 +1,9 @@
+/* Adjust spacing of geolocation metabox a bit */
+#wanderlist-geolocation {
+	margin-top: 15px;
+	margin-bottom: 0px;
+}
+
 #wanderlist-geolocation-map {
 	height: 300px;
 	width: 100%;

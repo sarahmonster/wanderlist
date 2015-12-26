@@ -33,10 +33,22 @@ add_action( 'admin_enqueue_scripts', 'wanderlist_admin_scripts' );
  * Register extra metaboxes on our "place" custom post type screens.
  */
 function wanderlist_extra_metaboxes() {
-	add_meta_box( 'wanderlist-geolocation', __( 'Geolocation', 'wanderlist' ), 'wanderlist_geolocation_box', 'wanderlist-location', 'side', 'high' );
+	add_meta_box( 'wanderlist-geolocation', __( 'Geolocation', 'wanderlist' ), 'wanderlist_geolocation_box', 'wanderlist-location', 'wanderlist-custom', 'high' );
 	add_meta_box( 'wanderlist-dates', __( 'Dates', 'wanderlist' ), 'wanderlist_date_box', 'wanderlist-location', 'side', 'high' );
 }
 add_action( 'add_meta_boxes', 'wanderlist_extra_metaboxes' );
+
+/*
+ * Move the geolocation custom meta box to above the post editor.
+ * This is done by assigning the metabox to a custom location above,
+ * then removing and re-adding the metabox using the edit_form_after_title hook.
+ */
+function wanderlist_move_geolocation_metabox() {
+	global $post, $wp_meta_boxes;
+  do_meta_boxes( get_current_screen(), 'wanderlist-custom', $post );
+  unset( $wp_meta_boxes['post']['wanderlist-custom'] );
+}
+add_action( 'edit_form_after_title', 'wanderlist_move_geolocation_metabox' );
 
 /*
  * Create a custom metabox to input the location for this post.
@@ -63,11 +75,11 @@ function wanderlist_geolocation_box() {
 	echo '</div>';
 
 	// Hidden fields into which we can input data returned from our geocoder
-	echo '<input id="wanderlist-city" name="wanderlist-city" type="hiddenl" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-city', true ) ) . '" />';
-	echo '<input id="wanderlist-region" name="wanderlist-region" type="hiddenl" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-region', true ) ) . '" />';
-	echo '<input id="wanderlist-lng" name="wanderlist-lng" type="hiddenl" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-lng', true ) ) . '" />';
-	echo '<input id="wanderlist-lat" name="wanderlist-lat" type="hiddenl" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-lat', true ) ) . '" />';
-	echo '<input id="wanderlist-country" name="wanderlist-country" type="hiddenl" value="' . esc_attr( ltrim( wanderlist_place_data( 'country' ), ', ' ) ) . '"/>';
+	echo '<input id="wanderlist-city" name="wanderlist-city" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-city', true ) ) . '" />';
+	echo '<input id="wanderlist-region" name="wanderlist-region" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-region', true ) ) . '" />';
+	echo '<input id="wanderlist-lng" name="wanderlist-lng" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-lng', true ) ) . '" />';
+	echo '<input id="wanderlist-lat" name="wanderlist-lat" type="hidden" value="' . esc_attr( get_post_meta( $post->ID, 'wanderlist-lat', true ) ) . '" />';
+	echo '<input id="wanderlist-country" name="wanderlist-country" type="hidden" value="' . esc_attr( ltrim( wanderlist_place_data( 'country' ), ', ' ) ) . '"/>';
 }
 
 /*
