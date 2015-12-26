@@ -110,11 +110,11 @@
 			placeName = 'Città del Vaticano';
 		}
 
-		// Show a friendly success message
+		// Show a friendly success message and show point on map
 		$( '#wanderlist-geocoder-message' ).removeClass( 'error' );
 		$( '#wanderlist-geocoder-message' ).addClass( 'success' );
 		$( '#wanderlist-geocoder-message' ).find( '.place' ).text( placeName );
-
+		showPointOnMap( lat, lng );
 	}
 
 	/*
@@ -125,7 +125,7 @@
 	 */
 	 function getCurrentLocation( button ) {
 		 // If our browser doesn't support geolocation, hide the button
-		 if ( !navigator.geolocation ) {
+		 if ( ! navigator.geolocation ) {
 			 button.innerHTML = 'Geolocation is not available';
 			 $( button ).hide();
 		 // Otherwise, locate user when the button is clicked
@@ -137,31 +137,14 @@
 				};
 			}
 
-			// Once we've got a position, zoom and center the map
-			// on it, and add a single marker.
+			// Once we've got a position, zoom and center the map on it, and add a single marker.
 			map.on( 'locationfound', function( e ) {
-				//console.log( e );
-
 				geocodeCoords( e.latlng.lat, e.latlng.lng );
-
-			    map.fitBounds( e.bounds );
-
-			    mapFeatures.setGeoJSON({
-			        type: 'Feature',
-			        geometry: {
-			            type: 'Point',
-			            coordinates: [e.latlng.lng, e.latlng.lat]
-			        },
-			        properties: {
-			            'title': 'Here I am!',
-			            'marker-color': '#ff8888',
-			            'marker-symbol': 'star'
-			        }
-			    });
+				map.fitBounds( e.bounds );
+				showPointOnMap( e.latlng.lat, e.latlng.lng );
 			});
 
-			// If the user chooses not to allow their location
-			// to be shared, display an error message.
+			// If the user chooses not to allow their location to be shared, display an error message.
 			map.on('locationerror', function() {
 			    button.innerHTML = 'Position could not be found';
 			});
@@ -171,13 +154,11 @@
      * This reverse geocodes a set of lat/long coordinates.
      * Used when we've only been given the coordinates, and we
 		 * need some more information.
-
      */
 		 function geocodeCoords( lat, lon ) {
 			 var geocodeURI = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURI( lon ) + ',' +  + encodeURI( lat ) + '.json?access_token=' + L.mapbox.accessToken;
 			 $.ajax( geocodeURI, {
 				success: function( response ) {
-					console.log( response.features[0] );
 					parseLocationData( response.features[0] );
 				},
 				error: function( response ) {
@@ -185,5 +166,24 @@
 				}
 			})
 		}
+
+		/*
+ 		 * This shows the selected point on a map.
+ 	 	 *
+ 	 	 */
+		 function showPointOnMap( lat, lon ) {
+			 mapFeatures.setGeoJSON({
+					 type: 'Feature',
+					 geometry: {
+							 type: 'Point',
+							 coordinates: [ lon, lat ]
+					 },
+					 properties: {
+							 'marker-color': '#64b450',
+							 'marker-symbol': 'star',
+							 'marker-size': 'small'
+					 }
+			 });
+		 }
 
 } )( jQuery );
