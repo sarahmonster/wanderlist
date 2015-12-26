@@ -419,7 +419,7 @@ function wanderlist_count( $thing ) {
 		// @todo: Don't count places we haven't been yet
 		case 'countries':
 			$countries = get_terms( 'wanderlist-country', array(
-				'hide_empty'        => false, // At least for now.
+				'hide_empty'        => true,
 				'childless'         => true, // Only count countries that don't have sub-countries, since we may use these to store regional data at a later stage
 			) );
 			return count( $countries );
@@ -431,7 +431,7 @@ function wanderlist_count( $thing ) {
 
 			// Get our countries to start
 			$countries = get_terms( 'wanderlist-country', array(
-				'hide_empty'        => false, // At least for now.
+				'hide_empty'        => true,
 				'childless'         => true, // Only count countries that don't have sub-countries, since we may use these to store regional data at a later stage
 			) );
 
