@@ -127,12 +127,14 @@ function wanderlist_overview_shortcode( $atts, $content = null  ) {
 	$return = '<div class="wanderlist-overview">';
 
 	foreach ( $widgets as $widget ) :
-		$return .= '<div class="wanderlist-widget ' . $widget['class'] . '">';
-		if ( $widget['title'] ) :
-			$return .= '<h3 class="widget-title">' . $widget['title'] . '</h3>';
+		if ( '<dl></dl>' !== $widget['content'] && '<ul></ul>' !== $widget['content']  ) :
+			$return .= '<div class="wanderlist-widget ' . $widget['class'] . '">';
+			if ( $widget['title'] ) :
+				$return .= '<h3 class="widget-title">' . $widget['title'] . '</h3>';
+			endif;
+			$return .= $widget['content'];
+			$return .= '</div>';
 		endif;
-		$return .= $widget['content'];
-		$return .= '</div>';
 	endforeach;
 
 	$return .= '</div>';
