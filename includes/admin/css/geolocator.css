@@ -24,7 +24,7 @@
 
 #wanderlist-locate-user::before {
 	color: #404040;
-	content: '\f230';
+	content: '\f230'; /* Location icon: http://calebserna.com/dashicons-cheatsheet/ */
 	display: block;
   font-family: dashicons;
 	font-size: 16px;
