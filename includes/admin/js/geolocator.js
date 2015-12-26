@@ -35,7 +35,7 @@
 		// When the user selects a place from our drop-down, parse that data into something we can use
 		geocoderControl.on( 'select', function( e ) {
 			parseLocationData( e.feature );
-			console.log( e.feature );
+			$( '.leaflet-control-mapbox-geocoder.active' ).find( '.leaflet-control-mapbox-geocoder-results' ).hide();
 		} );
 
 		// Errors only seem to crop up when you don't enter any text, so we don't need to display them
@@ -45,6 +45,11 @@
 
 		// Add the geocoder control to our map
 		map.addControl( geocoderControl );
+
+		// When the search box regains focus, show the results list again
+		$( '.leaflet-control-mapbox-geocoder-form' ).find( 'input' ).focus( function() {
+			$( this ).parents( '.leaflet-control-mapbox-geocoder' ).find( '.leaflet-control-mapbox-geocoder-results' ).show();
+		} );
 	}
 
 	/*
