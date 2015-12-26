@@ -9,7 +9,7 @@
 		L.mapbox.accessToken = $( '#wanderlist-geolocation-input' ).data( 'mapboxkey' );
 		var map = L.mapbox.map( 'wanderlist-geolocation-map', 'mapbox.streets', {
 			zoomControl: false,
-			attributionControl: false
+			attributionControl: true
 		} );
 
 		// Disable zoom
