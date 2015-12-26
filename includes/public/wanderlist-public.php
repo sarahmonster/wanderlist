@@ -144,7 +144,7 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 		$order = DESC;
 	elseif ( 'past' === $show ) :
 		$order = DESC;
-		$compare = '<';
+		$compare = '<=';
 	elseif ( 'upcoming' === $show ) :
 		$order = ASC;
 		$compare = '>';
