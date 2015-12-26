@@ -160,8 +160,8 @@
      * Used when we've only been given the coordinates, and we
 		 * need some more information.
      */
-		 function geocodeCoords( lat, lon ) {
-			 var geocodeURI = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURI( lon ) + ',' +  + encodeURI( lat ) + '.json?access_token=' + L.mapbox.accessToken;
+		 function geocodeCoords( lat, lng ) {
+			 var geocodeURI = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURI( lng ) + ',' +  + encodeURI( lat ) + '.json?access_token=' + L.mapbox.accessToken;
 			 $.ajax( geocodeURI, {
 				success: function( response ) {
 					parseLocationData( response.features[0] );
@@ -176,12 +176,12 @@
  		 * This shows the selected point on a map.
  	 	 *
  	 	 */
-		 function showPointOnMap( lat, lon ) {
+		 function showPointOnMap( lat, lng ) {
 			 mapFeatures.setGeoJSON({
 					 type: 'Feature',
 					 geometry: {
 							 type: 'Point',
-							 coordinates: [ lon, lat ]
+							 coordinates: [ lng, lat ]
 					 },
 					 properties: {
 							 'marker-color': '#64b450',
