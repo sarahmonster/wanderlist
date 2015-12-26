@@ -6,9 +6,41 @@
 
 #wanderlist-geolocation-map {
 	height: 300px;
+	position: relative;
 	width: 100%;
 }
 
+/* Style "find me" button */
+#wanderlist-locate-user {
+	background-color: #fff;
+	border: 1px solid rgba(0,0,0,.4);
+	border-radius: 3px;
+	box-shadow: none;
+	position: absolute;
+		top: 10px;
+		left: 220px;
+	z-index: 7;
+}
+
+#wanderlist-locate-user::before {
+	color: #404040;
+	content: '\f230';
+	display: block;
+  font-family: dashicons;
+	font-size: 16px;
+	padding: 3px 5px;
+}
+
+#wanderlist-locate-user:hover {
+	background-color: #f8f8f8;
+}
+
+#wanderlist-locate-user:active,
+#wanderlist-locate-user:focus {
+	box-shadow: 0 0 0 1px #5b9dd9,0 0 2px 1px rgba(30,140,190,.8);
+}
+
+/* Error messages */
 .wanderlist-message {
 	box-shadow: none !important;
 	opacity: 0;

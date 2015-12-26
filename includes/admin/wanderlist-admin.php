@@ -63,8 +63,7 @@ function wanderlist_geolocation_box() {
 	// @todo: Spit out an error message if the API key isn't properly set.
 	$options = get_option( 'wanderlist_settings' );
 	echo '<input id="wanderlist-geolocation-input" data-mapboxkey="' . esc_attr( $options['wanderlist_mapbox_key'] ) . '" type="hidden" name="wanderlist-geolocation">';
-	echo '<div id="wanderlist-geolocation-map"></div>';
-	echo '<a href="#" id="wanderlist-locate-user">Find me</a>';
+	echo '<div id="wanderlist-geolocation-map"><a href="#" id="wanderlist-locate-user"><span class="screen-reader-text">Find me</span></a></div>';
 
 	// Message field to show what's going on behind-the-scenes
 	echo '<div id="wanderlist-geocoder-message" class="wanderlist-message">';
