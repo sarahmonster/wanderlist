@@ -34,6 +34,10 @@ This page will show you an overview of your travels: countries you've visited, s
 
 Still working on expanding this functionality. :)
 
+### Showing a map
+
+You can use the [wanderlist-map] shortcode to show a small map of your current location, as well as any upcoming locations. This works particularly nicely on your homepage.
+
 ## Settings
 
 ### Mapbox options
