@@ -50,6 +50,22 @@
 		$( '.leaflet-control-mapbox-geocoder-form' ).find( 'input' ).focus( function() {
 			$( this ).parents( '.leaflet-control-mapbox-geocoder' ).find( '.leaflet-control-mapbox-geocoder-results' ).show();
 		} );
+
+		// If we already have saved data, let's show it on the map!
+		var lat = $( '#wanderlist-lat' ).val();
+		var lng = $( '#wanderlist-lng' ).val();
+		if ( $( '#wanderlist-city' ).val() ) {
+			var title = $( '#wanderlist-city' ).val();
+		} else if ( $( '#wanderlist-region' ).val() ) {
+			var title = $( '#wanderlist-region' ).val();
+		}	else if ( $( '#wanderlist-country' ).val() ) {
+				var title = $( '#wanderlist-country' ).val();
+		}
+		if ( lat && lng ) {
+			showPointOnMap( lat, lng, title );
+			map.setView( [lat, lng], 10 );
+		}
+
 	}
 
 	/*
@@ -61,8 +77,8 @@
 	 */
 	function parseLocationData( feature ) {
 		var city;
-		var country;
 		var region;
+		var country;
 
 		// If the context object doesn't exist, we're dealing with a limited dataset. Let's get what we can.
 		if ( ! feature.context ) {
@@ -115,7 +131,7 @@
 		$( '#wanderlist-geocoder-message' ).removeClass( 'error' );
 		$( '#wanderlist-geocoder-message' ).addClass( 'success' );
 		$( '#wanderlist-geocoder-message' ).find( '.place' ).text( placeName );
-		showPointOnMap( lat, lng );
+		showPointOnMap( lat, lng, placeName );
 	}
 
 	/*
@@ -178,7 +194,7 @@
  		 * This shows the selected point on a map.
  	 	 *
  	 	 */
-		 function showPointOnMap( lat, lng ) {
+		 function showPointOnMap( lat, lng, title ) {
 			 mapFeatures.setGeoJSON({
 					 type: 'Feature',
 					 geometry: {
@@ -188,7 +204,8 @@
 					 properties: {
 							 'marker-color': '#64b450',
 							 'marker-symbol': 'star',
-							 'marker-size': 'small'
+							 'marker-size': 'small',
+							 'title': title
 					 }
 			 });
 		 }
