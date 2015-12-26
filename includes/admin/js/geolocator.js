@@ -164,7 +164,9 @@
 			 var geocodeURI = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURI( lng ) + ',' +  + encodeURI( lat ) + '.json?access_token=' + L.mapbox.accessToken;
 			 $.ajax( geocodeURI, {
 				success: function( response ) {
-					parseLocationData( response.features[0] );
+					if ( 0 < response.features.length ) {
+						parseLocationData( response.features[0] );
+					}
 				},
 				error: function( response ) {
 					console.log( response )
