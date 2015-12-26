@@ -87,7 +87,7 @@ function wanderlist_geolocation_box() {
 	<input id="wanderlist-region" name="wanderlist-region" type="hidden" value="<?php esc_attr_e( get_post_meta( $post->ID, 'wanderlist-region', true ) ); ?>" />
 	<input id="wanderlist-lng" name="wanderlist-lng" type="hidden" value="<?php esc_attr_e( get_post_meta( $post->ID, 'wanderlist-lng', true  ) ); ?>" />
 	<input id="wanderlist-lat" name="wanderlist-lat" type="hidden" value="<?php esc_attr_e( get_post_meta( $post->ID, 'wanderlist-lat', true  ) ); ?>" />
-	<input id="wanderlist-country" name="wanderlist-country" type="hidden" value="<?php esc_attr_e( ltrim( wanderlist_place_data( 'country' ), ', '  ) ); ?>" />
+	<input id="wanderlist-country" name="wanderlist-country" type="hidden" value="<?php esc_attr_e( wanderlist_place_data( 'country' ) ); ?>" />
 <?php
 }
 

@@ -18,9 +18,15 @@ function wanderlist_place_data( $data, $post_ID = null ) {
 		 	// We need to figure out our place's country. Here we go.
 		 	$countries = wp_get_object_terms( get_the_ID(), 'wanderlist-country', array( 'fields' => 'names' ) );
 		 	if ( $countries ) :
+				$count = 0;
 		 		foreach ( $countries as $country => $name ) :
-		 			$output .= ', ' . $name;
-		 	endforeach;
+					if ( $count === 0 ) :
+						$output .= $name;
+					else :
+		 				$output .= ', ' . $name;
+					endif;
+					$count++;
+		 		endforeach;
 		 	else :
 		 		$output = '';
 		 	endif;
