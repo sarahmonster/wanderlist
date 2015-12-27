@@ -2,7 +2,7 @@
 /*
   Plugin Name: Wanderlist
   Plugin URI: http://triggersandsparks.com/wanderlist
-  Description: A WordPress plugin for tracking the places you've visited. Display them on a map, brag about your country-count, and show fun status! Because everyone loves stats, right?
+  Description: A WordPress plugin for tracking the places you've visited. Display them on a map, brag about your country-count, and show fun stats! Because everyone loves stats, right?
   Version: 0.1.0
   Author: sarah semark
   Author URI: http://triggersandsparks.com
