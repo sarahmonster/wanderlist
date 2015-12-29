@@ -101,3 +101,13 @@ add_action( 'wp_print_styles', 'flare_dequeue_plugin_styles', 100 );
 ```
 
 SCSS source files for Wanderlist's styles are included in the plugin for you to use as a starting point for your own styles. You can find them in the `assets/scss` folder.
+
+## Working on Wanderlist
+
+To work on Wanderlist you'll need node.js. Install dependencies with [npm](http://nodejs.org/):
+
+```
+npm install
+```
+
+You can build the SCSS files using `npm run build` or watch for changes using `npm start`.
