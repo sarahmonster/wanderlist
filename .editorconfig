@@ -1,0 +1,8 @@
+# 2 space indentation for JS, it's common
+[*.js]
+indent_style = space
+indent_size = 2
+
+# Tab indentation for PHP
+[*.php]
+indent_style = tab

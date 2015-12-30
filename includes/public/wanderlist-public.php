@@ -36,16 +36,16 @@ function wanderlist_get_current_location( $output = 'simple' ) {
 		'posts_per_page' => 1,
 		'post_type'      => 'wanderlist-location',
 		'meta_query'     => array(
-								array(
-									'key'     => 'wanderlist-arrival-date',
-									'value'   => wanderlist_today(),
-									'compare' => '<=',
-								),
-								array(
-									'key'     => 'wanderlist-departure-date',
-									'value'   => wanderlist_today(),
-									'compare' => '>=',
-								),
+			array(
+				'key'     => 'wanderlist-arrival-date',
+				'value'   => wanderlist_today(),
+				'compare' => '<=',
+			),
+			array(
+				'key'     => 'wanderlist-departure-date',
+				'value'   => wanderlist_today(),
+				'compare' => '>=',
+			),
 		),
 	) );
 	// If we didn't find a current location, output our current home location
@@ -84,24 +84,24 @@ function wanderlist_get_home( $date, $output = 'title' ) {
 	$homes = get_posts( array(
 		'posts_per_page' => 1,
 		'post_type'      => 'wanderlist-location',
-		'tax_query'      => array(
-							array(
-								'taxonomy' => 'post_tag',
-								'field'    => 'term_id',
-								'terms'    => $options['wanderlist_home_tag'],
-								'operator' => 'IN',
-							),
-						),
-		'meta_query'     => array(
-								array(
-									'key'     => 'wanderlist-arrival-date',
-									'value'   => $date,
-									'compare' => '<=',
-								),
-		),
 		'orderby'        => 'meta_value post_date',
 		'meta_key'       => 'wanderlist-arrival-date',
 		'order'          => $order,
+		'tax_query'      => array(
+			array(
+				'taxonomy' => 'post_tag',
+				'field'    => 'term_id',
+				'terms'    => $options['wanderlist_home_tag'],
+				'operator' => 'IN',
+			),
+		),
+		'meta_query'     => array(
+			array(
+				'key'     => 'wanderlist-arrival-date',
+				'value'   => $date,
+				'compare' => '<=',
+			),
+		),
 	) );
 
 	// Show our most recent location tagged "home"
@@ -164,13 +164,13 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 		'meta_compare'   => $compare,
 		'order'          => $order,
 		'tax_query'      => array(
-							array(
-								'taxonomy' => 'post_tag',
-								'field'    => 'term_id',
-								'terms'    => $options['wanderlist_home_tag'],
-								'operator' => 'NOT IN',
-							),
-						),
+			array(
+				'taxonomy' => 'post_tag',
+				'field'    => 'term_id',
+				'terms'    => $options['wanderlist_home_tag'],
+				'operator' => 'NOT IN',
+			),
+		),
 	);
 
 	$location_query = new WP_Query( $args );
@@ -332,22 +332,22 @@ function wanderlist_date( $post, $type ) {
 		// Are our months and years the same?
 		elseif ( $arrival_month === $departure_month  && $arrival_year === $departure_year ) :
 			$formatted_date = date( 'F j', strtotime( $arrival_date ) )
-							. '&ndash;'
-							. date( 'j', strtotime( $departure_date ) )
-							. date( ' Y', strtotime( $departure_date ) );
+				. '&ndash;'
+				. date( 'j', strtotime( $departure_date ) )
+				. date( ' Y', strtotime( $departure_date ) );
 
 		// If only the years are the same....
 		elseif ( $arrival_year === $departure_year ) :
 			$formatted_date = date( 'F j', strtotime( $arrival_date ) )
-			 				. '&ndash;'
-							. date( 'F j', strtotime( $departure_date ) )
-							. date( ' Y', strtotime( $departure_date ) );
+				. '&ndash;'
+				. date( 'F j', strtotime( $departure_date ) )
+				. date( ' Y', strtotime( $departure_date ) );
 
 		// Otherwise, just show the full date
 		else:
 			$formatted_date = date( 'F j Y', strtotime( $arrival_date ) )
-			 				. '&ndash;'
-							. date( 'F j Y', strtotime( $departure_date ) );
+				. '&ndash;'
+				. date( 'F j Y', strtotime( $departure_date ) );
 		endif;
 
 	// If nothing is specified, return the arrival date
@@ -559,11 +559,7 @@ function wanderlist_show_map( $overlay = null ) {
 function wanderlist_trip_join( $wp_join ) {
 	if ( is_tax( 'wanderlist-trip' ) ) :
 		global $wpdb;
-		$wp_join .= " LEFT JOIN (
-        SELECT post_id, meta_value as arrival_date
-        FROM $wpdb->postmeta
-        WHERE meta_key =  'wanderlist-arrival-date' ) AS PLACE
-        ON $wpdb->posts.ID = PLACE.post_id ";
+		$wp_join .= " LEFT JOIN (SELECT post_id, meta_value as arrival_date FROM $wpdb->postmeta WHERE meta_key =  'wanderlist-arrival-date' ) AS PLACE ON $wpdb->posts.ID = PLACE.post_id ";
 	endif;
 	return $wp_join;
 }
