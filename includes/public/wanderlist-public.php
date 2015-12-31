@@ -415,14 +415,72 @@ function wanderlist_count( $thing ) {
 			return count( $places );
 			break;
 
-		// Count all countries visited
-		// @todo: Don't count places we haven't been yet
 		case 'countries':
+			// Count all countries in the database.
 			$countries = get_terms( 'wanderlist-country', array(
 				'hide_empty'        => true,
 				'childless'         => true, // Only count countries that don't have sub-countries, since we may use these to store regional data at a later stage
 			) );
-			return count( $countries );
+
+			// Get an array of places you're visiting in the future.
+			$options = get_option( 'wanderlist_settings' );
+
+			$args = array(
+				'posts_per_page' => -1,
+				'post_type'      => 'wanderlist-location',
+				'meta_key'       => 'wanderlist-arrival-date',
+				'meta_value'     => wanderlist_today(),
+				'meta_compare'   => '>',
+			);
+
+			$future_country_query = new WP_Query( $args );
+
+			// For each place we're visiting in the future, get a list of countries.
+			$future_countries = array();
+			while ( $future_country_query->have_posts() ) :
+				$future_country_query->the_post();
+				$country = wanderlist_place_data( 'country', get_the_ID() );
+				// Make sure each country only appears once in the array.
+				if ( ! in_array( $country, $future_countries ) ) :
+					$future_countries[] = $country;
+				endif;
+				wp_reset_postdata();
+			endwhile;
+
+			// For each of these future countries, check to see if we have any places visited in the past
+			foreach( $future_countries as $future_country ) :
+				$args = array(
+					'posts_per_page' => -1,
+					'post_type'      => 'wanderlist-location',
+					'meta_key'       => 'wanderlist-arrival-date',
+					'meta_value'     => wanderlist_today(),
+					'meta_compare'   => '<=',
+					'tax_query'      => array(
+								array(
+									'taxonomy' => 'wanderlist-country',
+									'field'    => 'slug',
+									'terms'    => sanitize_title( $future_country ),
+								),
+							),
+				);
+
+				$visited_country_query = new WP_Query( $args );
+
+				while ( $visited_country_query->have_posts() ) :
+					$visited_country_query->the_post();
+					$country = wanderlist_place_data( 'country', get_the_ID() );
+					echo $country;
+					// Remove countries we've already visited from our array of future countries.
+					if ( ( $key = array_search( $country, $future_countries ) ) !== false ) :
+						unset( $future_countries[$key] );
+					endif;
+
+					wp_reset_postdata();
+				endwhile;
+			endforeach;
+
+			// Finally, return a total count of countries, minus those countries we're only visiting in the future.
+			return count( $countries ) - count( $future_countries );
 			break;
 
 		// Count all continents visited
