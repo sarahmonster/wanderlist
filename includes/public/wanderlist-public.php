@@ -390,28 +390,28 @@ function wanderlist_list_trips( $limit = null, $show = 'default' ) {
  */
 function wanderlist_count( $thing ) {
 	switch ( $thing ) {
-		// Count every unique place we've visited
-		// @todo: Exclude future places
+		// Get every place we've visited up to today.
 		case 'places':
 			$args = array(
 				'post_type'      => 'wanderlist-location',
-				'post_status'    => array( 'future', 'publish' ),
+				'meta_key'       => 'wanderlist-arrival-date',
+				'meta_value'     => wanderlist_today(),
+				'meta_compare'   => '<=',
 				'posts_per_page' => -1,
 			);
 			$place_query = new WP_Query( $args );
 
-			// Create an array of all places
+			// Create an array of unique places.
 			$places = array();
 			while ( $place_query->have_posts() ) :
 				$place_query->the_post();
 				$city_name = get_post_meta( get_the_ID(), 'wanderlist-city', true );
-				// If we've already been to this place, don't add it to our array
+				// If we've already been to this place, don't add it to our array.
 				if ( ! in_array( $city_name, $places ) ) :
 					$places[] = get_post_meta( get_the_ID(), 'wanderlist-city', true );
 				endif;
 				wp_reset_postdata();
 			endwhile;
-
 			return count( $places );
 			break;
 
@@ -422,7 +422,7 @@ function wanderlist_count( $thing ) {
 				'childless'         => true, // Only count countries that don't have sub-countries, since we may use these to store regional data at a later stage
 			) );
 
-			// Get an array of places you're visiting in the future.
+			// Get an array of places we're visiting in the future.
 			$options = get_option( 'wanderlist_settings' );
 
 			$args = array(
@@ -447,7 +447,7 @@ function wanderlist_count( $thing ) {
 				wp_reset_postdata();
 			endwhile;
 
-			// For each of these future countries, check to see if we have any places visited in the past
+			// For each of these future countries, check to see if we have any places visited in the past.
 			foreach( $future_countries as $future_country ) :
 				$args = array(
 					'posts_per_page' => -1,
