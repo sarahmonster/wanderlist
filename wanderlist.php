@@ -25,6 +25,11 @@ register_activation_hook( __FILE__, 'wanderlist_activate' );
 require plugin_dir_path( __FILE__ ) . 'includes/wanderlist.php';
 
 /**
+ * Code that filters our post loops.
+ */
+require plugin_dir_path( __FILE__ ) . 'includes/public/wanderlist-filters.php';
+
+/**
  * Public-facing code.
  */
 require plugin_dir_path( __FILE__ ) . 'includes/public/wanderlist-public.php';
