@@ -115,13 +115,14 @@ function wanderlist_overview_shortcode( $atts, $content = null  ) {
 	$widgets[] = array(
 		'class'   => 'wanderlist-number-widget',
 		'title'   => esc_html__( 'Stats', 'wanderlist' ),
-		'content' => '<div class="wanderlist-place-count"><span class="wanderlist-number">' . wanderlist_count( 'places' ) .
-					'</span><span class="wanderlist-item">'. esc_html__( 'Places', 'wanderlist' ) . '</span></div>
-					<span class="wanderlist-connector">' . esc_html__( 'in', 'wanderlist' ) . '</span>
-		         <div class="wanderlist-country-count"><span class="wanderlist-number">' . wanderlist_count( 'countries' ) .
-				 	'</span><span class="wanderlist-item">'. esc_html__( 'Countries', 'wanderlist' ) . '</span></div>
-					<span class="wanderlist-connector">' . esc_html__( 'on', 'wanderlist' ) . '</span>
-		         <div class="wanderlist-continent-count"><span class="wanderlist-number">' . wanderlist_count( 'continents' ). '</span><span class="wanderlist-item">'. esc_html__( 'Continents', 'wanderlist' ) . '</span></div>',
+		'content' => '<div class="wanderlist-place-count">' .
+			'<span class="wanderlist-number">' . wanderlist_count( 'places' ) .
+			'</span><span class="wanderlist-item">'. esc_html__( 'Places', 'wanderlist' ) . '</span></div>
+			<span class="wanderlist-connector">' . esc_html__( 'in', 'wanderlist' ) . '</span>
+			<div class="wanderlist-country-count"><span class="wanderlist-number">' . wanderlist_count( 'countries' ) .
+			'</span><span class="wanderlist-item">'. esc_html__( 'Countries', 'wanderlist' ) . '</span></div>
+			<span class="wanderlist-connector">' . esc_html__( 'on', 'wanderlist' ) . '</span>
+			<div class="wanderlist-continent-count"><span class="wanderlist-number">' . wanderlist_count( 'continents' ). '</span><span class="wanderlist-item">'. esc_html__( 'Continents', 'wanderlist' ) . '</span></div>',
 	);
 
 	$return = '<div class="wanderlist-overview">';

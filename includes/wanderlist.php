@@ -9,8 +9,9 @@
  */
 
 /**
- * This is a reusable function that allows us to grab place-specific data and return
- * it in a consistent way across our plugin scripts, and in theme template files as well.
+ * This is a reusable function that allows us to grab place-specific data and
+ * return it in a consistent way across our plugin scripts, and in theme
+ * template files as well.
  */
 function wanderlist_place_data( $data, $post_ID = null ) {
 	switch ( $data ) {

@@ -12,8 +12,10 @@
  */
 
 /*
- * Add our settings page as a submenu of our existing "Wanderlist" menu, created by the "location" CPT.
- * This means all behaviours for the plugin will be clustered under a single, logical menu.
+ * Add our settings page as a submenu of our existing "Wanderlist" menu, created
+ * by the "location" CPT.
+ * This means all behaviours for the plugin will be clustered under a single,
+ * logical menu.
  */
 function wanderlist_add_admin_menu() {
 	add_submenu_page(
@@ -137,13 +139,13 @@ add_action( 'admin_init', 'wanderlist_settings_init' );
  * These functions add descriptions for each of our settings sections.
  */
 function wanderlist_mapbox_section_description() {
-		printf(
-			wp_kses( __( '<a href="%1$s">Sign up for a free Mapbox account here</a>. Generate a new <strong>public</strong> API key from <a href="%2$s">Account → Apps</a> and enter it below.', 'wanderlist' ),
-				array( 'a' => array( 'href' => array() ) )
-			),
-			esc_url( 'https://www.mapbox.com/signup/' ),
-			esc_url( 'https://www.mapbox.com/account/apps/' )
-		);
+	printf(
+		wp_kses( __( '<a href="%1$s">Sign up for a free Mapbox account here</a>. Generate a new <strong>public</strong> API key from <a href="%2$s">Account → Apps</a> and enter it below.', 'wanderlist' ),
+			array( 'a' => array( 'href' => array() ) )
+		),
+		esc_url( 'https://www.mapbox.com/signup/' ),
+		esc_url( 'https://www.mapbox.com/account/apps/' )
+	);
 }
 
 function wanderlist_general_section_description() {
@@ -198,7 +200,7 @@ function wanderlist_dateformat_render() {
 			array(
 				'a' => array( 'href' => array() ),
 				'br' => array(),
-				)
+			)
 		),
 		esc_url( 'https://codex.wordpress.org/Formatting_Date_and_Time' )
 	);

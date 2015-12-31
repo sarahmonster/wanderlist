@@ -58,7 +58,8 @@ add_filter( 'single_template', 'wanderlist_CPT_template' );
 
 /**
  * Check to see if our theme has custom templates available.
- * This check is used by the above functions to see if we should use the fallback functions
+ * This check is used by the above functions to see if we should use the
+ * fallback functions
  */
 function wanderlist_is_template( $template_path, $match ){
 	// Check for template taxonomy-wanderlist-trip.php or taxonomy-wanderlist-trip-{term-slug}.php

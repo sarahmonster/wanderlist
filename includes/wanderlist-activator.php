@@ -87,8 +87,10 @@ function wanderlist_custom_data() {
 
 	/**
 	* Register a taxonomy for trips, so we can map out a particular trip.
-	* This just allows us an easy way to group locations and travels into different trips.
-	* At some point, we'll add functionality to show full details of a particular trip.
+	* This just allows us an easy way to group locations and travels into
+	* different trips.
+	* At some point, we'll add functionality to show full details of a
+	* particular trip.
 	*/
 	$trip_labels = array(
 		'name'                       => _x( 'Trips', 'Taxonomy General Name', 'wanderlist' ),
@@ -123,8 +125,10 @@ function wanderlist_custom_data() {
 add_action( 'init', 'wanderlist_custom_data' );
 
 /*
- * On activation, create a new page called "travels" to show an overview of user's travels.
- * @todo: Delete this page, and menu item, on uninstall, check for binned page maybe, serialise db options
+ * On activation, create a new page called "travels" to show an overview of
+ * user's travels.
+ * @todo: Delete this page, and menu item, on uninstall, check for binned page
+ * maybe, serialise db options
  */
 function wanderlist_landing_page() {
 
@@ -163,32 +167,32 @@ function wanderlist_landing_page() {
  * Adds specified page to the primary menu.
  * This tries to be smart about finding the "primary menu", but isn't anywhere
  * close to foolproof, and requires that a menu location be set already.
- * At some point, this may warrant further investigation, but it's pretty low priority.
+ * At some point, this may warrant further investigation, but it's pretty low
+ * priority.
  */
 function wanderlist_add_menu_item( $post_id ) {
-  // First, let's get a menu. We'll make a new one if we don't already have any,
-  // but otherwise we'll just use the most logical-seeming menu.
-  $locations = get_nav_menu_locations();
-  if ( ! $locations ) :
-	  $menu_id = wp_create_nav_menu ( 'Primary Menu' );
-  elseif ( $locations['primary'] ) :
-	  $menu_id = $locations['primary'];
-  else :
-	  $menu_id = $locations[0];
-  endif;
+	// First, let's get a menu. We'll make a new one if we don't already have any,
+	// but otherwise we'll just use the most logical-seeming menu.
+	$locations = get_nav_menu_locations();
+	if ( ! $locations ) :
+		$menu_id = wp_create_nav_menu ( 'Primary Menu' );
+	elseif ( $locations['primary'] ) :
+		$menu_id = $locations['primary'];
+	else :
+		$menu_id = $locations[0];
+	endif;
 
-  // Add page to our selected menu
-  $new_menu_item_id = wp_update_nav_menu_item ( $menu_id, 0, array(
-	  'menu-item-title'     => esc_html__( 'Travels', 'wanderlist' ),
-	  'menu-item-object'    => 'page',
-	  'menu-item-type'      => 'post_type',
-	  'menu-item-object-id' => $post_id,
-	  'menu-item-status'    => 'publish',
-	  )
-  );
+	// Add page to our selected menu
+	$new_menu_item_id = wp_update_nav_menu_item ( $menu_id, 0, array(
+		'menu-item-title'     => esc_html__( 'Travels', 'wanderlist' ),
+		'menu-item-object'    => 'page',
+		'menu-item-type'      => 'post_type',
+		'menu-item-object-id' => $post_id,
+		'menu-item-status'    => 'publish',
+	) );
 
-  // Save the id in the database, so we can delete it on de-activation
-  update_option( 'wanderlist_menu_item', $new_menu_item_id );
+	// Save the id in the database, so we can delete it on de-activation
+	update_option( 'wanderlist_menu_item', $new_menu_item_id );
 }
 
 /*
