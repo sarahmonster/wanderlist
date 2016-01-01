@@ -74,8 +74,12 @@
 	width: 70%;
 }
 .wanderlist-widget dl svg,
-.wanderlist-widget ul svg {
-	height: 15px;
+.wanderlist-widget dl .flag,
+.wanderlist-widget ul svg,
+.wanderlist-widget ul .flag {
+	height: 10px;
+	margin-right: 2px;
+	vertical-align: -1px;
 	width: auto;
 }
 

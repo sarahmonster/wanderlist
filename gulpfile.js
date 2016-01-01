@@ -31,7 +31,13 @@ gulp.task( 'copy', function() {
 
 gulp.task( 'svg', function () {
     return gulp.src( './includes/public/svg/*/*.svg' )
-        .pipe( svgmin() )
+        .pipe( svgmin( {
+                plugins: [{
+                    removeViewBox: false
+                }, {
+                    removeUselessStrokeAndFill: false
+                }]
+        } ) )
         .pipe( gulp.dest( './includes/public/svg' ) );
 });
 

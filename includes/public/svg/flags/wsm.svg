@@ -1,10 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2880" height="1440">
-	<rect width="2880" height="1440" fill="#ce1126"/>
-	<rect width="1440" height="720" fill="#002b7f"/>
-	<polygon points="0,-1 .587785,.809017 -.951057,-.309017 .951057,-.309017 -.587785,.809017" transform="translate(720,604.93494) scale(105.14622)" fill="#fff"/>
-	<polygon id="p" points="0,-1 .587785,.809017 -.951057,-.309017 .951057,-.309017 -.587785,.809017" transform="translate(500,292.918) scale(84.116958,82.917961)" fill="#fff"/>
-	<polygon points="0,-1 .587785,.809017 -.951057,-.309017 .951057,-.309017 -.587785,.809017" transform="translate(945,257.3901) scale(78.859659,77.390097)" fill="#fff"/>
-	<use xlink:href="#p" x="220" y="-180"/>
-	<polygon points="0,-1 .587785,.809017 -.951057,-.309017 .951057,-.309017 -.587785,.809017" transform="translate(830,417.46729) scale(52.573095)" fill="#fff"/>
-</svg>
+<svg version="1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2880" height="1440"><path fill="#ce1126" d="M0 0h2880v1440H0z"/><path fill="#002b7f" d="M0 0h1440v720H0z"/><path fill="#fff" d="M720 499.79L781.803 690 620 572.443h200L658.197 690"/><path id="a" fill="#fff" d="M500 210l49.443 150L420 267.295h160L450.557 360z"/><path fill="#fff" d="M945 180l46.353 140L870 233.475h150L898.647 320"/><use xlink:href="#a" x="220" y="-180"/><path fill="#fff" d="M830 364.894L860.902 460 780 401.22h100L799.098 460"/></svg>
