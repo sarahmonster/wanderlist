@@ -112,7 +112,9 @@ function wanderlist_iso_data( $name, $return ) {
 function wanderlist_list_countries() {
 	$countries = wanderlist_visited_countries();
 	foreach ( $countries as $country ) :
-		$country_list .= '<li>' . $country->name . '</li>';
+		$country_list .= '<li data-country-code="' . wanderlist_iso_data( $country->name, 'country_code' ) . '">';
+		$country_list .= '<a href="' . esc_url( get_term_link( $country ) ) . '">' . $country->name;
+		$country_list .=' <span>' . $country->count . '</span></a></li>';
 	endforeach;
 	return '<ul>' . $country_list . '</ul>';
 }
