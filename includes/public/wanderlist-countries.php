@@ -119,7 +119,8 @@ function wanderlist_get_country_data( $country_name, $data ) {
 					return $country['region'];
 					break;
 				case 'flag' :
-					return file_get_contents( plugin_dir_path( __FILE__ ) . 'svg/'. $country['cca3'] .'.svg' );
+					//return file_get_contents( plugin_dir_path( __FILE__ ) . 'custom/'. $country['cca3'] .'.svg' );
+					return '<img class="flag" src="http://triggersandsparks:8888/wp-content/plugins/wanderlist/includes/public/svg/flags/' .  $country['cca3'] . '.svg' . '"/>';
 					break;
 				default :
 					return $country['cca3'];

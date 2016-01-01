@@ -6,6 +6,7 @@ var del = require( 'del' );
 var sourcemaps = require( 'gulp-sourcemaps' );
 var livereload = require( 'gulp-livereload' );
 var csscomb = require( 'gulp-csscomb' );
+var svgmin = require( 'gulp-svgmin' );
 
 gulp.task( 'sass', function() {
   return gulp.src( './assets/scss/style.scss' )
@@ -25,13 +26,19 @@ gulp.task( 'copy', function() {
   gulp.src( ['./node_modules/world-countries/dist/countries.json', './node_modules/world-countries/data/*.json'] )
     .pipe( gulp.dest( './includes/public/js/country_data' ) );
   gulp.src( ['./node_modules/world-countries/data/*.svg'] )
-      .pipe( gulp.dest( './includes/public/svg' ) );
+      .pipe( gulp.dest( './includes/public/svg/flags' ) );
 });
 
-gulp.task( 'build', ['copy', 'clean', 'sass'] );
+gulp.task( 'svg', function () {
+    return gulp.src( './includes/public/svg/*/*.svg' )
+        .pipe( svgmin() )
+        .pipe( gulp.dest( './includes/public/svg' ) );
+});
+
+
+gulp.task( 'build', ['copy', 'svg', 'clean', 'sass'] );
 
 gulp.task( 'watch', function() {
-  // Watch .scss files
   gulp.watch( './assets/scss/**/*.scss', ['sass'] );
 });
 

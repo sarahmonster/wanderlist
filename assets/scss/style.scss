@@ -83,8 +83,11 @@
       width: 70%;
     }
 
-    svg {
-            height: 15px;
+    svg,
+    .flag {
+            height: 10px;
+            margin-right: 2px;
+            vertical-align: -1px;
             width: auto;
     }
   }

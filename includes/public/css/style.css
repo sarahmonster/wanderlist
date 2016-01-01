@@ -16,7 +16,7 @@
 	display: block;
 	height: 200px;
 	position: relative;
-	width: 100%;
+	width: 100%; 
 	z-index: 0;
 }
 @media (min-width: 768px) {
@@ -75,8 +75,8 @@
 }
 .wanderlist-widget dl svg,
 .wanderlist-widget ul svg {
-	width: 50px;
-	height: auto;
+	height: 15px;
+	width: auto;
 }
 
 .entry-content .wanderlist-widget dl {
