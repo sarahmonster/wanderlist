@@ -109,7 +109,7 @@ function wanderlist_overview_shortcode( $atts, $content = null  ) {
 	$widgets[] = array(
 		'class'   => 'wanderlist-country-widget',
 		'title'   => esc_html__( 'Countries visited', 'wanderlist' ),
-		'content' => wanderlist_list_countries( 'list' ),
+		'content' => wanderlist_list_countries(),
 	);
 
 	$widgets[] = array(
