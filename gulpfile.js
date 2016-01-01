@@ -21,7 +21,12 @@ gulp.task( 'clean', function( done ) {
   del( ['./includes/public/css/style.css'], done );
 });
 
-gulp.task( 'build', ['clean', 'sass'] );
+gulp.task( 'copy', function() {
+  gulp.src( ['./node_modules/world-countries/countries.json'] )
+    .pipe( gulp.dest( './includes/public/js' ) );
+});
+
+gulp.task( 'build', ['copy', 'clean', 'sass'] );
 
 gulp.task( 'watch', function() {
   // Watch .scss files

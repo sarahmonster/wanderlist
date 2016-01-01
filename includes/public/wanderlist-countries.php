@@ -104,6 +104,29 @@ function wanderlist_iso_data( $name, $return ) {
 }
 
 /**
+ * Get extra country data.
+ * This is extracted from JSON files copied from https://github.com/mledoze/countries.
+ */
+function wanderlist_get_country_data( $country_name, $data ) {
+	$content = file_get_contents( plugin_dir_path( __FILE__ ) . '/js/countries.json' );
+	$countries = json_decode( $content, true );
+
+	// Iterate through our countries until we find one that matches the name.
+	foreach( $countries as $country ) :
+		if ( $country_name === $country['name']['common'] ) :
+			if ( 'continent' === $data ) :
+			// Return the continent.
+				return $country['region'];
+			else :
+			// Return the country code.
+				return $country['cca3'];
+			endif;
+			break;
+		endif;
+	endforeach;
+}
+
+/**
  * Show tag cloud or list of countries.
  * @todo: Use a manual function to arrange by time spent in each!
  * @todo: Maybe use flags, or something more visual?
@@ -112,7 +135,7 @@ function wanderlist_iso_data( $name, $return ) {
 function wanderlist_list_countries() {
 	$countries = wanderlist_visited_countries();
 	foreach ( $countries as $country ) :
-		$country_list .= '<li data-country-code="' . wanderlist_iso_data( $country->name, 'country_code' ) . '">';
+		$country_list .= '<li data-country-code="' . wanderlist_get_country_data( $country->name, 'code' ) . '">';
 		$country_list .= '<a href="' . esc_url( get_term_link( $country ) ) . '">' . $country->name;
 		$country_list .=' <span>' . $country->count . '</span></a></li>';
 	endforeach;
