@@ -385,7 +385,6 @@ function wanderlist_count( $thing ) {
 				while ( $visited_country_query->have_posts() ) :
 					$visited_country_query->the_post();
 					$country = wanderlist_place_data( 'country', get_the_ID() );
-					echo $country;
 					// Remove countries we've already visited from our array of future countries.
 					if ( ( $key = array_search( $country, $future_countries ) ) !== false ) :
 						unset( $future_countries[$key] );
