@@ -22,8 +22,10 @@ gulp.task( 'clean', function( done ) {
 });
 
 gulp.task( 'copy', function() {
-  gulp.src( ['./node_modules/world-countries/countries.json'] )
-    .pipe( gulp.dest( './includes/public/js' ) );
+  gulp.src( ['./node_modules/world-countries/dist/countries.json', './node_modules/world-countries/data/*.json'] )
+    .pipe( gulp.dest( './includes/public/js/country_data' ) );
+  gulp.src( ['./node_modules/world-countries/data/*.svg'] )
+      .pipe( gulp.dest( './includes/public/svg' ) );
 });
 
 gulp.task( 'build', ['copy', 'clean', 'sass'] );
