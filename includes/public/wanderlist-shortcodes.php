@@ -28,7 +28,7 @@ function wanderlist_location_shortcode( $atts, $content = null  ){
 	endif;
 
 	if ( 'countries' === $a['show'] ) :
-		return '<span class="wanderlist-country-count">' . wanderlist_count( 'countries' ) . '</span>';
+		return '<span class="wanderlist-country-count">' . count( wanderlist_visited_countries() ) . '</span>';
 	endif;
 }
 
@@ -58,7 +58,7 @@ function wanderlist_map_shortcode( $atts, $content = null ) {
 	endif;
 
 	if ( 'countries' === $a['show'] ) :
-		return '<span class="wanderlist-country-count">' . count( wanderlist_all_countries() ) . '</span>';
+		return wanderlist_show_map( 'countries' );
 	endif;
 }
 
@@ -117,9 +117,9 @@ function wanderlist_overview_shortcode( $atts, $content = null  ) {
 		'title'   => esc_html__( 'Stats', 'wanderlist' ),
 		'content' => '<div class="wanderlist-place-count">' .
 			'<span class="wanderlist-number">' . wanderlist_count( 'places' ) .
-			'</span><span class="wanderlist-item">'. esc_html__( 'Places', 'wanderlist' ) . '</span></div>
+			'</span><span class="wanderlist-item">'. esc_html__( 'Cities', 'wanderlist' ) . '</span></div>
 			<span class="wanderlist-connector">' . esc_html__( 'in', 'wanderlist' ) . '</span>
-			<div class="wanderlist-country-count"><span class="wanderlist-number">' . wanderlist_count( 'countries' ) .
+			<div class="wanderlist-country-count"><span class="wanderlist-number">' . count( wanderlist_visited_countries() ) .
 			'</span><span class="wanderlist-item">'. esc_html__( 'Countries', 'wanderlist' ) . '</span></div>
 			<span class="wanderlist-connector">' . esc_html__( 'on', 'wanderlist' ) . '</span>
 			<div class="wanderlist-continent-count"><span class="wanderlist-number">' . wanderlist_count( 'continents' ). '</span><span class="wanderlist-item">'. esc_html__( 'Continents', 'wanderlist' ) . '</span></div>',

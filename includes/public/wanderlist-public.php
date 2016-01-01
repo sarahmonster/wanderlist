@@ -332,10 +332,6 @@ function wanderlist_count( $thing ) {
 			return count( $places );
 			break;
 
-		case 'countries':
-			return count( wanderlist_visited_countries() );
-			break;
-
 		// Count all continents visited
 		// @todo: Account for edge cases, of which there are many!
 		case 'continents':
