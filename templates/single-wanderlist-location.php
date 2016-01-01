@@ -18,13 +18,7 @@ get_header(); ?>
 				<header class="entry-header">
 					<div class="entry-meta">
 						<span class="posted-on">
-							<?php echo esc_html( wanderlist_date( get_the_ID(), 'arrival' ) ); ?>
-							<?php
-							if ( wanderlist_date( get_the_ID(), 'departure' ) ) :
-								echo esc_html_x( ' to ', 'Between two dates', 'wanderlist' );
-								echo esc_html( wanderlist_date( get_the_ID(), 'departure' ) );
-							endif;
-							?>
+							<?php echo wp_kses( wanderlist_date( get_the_ID(), 'range-ext' ), wanderlist_date_allowed_html() ); ?>
 						</span>
 						<span class="tags-links">
 							<?php the_terms( get_the_ID(), 'wanderlist-trip', 'Trip: ', ', ', ' &middot;' ); ?>
@@ -40,7 +34,7 @@ get_header(); ?>
 						the_post_thumbnail();
 					endif;
 					?>
-					
+
 					<?php the_content(); ?>
 					<?php
 						wp_link_pages( array(

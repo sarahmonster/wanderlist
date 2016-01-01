@@ -30,6 +30,11 @@ require plugin_dir_path( __FILE__ ) . 'includes/wanderlist.php';
 require plugin_dir_path( __FILE__ ) . 'includes/public/wanderlist-filters.php';
 
 /**
+ * Code that manages date-related functions.
+ */
+require plugin_dir_path( __FILE__ ) . 'includes/public/wanderlist-dates.php';
+
+/**
  * Public-facing code.
  */
 require plugin_dir_path( __FILE__ ) . 'includes/public/wanderlist-public.php';
