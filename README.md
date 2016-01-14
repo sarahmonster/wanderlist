@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/sarahmonster/wanderlist.png?label=ready&title=Ready)](https://waffle.io/sarahmonster/wanderlist)
 # Wanderlist
 
 Wanderlist is a WordPress plugin for travellers and nomads, to help you track & display your travels.
