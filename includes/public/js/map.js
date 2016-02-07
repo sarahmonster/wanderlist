@@ -63,6 +63,12 @@
 			// Add a new feature layer to show our markers
 			var featureLayer = L.mapbox.featureLayer().setGeoJSON(markers).addTo(map);
 
+
+			//var countryLayer = L.mapbox.featureLayer().setGeoJSON(markers).addTo(map);
+			var countryLayer = L.mapbox.featureLayer()
+				.loadURL('http://triggersandsparks:8888/wp-content/plugins/wanderlist/includes/public/js/country-data/arg.geo.json')
+				.addTo(map);
+
 			// If we only show one place, manually set the zoom level so it isn't too close
 			if ( count <= 2 ) {
 				map.setView([$('.wanderlist-place').last().data('lat'), $('.wanderlist-place').last().data('lng')], 6);

@@ -2,10 +2,10 @@
  * Sass sources for CSS styles used by plugin. To overwrite with your own styles
  * entirely, add the following to your functions.php:
  *
- function flare_dequeue_plugin_styles()  {
+ function phoenix_dequeue_plugin_styles()  {
   wp_dequeue_style( 'wanderlist-style' );
  }
- add_action( 'wp_print_styles', 'flare_dequeue_plugin_styles', 100 );
+ add_action( 'wp_print_styles', 'phoenix_dequeue_plugin_styles', 100 );
  *
  * @package Wanderlist
  */

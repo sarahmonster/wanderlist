@@ -94,10 +94,10 @@ Wanderlist comes with its own CSS styles. If you find they're conflicting, or yo
 To dequeue Wanderlist's custom CSS, copy the following line into your theme's `functions.php`
 
 ```
-function flare_dequeue_plugin_styles()  {
+function phoenix_dequeue_plugin_styles()  {
 	wp_dequeue_style( 'wanderlist-style' );
 }
-add_action( 'wp_print_styles', 'flare_dequeue_plugin_styles', 100 );
+add_action( 'wp_print_styles', 'phoenix_dequeue_plugin_styles', 100 );
 ```
 
 SCSS source files for Wanderlist's styles are included in the plugin for you to use as a starting point for your own styles. You can find them in the `assets/scss` folder.
