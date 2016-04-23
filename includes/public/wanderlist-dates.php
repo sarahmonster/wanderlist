@@ -10,10 +10,17 @@
  * This also sets our default timezone to whatever is set in our WordPress settings.
  */
 function wanderlist_today() {
-	date_default_timezone_set( get_option( 'timezone_string' ) );
+	if ( ! get_option( 'timezone_string' ) ) :
+		$timezone = 'UTC';
+	else :
+		$timezone = get_option( 'timezone_string' );
+	endif;
+	date_default_timezone_set( $timezone );
 	$today = date( 'Y-m-d' );
 	return $today;
 }
+
+
 
 /**
  * Specify allowed HTML for date strings.

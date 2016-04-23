@@ -39,7 +39,7 @@ function wanderlist_place_data( $data, $post_ID = null ) {
 			$output = get_post_meta( $post_ID, 'wanderlist-lat', true );
 			break;
 		case 'lng' :
-			$output .= get_post_meta( $post_ID, 'wanderlist-lng', true );
+			$output = get_post_meta( $post_ID, 'wanderlist-lng', true );
 			break;
 	}
 	return $output;

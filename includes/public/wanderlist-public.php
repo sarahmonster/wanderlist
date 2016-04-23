@@ -14,13 +14,13 @@
 function wanderlist_scripts() {
 	// Mapbox dependencies
 	wp_enqueue_script( 'wanderlist-mapbox', 'https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.js', array(), '20150719', true );
-	wp_enqueue_style( 'wanderlist-mapbox-css', 'https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.css', array(), '20150719', all );
+	wp_enqueue_style( 'wanderlist-mapbox-css', 'https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.css', array(), '20150719', 'all' );
 
 	// Custom js
 	wp_enqueue_script( 'wanderlist-map', plugin_dir_url( __FILE__ ) . 'js/map.js', array( 'jquery', 'wanderlist-mapbox' ), '20150719', true );
 
 	// Styles;
-	wp_enqueue_style( 'wanderlist-style', plugin_dir_url( __FILE__ ) . 'css/style.css', array(), '20150914', all );
+	wp_enqueue_style( 'wanderlist-style', plugin_dir_url( __FILE__ ) . 'css/style.css', array(), '20150914', 'all' );
 }
 add_action( 'wp_enqueue_scripts', 'wanderlist_scripts' );
 
@@ -86,7 +86,7 @@ function wanderlist_get_home( $date, $output = 'title' ) {
 		'post_type'      => 'wanderlist-location',
 		'orderby'        => 'meta_value post_date',
 		'meta_key'       => 'wanderlist-arrival-date',
-		'order'          => $order,
+		'order'          => 'ASC',
 		'tax_query'      => array(
 			array(
 				'taxonomy' => 'post_tag',
@@ -131,15 +131,15 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
 	$options = get_option( 'wanderlist_settings' );
 
 	if ( 'all' === $show ) :
-		$order = DESC;
+		$order = 'DESC';
 	elseif ( 'past' === $show ) :
-		$order = DESC;
+		$order = 'DESC';
 		$compare = '<=';
 	elseif ( 'upcoming' === $show ) :
-		$order = ASC;
+		$order = 'ASC';
 		$compare = '>';
 	elseif ( 'default' === $show ) :
-		$order = ASC;
+		$order = 'ASC';
 		$compare = '>';
 		$limit = $limit - 1;
 	endif;
@@ -189,22 +189,25 @@ function wanderlist_list_locations( $limit = null, $show = 'default' ) {
  */
 function wanderlist_format_location( $id, $options = null ) {
 
+	// Set default value for $today variable. (Is it "today"?)
+	$today = false;
+
 	// If we're still visiting somewhere, show that location with "today"
 	if ( wanderlist_today() >= get_post_meta( $id, 'wanderlist-arrival-date', true )
 	 && wanderlist_today() <= get_post_meta( $id, 'wanderlist-departure-date', true ) ) :
 		$today = true;
-		$output .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
+		$output = '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
 
 	// If this is our home and we haven't entered a departure date, show it as "today" as well
 	elseif ( wanderlist_is_home( $id ) && '' == get_post_meta( $id, 'wanderlist-departure-date', true ) ) :
-		$output .= '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
+		$output = '<dt>' . esc_html__( 'Today', 'wanderlist' ) . '</dt>';
 
 	// If we've opted to show the date range, show the date range, silly!
 	elseif ( 'range' === $options['date_format'] ) :
-		$output .= '<dt>' . esc_html( wanderlist_date( $id, 'range' ) ) . '</dt>' ;
+		$output = '<dt>' . esc_html( wanderlist_date( $id, 'range' ) ) . '</dt>' ;
 
 	else : // Otherwise, display the date of arrival
-		$output .= '<dt>' . esc_html( wanderlist_date( $id, 'arrival' ) ) . '</dt>' ;
+		$output = '<dt>' . esc_html( wanderlist_date( $id, 'arrival' ) ) . '</dt>' ;
 	endif;
 
 	// Spit out coordinates for Mapbox to use

@@ -22,7 +22,7 @@ get_header(); ?>
 						</span>
 						<span class="tags-links">
 							<?php the_terms( get_the_ID(), 'wanderlist-trip', 'Trip: ', ', ', ' &middot;' ); ?>
-							<?php the_terms( get_the_ID(), 'wanderlist-country', '', ', ', $after ); ?>
+							<?php the_terms( get_the_ID(), 'wanderlist-country', '', ', ' ); ?>
 						</span>
 					</div><!-- .entry-meta -->
 					<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>

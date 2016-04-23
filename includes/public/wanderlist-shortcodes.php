@@ -130,7 +130,7 @@ function wanderlist_overview_shortcode( $atts, $content = null  ) {
 	foreach ( $widgets as $widget ) :
 		if ( '<dl></dl>' !== $widget['content'] && '<ul></ul>' !== $widget['content']  ) :
 			$return .= '<div class="wanderlist-widget ' . $widget['class'] . '">';
-			if ( $widget['title'] ) :
+			if ( isset( $widget['title'] ) ) :
 				$return .= '<h3 class="widget-title">' . $widget['title'] . '</h3>';
 			endif;
 			$return .= $widget['content'];
