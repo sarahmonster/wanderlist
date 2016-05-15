@@ -22,7 +22,7 @@ function wanderlist_place_data( $data, $post_ID = null ) {
 				$count = 0;
 				foreach ( $countries as $country => $name ) :
 					if ( 0 === $count ) :
-						$output .= $name;
+						$output = $name;
 					else :
 						$output .= ', ' . $name;
 					endif;
