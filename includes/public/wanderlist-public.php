@@ -213,16 +213,26 @@ function wanderlist_format_location( $id, $options = null ) {
 	// Spit out coordinates for Mapbox to use
 	$output .= '<dd class="wanderlist-place" data-city="' . esc_html( wanderlist_place_data( 'city', $id ) ) .'" data-lat="'. esc_attr( wanderlist_place_data( 'lat', $id ) ) . '" data-lng="' . esc_attr( wanderlist_place_data( 'lng', $id ) ) . '">';
 
-	// Show a link to full post if: a) user has opted to show links, and b) the place isn't one you're still busy exploring
+	// Show a link to full post if: a) user hasn't opted out of showing, and
+	// b) the place isn't one you're still busy exploring
 	$options = get_option( 'wanderlist_settings' );
-	if ( '1' !== $options['wanderlist_hide_link_to_location'] && true !== $today ) :
+	$hide_link = false; // Our default is to show links.
+
+	// Override the user has opted-out of links.
+	if ( $options && array_key_exists( 'wanderlist_hide_link_to_location', $options ) ) :
+		if ( '1' === $options['wanderlist_hide_link_to_location'] ) :
+			$hide_link = true;
+		endif;
+	endif;
+
+	if ( false === $hide_link && true !== $today ) :
 		$output .= '<a href="' . esc_url( get_the_permalink( $id ) ) . '">';
 	endif;
 
 	// Show the title
 	$output .= esc_html( get_the_title( $id ) );
 
-	if ( '1' !== $options['wanderlist_hide_link_to_location'] && true !== $today ) :
+	if ( false === $hide_link && true !== $today ) :
 		$output .= '</a>';
 	endif;
 

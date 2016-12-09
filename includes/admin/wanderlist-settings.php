@@ -208,8 +208,16 @@ function wanderlist_dateformat_render() {
 
 function wanderlist_hide_link_to_location_render(  ) {
 	$options = get_option( 'wanderlist_settings' );
+	$checked = ''; // Our default is unchecked.
+
+	// Override the user has opted-out of links.
+	if ( $options && array_key_exists( 'wanderlist_hide_link_to_location', $options ) ) :
+		if ( '1' === $options['wanderlist_hide_link_to_location'] ) :
+			$checked = 'checked';
+		endif;
+	endif;
 	?>
-	<input type='checkbox' name='wanderlist_settings[wanderlist_hide_link_to_location]' <?php checked( $options['wanderlist_hide_link_to_location'], 1 ); ?> value='1'>
+	<input type='checkbox' name='wanderlist_settings[wanderlist_hide_link_to_location]' <?php echo $checked; ?> value='1'>
 	<?php
 }
 
