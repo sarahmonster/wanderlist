@@ -86,7 +86,7 @@ function wanderlist_get_home( $date, $output = 'title' ) {
 		'post_type'      => 'wanderlist-location',
 		'orderby'        => 'meta_value post_date',
 		'meta_key'       => 'wanderlist-arrival-date',
-		'order'          => 'ASC',
+		'order'          => 'DESC',
 		'tax_query'      => array(
 			array(
 				'taxonomy' => 'post_tag',
