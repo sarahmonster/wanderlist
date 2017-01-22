@@ -445,7 +445,7 @@ function wanderlist_count( $thing ) {
 function wanderlist_iso_data( $name, $return ) {
 	require plugin_dir_path( __FILE__ ) . 'wanderlist-iso-data.php';
 	$continent = null;
-	if ( $country_names[ $name ] ) :
+	if ( $country_names && array_key_exists( 'name', $country_names ) ) :
 		$country_code = $country_names[ $name ];
 		$continent = $country_continents[ $country_code ];
 	endif;
