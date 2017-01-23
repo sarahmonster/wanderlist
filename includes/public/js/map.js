@@ -88,6 +88,13 @@
 
 				var polyline = L.polyline(line, polyline_options).addTo(map);
 			}
+
+			// Disable drag & zoom handlers so you can still scroll past a map on a touch device.
+			if (map.tap) {
+				map.dragging.disable();
+				map.touchZoom.disable();
+				map.tap.disable();
+			}
 		}
 
 	});
